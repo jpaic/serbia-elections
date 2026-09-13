@@ -18,14 +18,16 @@ export default function MunicipalityPanel({
   );
 
   return (
-    <div style={{ background: "#F5F4EF", borderRadius: 8, padding: "1rem" }}>
-      {isLoading && <p style={{ fontSize: 13, color: "#888" }}>Učitavanje…</p>}
-      {error && <p style={{ fontSize: 13, color: "#791F1F" }}>Ne mogu da učitam detalje opštine.</p>}
+    <div className="rounded-xl bg-white/[0.04] border border-white/10 p-4">
+      {isLoading && <p className="text-xs text-white/40">Učitavanje…</p>}
+      {error && <p className="text-xs text-red-400">Ne mogu da učitam detalje opštine.</p>}
       {data && (
         <>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
-            <span style={{ fontSize: 16, fontWeight: 500 }}>{data.municipality.name}</span>
-            <span style={{ fontSize: 13, color: "#666" }}>
+          <div className="flex items-start justify-between mb-3 gap-2">
+            <span className="text-base font-semibold text-white leading-tight">
+              {data.municipality.name}
+            </span>
+            <span className="text-[11px] text-white/40 tabular-nums shrink-0 pt-0.5">
               {data.municipality.registered_voters?.toLocaleString("sr-RS")} birača
             </span>
           </div>

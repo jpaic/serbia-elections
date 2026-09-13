@@ -42,3 +42,14 @@ export interface MunicipalityDetail {
   };
   results: PartyResult[];
 }
+
+export interface RegionResult {
+  region: string;
+  total_stations: number;
+  processed_stations: number;
+  processed_pct: number;
+  turnout_pct: number;
+  leader: PartyResult | null;
+  margin_pct: number;
+  results: PartyResult[];
+}

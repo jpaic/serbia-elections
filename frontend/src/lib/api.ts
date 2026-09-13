@@ -14,6 +14,8 @@ export const api = {
     getJson<import("./types").ElectionSummary>(`/elections/${electionId}/summary`),
   municipalities: (electionId: number) =>
     getJson<import("./types").MunicipalityRow[]>(`/elections/${electionId}/municipalities`),
+  regions: (electionId: number) =>
+    getJson<import("./types").RegionResult[]>(`/elections/${electionId}/regions`),
   municipalityDetail: (electionId: number, municipalityId: number) =>
     getJson<import("./types").MunicipalityDetail>(
       `/elections/${electionId}/municipalities/${municipalityId}`
