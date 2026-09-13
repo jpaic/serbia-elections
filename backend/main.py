@@ -131,6 +131,78 @@ def municipalities_results(election_id: int):
     )
 
 
+@app.get("/elections/{election_id}/regions")
+def regions_results(election_id: int):
+    """
+    Agregacija na nivou upravnog okruga (region): obrađenost biračkih mesta,
+    izlaznost i rezultati po partiji, da bi mapa mogla da boji svaki okrug
+    bojom vodeće partije (kao CNN/BBC/Fox election night mape) umesto samo
+    procentom obrađenosti.
+    """
+    stations = fetchall(
+        """
+        SELECT
+            m.region AS region,
+            COUNT(DISTINCT ps.id) AS total_stations,
+            COUNT(DISTINCT CASE WHEN r.is_processed THEN ps.id END) AS processed_stations,
+            SUM(CASE WHEN r.is_processed THEN r.total_voted ELSE 0 END) AS total_voted,
+            SUM(ps.registered_voters) AS registered_voters
+        FROM municipalities m
+        JOIN polling_stations ps ON ps.municipality_id = m.id
+        LEFT JOIN results r ON r.polling_station_id = ps.id AND r.election_id = :eid
+        GROUP BY m.region
+        """,
+        {"eid": election_id},
+    )
+
+    party_rows = fetchall(
+        """
+        SELECT m.region AS region, p.id, p.name, p.short_name, p.color_hex, SUM(r.votes) AS votes
+        FROM results r
+        JOIN parties p ON p.id = r.party_id
+        JOIN polling_stations ps ON ps.id = r.polling_station_id
+        JOIN municipalities m ON m.id = ps.municipality_id
+        WHERE r.election_id = :eid AND r.is_processed
+        GROUP BY m.region, p.id, p.name, p.short_name, p.color_hex
+        ORDER BY m.region, votes DESC
+        """,
+        {"eid": election_id},
+    )
+
+    by_region: dict[str, list[dict]] = {}
+    for row in party_rows:
+        by_region.setdefault(row["region"], []).append(row)
+
+    out = []
+    for s in stations:
+        region = s["region"]
+        parties = by_region.get(region, [])
+        total_votes = sum(p["votes"] for p in parties) or 0
+        results = [
+            {**p, "pct": round(100 * p["votes"] / total_votes, 2) if total_votes else 0}
+            for p in parties
+        ]
+        leader = results[0] if results else None
+        runner_up = results[1] if len(results) > 1 else None
+        margin = (leader["pct"] - runner_up["pct"]) if (leader and runner_up) else (leader["pct"] if leader else 0)
+
+        total_stations = s["total_stations"] or 0
+        processed_stations = s["processed_stations"] or 0
+
+        out.append({
+            "region": region,
+            "total_stations": total_stations,
+            "processed_stations": processed_stations,
+            "processed_pct": round(100 * processed_stations / total_stations, 2) if total_stations else 0,
+            "turnout_pct": round(100 * (s["total_voted"] or 0) / (s["registered_voters"] or 1), 2),
+            "leader": leader,
+            "margin_pct": round(margin, 2),
+            "results": results,
+        })
+
+    return out
+
+
 @app.get("/elections/{election_id}/municipalities/{municipality_id}")
 def municipality_detail(election_id: int, municipality_id: int):
     municipality = fetchone("SELECT * FROM municipalities WHERE id = :id", {"id": municipality_id})
