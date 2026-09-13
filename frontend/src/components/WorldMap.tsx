@@ -66,16 +66,24 @@ export default function WorldMap({
         >
           <Geographies geography={WORLD_GEO}>
             {({ geographies }) =>
-              geographies.map((geo) => (
-                <Geography
-                  key={(geo as unknown as { rsmKey: string }).rsmKey}
-                  geography={geo as never}
-                  fill="#1a1f2a"
-                  stroke="#0b0d12"
-                  strokeWidth={0.4}
-                  style={{ outline: "none" }}
-                />
-              ))
+              geographies
+                .filter((geo) => {
+                  const p = (geo as unknown as { properties: Record<string, unknown> }).properties as Record<string, unknown>;
+                  const name = (p?.name as string) || (p?.NAME as string) || "";
+                  // UN: Kosovo se ne prikazuje kao posebna država
+                  if (name === "Kosovo" || name === "Kosovo*") return false;
+                  return true;
+                })
+                .map((geo) => (
+                  <Geography
+                    key={(geo as unknown as { rsmKey: string }).rsmKey}
+                    geography={geo as never}
+                    fill="#1a1f2a"
+                    stroke="#0b0d12"
+                    strokeWidth={0.4}
+                    style={{ outline: "none" }}
+                  />
+                ))
             }
           </Geographies>
 

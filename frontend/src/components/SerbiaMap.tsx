@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { geoCentroid, geoContains } from "d3-geo";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import type { Feature, Geometry } from "geojson";
@@ -17,7 +17,46 @@ const GEO_OPSTINE = "/data/serbia-opstine.geojson";
 
 const DEFAULT_CENTER: [number, number] = [20.95, 44.05];
 const DEFAULT_SCALE = 4400;
-const SELECTED_SCALE = 11000;
+const SELECTED_SCALE = 9500;
+
+// Okrug (30) -> RIK region (5) mapiranje - geojson okruzi vs RIK statistički regioni
+const OKRUG_TO_RIK_REGION: Record<string, string> = {
+  "Grad Beograd": "Београдски регион",
+  "Severnobački okrug": "Регион Војводине",
+  "Srednjebanatski okrug": "Регион Војводине",
+  "Severnobanatski okrug": "Регион Војводине",
+  "Južnobanatski okrug": "Регион Војводине",
+  "Zapadnobački okrug": "Регион Војводине",
+  "Južnobački okrug": "Регион Војводине",
+  "Sremski okrug": "Регион Војводине",
+  "Sremski": "Регион Војводине",
+  "Zlatiborski okrug": "Регион Шумадије и Западне Србије",
+  "Kolubarski okrug": "Регион Шумадије и Западне Србије",
+  "Mačvanski okrug": "Регион Шумадије и Западне Србије",
+  "Moravički okrug": "Регион Шумадије и Западне Србије",
+  "Pomoravski okrug": "Регион Шумадије и Западне Србије",
+  "Rasinski okrug": "Регион Шумадије и Западне Србије",
+  "Raški okrug": "Регион Шумадије и Западне Србије",
+  "Šumadijski okrug": "Регион Шумадије и Западне Србије",
+  "Borski okrug": "Регион Јужне и Источне Србије",
+  "Braničevski okrug": "Регион Јужне и Источне Србије",
+  "Zaječarski okrug": "Регион Јужне и Источне Србије",
+  "Zaječarski": "Регион Јужне и Источне Србије",
+  "Jablanički okrug": "Регион Јужне и Источне Србије",
+  "Nišavski okrug": "Регион Јужне и Источне Србије",
+  "Pirotski okrug": "Регион Јужне и Источне Србије",
+  "Podunavski okrug": "Регион Јужне и Источне Србије",
+  "Pčinjski okrug": "Регион Јужне и Источне Србије",
+  "Toplički okrug": "Регион Јужне и Источне Србије",
+  "Kosovski okrug": "Регион Косово и Метохија",
+  "Kosovski": "Регион Косово и Метохија",
+  "Pećki okrug": "Регион Косово и Метохија",
+  "Pećki": "Регион Косово и Метохија",
+  "Prizrenski okrug": "Регион Косово и Метохија",
+  "Prizrenski": "Регион Косово и Метохија",
+  "Kosovsko-mitrovački okrug": "Регион Косово и Метохија",
+  "Kosovsko-pomoravski okrug": "Регион Косово и Метохија",
+};
 
 type GeographyFeature = Feature<Geometry> & { rsmKey: string; svgPath: string };
 
@@ -88,6 +127,17 @@ export default function SerbiaMap({
     return Array.from(set);
   }, [regions, municipalities]);
 
+  // Sinhronizuj selectedGeo kad se selectedRegion promeni spolja (side panel)
+  useEffect(() => {
+    if (!selectedRegion) {
+      setSelectedGeo(null);
+      return;
+    }
+    if (selectedGeo && nameOf(selectedGeo) === selectedRegion) return;
+    const geo = okrugGeos.find((g) => nameOf(g) === selectedRegion);
+    if (geo) setSelectedGeo(geo);
+  }, [selectedRegion, okrugGeos]);
+
   // Automatski zum: kad je okrug izabran, centriraj na njegov centroid i uvećaj skalu
   const projectionConfig = useMemo(() => {
     if (isLocked && selectedGeo) {
@@ -113,6 +163,14 @@ export default function SerbiaMap({
   function handleReset() {
     setSelectedGeo(null);
     onSelectRegion(null);
+  }
+
+  function dataForOkrug(okrugName: string): RegionResult | undefined {
+    // demo podaci: okrug ime direktno u region tabeli
+    if (regionByName.has(okrugName)) return regionByName.get(okrugName);
+    const rikRegion = OKRUG_TO_RIK_REGION[okrugName];
+    if (rikRegion) return regionByName.get(rikRegion);
+    return undefined;
   }
 
   function fillForRegion(data: RegionResult | undefined): string {
@@ -160,7 +218,7 @@ export default function SerbiaMap({
             return geographies.map((geo) => {
               const g = geo as GeographyFeature;
               const name = nameOf(g);
-              const data = regionByName.get(name);
+              const data = dataForOkrug(name);
               const isSelected = selectedRegion === name;
               const isHovered = hoveredOkrug === name;
               const isDimmed = isLocked && !isSelected;
@@ -265,7 +323,7 @@ export default function SerbiaMap({
       </div>
 
       {!isLocked && hoveredOkrug && (() => {
-        const d = regionByName.get(hoveredOkrug);
+        const d = dataForOkrug(hoveredOkrug);
         if (!d) return null;
         const tier = getTier(d.margin_pct, !!d.leader);
         return (

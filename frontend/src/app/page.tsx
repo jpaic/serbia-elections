@@ -13,6 +13,45 @@ import diasporaStations from "../../public/data/diaspora-stations.json";
 const ELECTION_ID = 1;
 const REFRESH_MS = 30000;
 
+// Isti mapping kao u SerbiaMap - okrug (30) -> RIK region (5)
+const OKRUG_TO_RIK: Record<string, string> = {
+  "Grad Beograd": "Београдски регион",
+  "Severnobački okrug": "Регион Војводине",
+  "Srednjebanatski okrug": "Регион Војводине",
+  "Severnobanatski okrug": "Регион Војводине",
+  "Južnobanatski okrug": "Регион Војводине",
+  "Zapadnobački okrug": "Регион Војводине",
+  "Južnobački okrug": "Регион Војводине",
+  "Sremski okrug": "Регион Војводине",
+  Sremski: "Регион Војводине",
+  "Zlatiborski okrug": "Регион Шумадије и Западне Србије",
+  "Kolubarski okrug": "Регион Шумадије и Западне Србије",
+  "Mačvanski okrug": "Регион Шумадије и Западне Србије",
+  "Moravički okrug": "Регион Шумадије и Западне Србије",
+  "Pomoravski okrug": "Регион Шумадије и Западне Србије",
+  "Rasinski okrug": "Регион Шумадије и Западне Србије",
+  "Raški okrug": "Регион Шумадије и Западне Србије",
+  "Šumadijski okrug": "Регион Шумадије и Западне Србије",
+  "Borski okrug": "Регион Јужне и Источне Србије",
+  "Braničevski okrug": "Регион Јужне и Источне Србије",
+  "Zaječarski okrug": "Регион Јужне и Источне Србије",
+  Zaječarski: "Регион Јужне и Источне Србије",
+  "Jablanički okrug": "Регион Јужне и Источне Србије",
+  "Nišavski okrug": "Регион Јужне и Источне Србије",
+  "Pirotski okrug": "Регион Јужне и Источне Србије",
+  "Podunavski okrug": "Регион Јужне и Источне Србије",
+  "Pčinjski okrug": "Регион Јужне и Источне Србије",
+  "Toplički okrug": "Регион Јужне и Источне Србије",
+  "Kosovski okrug": "Регион Косово и Метохија",
+  Kosovski: "Регион Косово и Метохија",
+  "Pećki okrug": "Регион Косово и Метохија",
+  Pećki: "Регион Косово и Метохија",
+  "Prizrenski okrug": "Регион Косово и Метохија",
+  Prizrenski: "Регион Косово и Метохија",
+  "Kosovsko-mitrovački okrug": "Регион Косово и Метохија",
+  "Kosovsko-pomoravski okrug": "Регион Косово и Метохија",
+};
+
 type ViewMode = "serbia" | "diaspora";
 
 export default function Dashboard() {
@@ -41,15 +80,25 @@ export default function Dashboard() {
 
   const error = summaryError || municipalitiesError || regionsError;
 
-  const regionMunicipalities = useMemo(
-    () => (selectedRegion ? municipalities?.filter((m) => m.region === selectedRegion) ?? [] : []),
-    [municipalities, selectedRegion]
-  );
+  const regionMunicipalities = useMemo(() => {
+    if (!selectedRegion || !municipalities) return [];
+    // direktan match (demo podaci)
+    let filtered = municipalities.filter((m) => m.region === selectedRegion);
+    if (filtered.length === 0) {
+      const rik = OKRUG_TO_RIK[selectedRegion];
+      if (rik) filtered = municipalities.filter((m) => m.region === rik);
+    }
+    return filtered;
+  }, [municipalities, selectedRegion]);
 
-  const selectedRegionData = useMemo(
-    () => regions?.find((r) => r.region === selectedRegion) ?? null,
-    [regions, selectedRegion]
-  );
+  const selectedRegionData = useMemo(() => {
+    if (!selectedRegion || !regions) return null;
+    let r = regions.find((x) => x.region === selectedRegion);
+    if (r) return r;
+    const rik = OKRUG_TO_RIK[selectedRegion];
+    if (rik) return regions.find((x) => x.region === rik) ?? null;
+    return null;
+  }, [regions, selectedRegion]);
 
   const diasporaRegion = useMemo(
     () => regions?.find((r) => r.region === "Inostranstvo") ?? null,
