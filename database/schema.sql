@@ -7,6 +7,8 @@ CREATE TABLE elections (
     election_type VARCHAR(50) NOT NULL,       -- 'parliamentary', 'presidential', 'local'
     election_date DATE NOT NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'upcoming', -- 'upcoming', 'live', 'closed'
+    rik_type INTEGER,                          -- RIK election_type (1-4), npr. 2 = parlamentarni
+    rik_round INTEGER UNIQUE,                  -- RIK election_round id (npr. 341140, 680072)
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
@@ -25,12 +27,22 @@ CREATE TABLE municipalities (
 CREATE TABLE polling_stations (
     id SERIAL PRIMARY KEY,
     municipality_id INTEGER NOT NULL REFERENCES municipalities(id),
-    rik_code VARCHAR(30) UNIQUE,              -- šifra biračkog mesta iz RIK-a
+    rik_code VARCHAR(30),                     -- stabilna fizička šifra (opciono), više nije UNIQUE po krugu
     name VARCHAR(200),
     address VARCHAR(300),
     registered_voters INTEGER,
     latitude NUMERIC(9,6),
-    longitude NUMERIC(9,6)
+    longitude NUMERIC(9,6),
+    UNIQUE(municipality_id, name)
+);
+
+-- Mapa fizičko biračko mesto <-> RIK ID po izbornom krugu (RIK menja id svaki krug)
+CREATE TABLE election_station_codes (
+    election_id INTEGER NOT NULL REFERENCES elections(id) ON DELETE CASCADE,
+    polling_station_id INTEGER NOT NULL REFERENCES polling_stations(id) ON DELETE CASCADE,
+    rik_station_id INTEGER NOT NULL,          -- election_station id iz RIK API-ja (npr. 159757)
+    PRIMARY KEY (election_id, polling_station_id),
+    UNIQUE(election_id, rik_station_id)
 );
 
 CREATE TABLE parties (
