@@ -1,17 +1,12 @@
-// Sekvencijalna skala (sivo -> plavo) za % obrađenih biračkih mesta.
-// Koristi se kao fallback kad za region/opštinu još nema rezultata.
-const STOPS: [number, string][] = [
-  [0, "#1c2128"],
-  [25, "#25344d"],
-  [50, "#2c4870"],
-  [75, "#356ba8"],
-  [100, "#3b82d6"],
-];
+// Tamna pozadina i neutralne boje
+const NO_DATA_FILL = "#20242c";
+export const NO_DATA_COLOR = NO_DATA_FILL;
 
+// Helperi
 function hexToRgb(hex: string) {
   const clean = hex.replace("#", "");
   const n = parseInt(clean.length === 3 ? clean.split("").map((c) => c + c).join("") : clean, 16);
-  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255] as const;
 }
 
 function rgbToHex(r: number, g: number, b: number) {
@@ -22,6 +17,15 @@ function rgbToHex(r: number, g: number, b: number) {
       .join("")
   );
 }
+
+// Sekvencijalna skala za fallback (processed_pct)
+const STOPS: [number, string][] = [
+  [0, "#1c2128"],
+  [25, "#25344d"],
+  [50, "#2c4870"],
+  [75, "#356ba8"],
+  [100, "#3b82d6"],
+];
 
 export function processedColor(pct: number): string {
   const clamped = Math.max(0, Math.min(100, pct));
@@ -38,26 +42,56 @@ export function processedColor(pct: number): string {
   return STOPS[STOPS.length - 1][1];
 }
 
-// "CNN stil": boja pobedničke partije u regionu, zatamnjena/posvetljena u zavisnosti
-// od margine nad drugoplasiranim — tesna trka je bleđa nijansa, ubedljiva pobeda je
-// puna, zasićena boja. Kad okrug nema obrađenih rezultata, vraća neutralnu sivu.
-const NO_DATA_FILL = "#20242c";
+// Tiered leader bojenje: sigurno / lean / tossup
+export type Tier = "secure" | "lean" | "tossup" | "no-data";
+
+export function getTier(marginPct: number | null | undefined, hasLeader: boolean): Tier {
+  if (!hasLeader) return "no-data";
+  const m = marginPct ?? 0;
+  if (m >= 10) return "secure";
+  if (m >= 5) return "lean";
+  return "tossup";
+}
 
 export function leaderColor(
   partyColorHex: string | null | undefined,
   marginPct: number | null | undefined
 ): string {
-  if (!partyColorHex) return NO_DATA_FILL;
-  const [r, g, b] = hexToRgb(partyColorHex);
-  // margina 0 -> mešano sa pozadinom (bleđe), margina 40+ -> puna boja partije
-  const m = Math.max(0, Math.min(40, marginPct ?? 0));
-  const strength = 0.35 + (m / 40) * 0.65; // 0.35 - 1.0
-  const bg = hexToRgb("#12151b");
-  return rgbToHex(
-    bg[0] + (r - bg[0]) * strength,
-    bg[1] + (g - bg[1]) * strength,
-    bg[2] + (b - bg[2]) * strength
-  );
+  // zadrzano za backward compat - mapira na tiered
+  return tieredLeaderFill(partyColorHex, marginPct);
 }
 
-export const NO_DATA_COLOR = NO_DATA_FILL;
+export function tieredLeaderFill(
+  partyColorHex: string | null | undefined,
+  marginPct: number | null | undefined
+): string {
+  if (!partyColorHex) return NO_DATA_FILL;
+  const tier = getTier(marginPct, true);
+  const [r, g, b] = hexToRgb(partyColorHex);
+  const bg = hexToRgb("#12151b");
+  if (tier === "secure") {
+    // puna boja, blago potamnjena da ne bode oči na tamnoj mapi
+    const blend = 0.92;
+    return rgbToHex(bg[0] + (r - bg[0]) * blend, bg[1] + (g - bg[1]) * blend, bg[2] + (b - bg[2]) * blend);
+  }
+  if (tier === "lean") {
+    // svetlija, isprana nijansa
+    const blend = 0.58;
+    return rgbToHex(bg[0] + (r - bg[0]) * blend, bg[1] + (g - bg[1]) * blend, bg[2] + (b - bg[2]) * blend);
+  }
+  // tossup - ne vraćamo solid, koristi se pattern; fallback neutralna
+  return "#2a2f3a";
+}
+
+// Za dijagonalne linije - id patterna po boji
+export function stripePatternId(partyColorHex: string): string {
+  return `stripe-${partyColorHex.replace("#", "").toLowerCase()}`;
+}
+
+// Helper za legendu
+export function tierLabel(tier: Tier): string {
+  if (tier === "secure") return "Sigurno (≥10%)";
+  if (tier === "lean") return "Umereno (5–10%)";
+  if (tier === "tossup") return "Neizvesno (<5%)";
+  return "Nema podataka";
+}
