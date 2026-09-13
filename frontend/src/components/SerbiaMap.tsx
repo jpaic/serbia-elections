@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { geoCentroid, geoContains } from "d3-geo";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import type { Feature, Geometry } from "geojson";
 import {
@@ -11,6 +10,7 @@ import {
   stripePatternId,
 } from "@/lib/colorScale";
 import type { MunicipalityRow, RegionResult } from "@/lib/types";
+import opstinaRegionMap from "../../public/data/opstina-region-map.json";
 
 const GEO_REGIONI = "/data/serbia-regioni.geojson";
 const GEO_OPSTINE = "/data/serbia-opstine.geojson";
@@ -45,6 +45,8 @@ function normalizeOpstina(name: string): string {
     .replace(/[^a-z]/g, "")
     .trim();
 }
+
+const OPSTINA_TO_REGION = opstinaRegionMap as Record<string, string>;
 
 export default function SerbiaMap({
   regions,
@@ -106,12 +108,19 @@ export default function SerbiaMap({
 
   const projectionConfig = useMemo(() => {
     if (isLocked && selectedGeo) {
-      const c = geoCentroid(selectedGeo);
+      // koristi centroid iz geojson properties (preko shapely, pouzdan) ako postoji
+      const props = selectedGeo.properties as Record<string, unknown> | null;
+      const centroid = props?.["centroid"] as [number, number] | undefined;
+      if (centroid && Array.isArray(centroid) && centroid.length === 2) {
+        const name = nameOf(selectedGeo);
+        const scale = (name && REGION_SCALES[name]) || 9000;
+        return { center: centroid as [number, number], scale };
+      }
+      // fallback na default
       const name = nameOf(selectedGeo);
       const scale = (name && REGION_SCALES[name]) || 9000;
-      if (c && Number.isFinite(c[0]) && Number.isFinite(c[1])) {
-        return { center: c as [number, number], scale };
-      }
+      // ako nema centroid, koristi default centar ali veću skalu
+      return { center: DEFAULT_CENTER, scale };
     }
     return { center: DEFAULT_CENTER, scale: DEFAULT_SCALE };
   }, [isLocked, selectedGeo]);
@@ -140,7 +149,7 @@ export default function SerbiaMap({
   }
 
   function fillForMun(mun: MunicipalityRow | undefined): string {
-    if (!mun?.leader) return "#262b36";
+    if (!mun?.leader) return "#2a303e";
     const tier = getTier(mun.margin_pct, !!mun.leader);
     if (tier === "tossup") return `url(#${stripePatternId(mun.leader.color_hex)})`;
     return tieredLeaderFill(mun.leader.color_hex, mun.margin_pct);
@@ -201,22 +210,17 @@ export default function SerbiaMap({
           }}
         </Geographies>
 
-        {isLocked && selectedGeo && (
+        {isLocked && selectedRegion && (
           <Geographies geography={GEO_OPSTINE}>
             {({ geographies }) => {
-              let filtered = (geographies as GeographyFeature[]).filter((opGeo) => {
-                const centroid = geoCentroid(opGeo);
-                if (!centroid || !Number.isFinite(centroid[0])) return false;
-                try {
-                  return geoContains(selectedGeo as unknown as Feature, centroid as [number, number]);
-                } catch {
-                  return false;
-                }
+              const filtered = (geographies as GeographyFeature[]).filter((opGeo) => {
+                const shapeName = opstinaNameOf(opGeo);
+                const regionForOpstina = OPSTINA_TO_REGION[shapeName];
+                return regionForOpstina === selectedRegion;
               });
 
-              if (filtered.length === 0) {
-                filtered = (geographies as GeographyFeature[]).slice(0, Math.min(12, geographies.length));
-              }
+              // Ako nema mapiranih opština za region (npr. Kosovo 0), prikaži prazno ali ne fallback na random
+              if (filtered.length === 0) return null;
 
               return filtered.map((opGeo) => {
                 const shapeName = opstinaNameOf(opGeo);
@@ -234,7 +238,7 @@ export default function SerbiaMap({
                     onMouseLeave={() => setHoveredOpstina(null)}
                     fill={fill}
                     stroke={isHovered ? "#ffffff" : "#e2e8f0"}
-                    strokeWidth={isHovered ? 1.6 : 1.0}
+                    strokeWidth={isHovered ? 1.6 : 0.9}
                     opacity={isHovered ? 1 : tier === "no-data" ? 0.55 : 0.88}
                     style={{ outline: "none" }}
                   />
@@ -308,7 +312,7 @@ export default function SerbiaMap({
 
       {isLocked && (
         <div className="pointer-events-none absolute bottom-3 left-3 rounded-xl bg-black/60 backdrop-blur border border-white/10 px-3 py-2">
-          <p className="text-[11px] text-white/70">Opštine u regionu — bele granice, zumirano</p>
+          <p className="text-[11px] text-white/70">Opštine u regionu — bele granice, zumirano na region</p>
         </div>
       )}
     </div>
