@@ -32,6 +32,22 @@ SessionLocal = sessionmaker(bind=engine)
 
 app = FastAPI(title="Izbori API")
 
+# Vercel services: frontend na /, backend na /api/backend -> backend dobija
+# punu putanju (/api/backend/elections) pa je skidamo pre rutiranja.
+# Ovo omogućava da lokalno radi na /elections, a na Vercelu na /api/backend/elections
+@app.middleware("http")
+async def strip_api_backend_prefix(request, call_next):
+    path = request.scope.get("path", "")
+    if path.startswith("/api/backend"):
+        new_path = path[len("/api/backend"):]
+        if not new_path.startswith("/"):
+            new_path = "/" + new_path
+        request.scope["path"] = new_path
+        # za neke ASGI servere potrebno i raw_path
+        if b"/api/backend" in request.scope.get("raw_path", b""):
+            request.scope["raw_path"] = new_path.encode()
+    return await call_next(request)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # suziti na domen frontenda u produkciji
