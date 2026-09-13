@@ -13,7 +13,8 @@ import type { MunicipalityRow, RegionResult } from "@/lib/types";
 import opstinaRegionMap from "../../public/data/opstina-region-map.json";
 
 const GEO_REGIONI = "/data/serbia-regioni.geojson";
-const GEO_OPSTINE = "/data/serbia-opstine-detailed.geojson";
+const GEO_OPSTINE = "/data/serbia-opstine.geojson";
+const GEO_OKRUZI = "/data/serbia-okruzi.geojson";
 
 const DEFAULT_CENTER: [number, number] = [20.95, 44.05];
 const DEFAULT_SCALE = 4200;
@@ -24,6 +25,15 @@ const REGION_SCALE: Record<string, number> = {
   "Регион Јужне и Источне Србије": 4600,
   "Регион Косово и Метохија": 7500,
 };
+
+// Srpskih 5 okruga na KiM (zvanicna podela RS, ne kosovski sistem)
+const KOSOVO_OKRUZI = new Set([
+  "Kosovski okrug",
+  "Pećki okrug",
+  "Prizrenski okrug",
+  "Kosovskomitrovički okrug",
+  "Kosovsko-Pomoravski okrug",
+]);
 
 type RSMFeature = Feature<Geometry> & { rsmKey: string; svgPath: string };
 function nameOf(f: RSMFeature): string {
@@ -59,6 +69,7 @@ export default function SerbiaMap({
   const [regionGeos, setRegionGeos] = useState<RSMFeature[]>([]);
 
   const isLocked = !!selectedRegion;
+  const isKosovo = selectedRegion === "Регион Косово и Метохија";
 
   const regionByName = useMemo(() => {
     const m = new Map<string, RegionResult>();
@@ -78,13 +89,11 @@ export default function SerbiaMap({
     return m;
   }, [municipalities]);
 
-  // Za selektovanu opštinu na mapi - nađi njen shapeName
   const selectedOpstinaShape = useMemo(() => {
     if (!selectedMunicipalityId || !municipalities) return null;
     const mun = municipalities.find((x) => x.id === selectedMunicipalityId);
     if (!mun) return null;
     const norm = normalize(mun.name);
-    // nađi shapeName koji mapira na ovu opštinu
     for (const [shape, region] of Object.entries(OPSTINA_TO_REGION)) {
       if (region !== selectedRegion) continue;
       if (normalize(shape) === norm) return shape;
@@ -123,19 +132,21 @@ export default function SerbiaMap({
     onSelectRegion(n);
   }
 
+  const regionData = selectedRegion ? regionByName.get(selectedRegion) : undefined;
+
   return (
     <div className="relative w-full h-full overflow-hidden bg-[#0b0d12]">
       <ComposableMap projection="geoMercator" projectionConfig={projectionConfig} style={{ width: "100%", height: "100%" }}>
         <defs>
           {tossupColors.map((c) => (
             <pattern key={c} id={stripePatternId(c)} width={8} height={8} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-              <rect width={8} height={8} fill="#1e232e" />
+              <rect width={8} height={8} fill="#161a23" />
               <rect width={4} height={8} fill={c} opacity={0.55} />
             </pattern>
           ))}
         </defs>
 
-        {/* Kada nije zumirano - prikaži 5 regiona */}
+        {/* 5 regiona - samo kad nije zumirano */}
         {!isLocked && (
           <Geographies geography={GEO_REGIONI}>
             {({ geographies }) => {
@@ -170,59 +181,78 @@ export default function SerbiaMap({
           </Geographies>
         )}
 
-        {/* Kad je zumirano - samo okvir regiona + opštine */}
-        {isLocked && selectedGeo && (
-          <>
-            <Geographies geography={GEO_REGIONI}>
-              {() => (
-                <Geography
-                  key={selectedGeo.rsmKey + "-frame"}
-                  geography={selectedGeo}
-                  fill="none"
-                  stroke="rgba(255,255,255,0.25)"
-                  strokeWidth={1.8}
-                  style={{ pointerEvents: "none", outline: "none" }}
-                />
-              )}
-            </Geographies>
-            <Geographies geography={GEO_OPSTINE}>
-              {({ geographies }) => {
-                const geos = geographies as RSMFeature[];
-                const filtered = geos.filter((op) => OPSTINA_TO_REGION[shapeNameOf(op)] === selectedRegion);
-                if (filtered.length === 0) return null;
-                return filtered.map((op) => {
-                  const sName = shapeNameOf(op);
-                  const mun = munByNorm.get(normalize(sName)) || munByNorm.get(sName.toLowerCase());
-                  const isSelectedOpstina = selectedOpstinaShape ? normalize(sName) === normalize(selectedOpstinaShape) : false;
-                  const hov = hoveredOpstina === op.rsmKey;
-                  const fill = (() => {
-                    if (!mun?.leader) return "rgba(42,48,62,0.45)";
-                    const t = getTier(mun.margin_pct, true);
-                    if (t === "tossup") return `url(#${stripePatternId(mun.leader.color_hex)})`;
-                    return tieredLeaderFill(mun.leader.color_hex, mun.margin_pct);
-                  })();
-                  const hasData = !!mun?.leader;
-                  return (
-                    <Geography
-                      key={op.rsmKey}
-                      geography={op}
-                      onMouseEnter={() => setHoveredOpstina(op.rsmKey)}
-                      onMouseLeave={() => setHoveredOpstina(null)}
-                      onClick={() => {
-                        if (!mun) return;
-                        onSelectMunicipality?.(mun.id === selectedMunicipalityId ? null : mun.id);
-                      }}
-                      fill={fill}
-                      stroke={isSelectedOpstina ? "#ffffff" : hov ? "#ffffff" : hasData ? "#f1f5f9" : "rgba(241,245,249,0.5)"}
-                      strokeWidth={isSelectedOpstina ? 2.2 : hov ? 1.6 : 1.0}
-                      opacity={isSelectedOpstina ? 1 : hov ? 1 : hasData ? 0.92 : 0.5}
-                      style={{ cursor: mun ? "pointer" : "default", outline: "none" }}
-                    />
-                  );
-                });
-              }}
-            </Geographies>
-          </>
+        {/* Zumirano: cela Srbija nestaje, samo opštine izabranog regiona */}
+        {isLocked && selectedRegion && !isKosovo && (
+          <Geographies geography={GEO_OPSTINE}>
+            {({ geographies }) => {
+              const geos = geographies as RSMFeature[];
+              const filtered = geos.filter((op) => OPSTINA_TO_REGION[shapeNameOf(op)] === selectedRegion);
+              if (filtered.length === 0) return null;
+              return filtered.map((op) => {
+                const sName = shapeNameOf(op);
+                const mun = munByNorm.get(normalize(sName)) || munByNorm.get(sName.toLowerCase());
+                const isSel = selectedOpstinaShape ? normalize(sName) === normalize(selectedOpstinaShape) : false;
+                const hov = hoveredOpstina === op.rsmKey;
+                // Beograd je 1 poligon: oboji ga bojom regiona (agregat 17 opština), ne neutralno
+                const isSingleBelgrade = sName === "Belgrade" && selectedRegion === "Београдски регион";
+                const fill = (() => {
+                  if (isSingleBelgrade && regionData?.leader) {
+                    const t = getTier(regionData.margin_pct, true);
+                    if (t === "tossup") return `url(#${stripePatternId(regionData.leader.color_hex)})`;
+                    return tieredLeaderFill(regionData.leader.color_hex, regionData.margin_pct);
+                  }
+                  if (!mun?.leader) return "#161a23";
+                  const t = getTier(mun.margin_pct, true);
+                  if (t === "tossup") return `url(#${stripePatternId(mun.leader.color_hex)})`;
+                  return tieredLeaderFill(mun.leader.color_hex, mun.margin_pct);
+                })();
+                const hasData = isSingleBelgrade ? !!regionData?.leader : !!mun?.leader;
+                return (
+                  <Geography
+                    key={op.rsmKey}
+                    geography={op}
+                    onMouseEnter={() => setHoveredOpstina(op.rsmKey)}
+                    onMouseLeave={() => setHoveredOpstina(null)}
+                    onClick={() => {
+                      if (!mun || isSingleBelgrade) return;
+                      onSelectMunicipality?.(mun.id === selectedMunicipalityId ? null : mun.id);
+                    }}
+                    fill={fill}
+                    stroke={isSel ? "#ffffff" : hov ? "#ffffff" : "#e8edf5"}
+                    strokeWidth={isSel ? 2.4 : hov ? 1.8 : 1.1}
+                    opacity={1}
+                    style={{ cursor: mun && !isSingleBelgrade ? "pointer" : "default", outline: "none" }}
+                  />
+                );
+              });
+            }}
+          </Geographies>
+        )}
+
+        {/* Kosovo: nema opština u datasetu (zvanicne srpske opštine KiM nisu javno dostupne),
+            pa prikaži 5 srpskih okruga KiM kao podebljane podele */}
+        {isLocked && isKosovo && (
+          <Geographies geography={GEO_OKRUZI}>
+            {({ geographies }) => {
+              const geos = (geographies as RSMFeature[]).filter((g) => KOSOVO_OKRUZI.has(nameOf(g)));
+              return geos.map((g) => {
+                const hov = hoveredOpstina === g.rsmKey;
+                return (
+                  <Geography
+                    key={g.rsmKey}
+                    geography={g}
+                    onMouseEnter={() => setHoveredOpstina(g.rsmKey)}
+                    onMouseLeave={() => setHoveredOpstina(null)}
+                    fill={regionData?.leader ? tieredLeaderFill(regionData.leader.color_hex, regionData.margin_pct) : "#161a23"}
+                    stroke={hov ? "#ffffff" : "#e8edf5"}
+                    strokeWidth={hov ? 1.8 : 1.1}
+                    opacity={1}
+                    style={{ outline: "none" }}
+                  />
+                );
+              });
+            }}
+          </Geographies>
         )}
       </ComposableMap>
 
@@ -235,7 +265,7 @@ export default function SerbiaMap({
       <div className="absolute bottom-3 right-3 rounded-xl bg-black/70 backdrop-blur border border-white/10 px-3 py-2 hidden sm:flex items-center gap-3">
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-[#D85A30] border border-white/20" /><span className="text-[10px] text-white/70">Sigurno ≥10%</span></span>
         <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm bg-[#D85A30]/60 border border-white/20" /><span className="text-[10px] text-white/70">Umereno 5–10%</span></span>
-        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm border border-white/20" style={{ background: `repeating-linear-gradient(45deg, #1e232e 0 3px, #D85A30 3px 6px)` }} /><span className="text-[10px] text-white/70">Neizvesno &lt;5%</span></span>
+        <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-sm border border-white/20" style={{ background: `repeating-linear-gradient(45deg, #161a23 0 3px, #D85A30 3px 6px)` }} /><span className="text-[10px] text-white/70">Neizvesno &lt;5%</span></span>
       </div>
 
       {!isLocked && hoveredRegion && (() => {
@@ -266,7 +296,13 @@ export default function SerbiaMap({
 
       {isLocked && (
         <div className="pointer-events-none absolute bottom-3 left-3 rounded-xl bg-black/60 backdrop-blur border border-white/10 px-3 py-2">
-          <p className="text-[11px] text-white/70">Opštine u regionu — klik na opštinu za detalje</p>
+          <p className="text-[11px] text-white/70">
+            {isKosovo
+              ? "KiM — 5 srpskih okruga (zvanicne opštine nisu javno dostupne)"
+              : selectedRegion === "Београдски регион"
+              ? "Beograd — 17 gradskih opština dolazi iz RGZ (trenutno agregat)"
+              : "Opštine u regionu — klik na opštinu za detalje"}
+          </p>
         </div>
       )}
     </div>
