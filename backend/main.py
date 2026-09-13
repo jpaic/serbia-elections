@@ -129,13 +129,13 @@ def election_summary(election_id: int):
 
 @app.get("/elections/{election_id}/municipalities")
 def municipalities_results(election_id: int):
-    return fetchall(
+    stations = fetchall(
         """
         SELECT
             m.id, m.name, m.region,
             COUNT(DISTINCT ps.id) AS total_stations,
             COUNT(DISTINCT CASE WHEN r.is_processed THEN ps.id END) AS processed_stations,
-            SUM(r.total_voted) AS total_voted,
+            SUM(CASE WHEN r.is_processed THEN r.total_voted ELSE 0 END) AS total_voted,
             SUM(ps.registered_voters) AS registered_voters
         FROM municipalities m
         JOIN polling_stations ps ON ps.municipality_id = m.id
@@ -145,6 +145,48 @@ def municipalities_results(election_id: int):
         """,
         {"eid": election_id},
     )
+
+    party_rows = fetchall(
+        """
+        SELECT m.id AS municipality_id, p.id, p.name, p.short_name, p.color_hex, SUM(r.votes) AS votes
+        FROM results r
+        JOIN parties p ON p.id = r.party_id
+        JOIN polling_stations ps ON ps.id = r.polling_station_id
+        JOIN municipalities m ON m.id = ps.municipality_id
+        WHERE r.election_id = :eid AND r.is_processed
+        GROUP BY m.id, p.id, p.name, p.short_name, p.color_hex
+        ORDER BY m.id, votes DESC
+        """,
+        {"eid": election_id},
+    )
+
+    by_mun: dict[int, list[dict]] = {}
+    for row in party_rows:
+        by_mun.setdefault(row["municipality_id"], []).append(row)
+
+    out = []
+    for s in stations:
+        mid = s["id"]
+        parties = by_mun.get(mid, [])
+        total_votes = sum(p["votes"] for p in parties) or 0
+        results = [
+            {k: v for k, v in p.items() if k != "municipality_id"} | {"pct": round(100 * p["votes"] / total_votes, 2) if total_votes else 0}
+            for p in parties
+        ]
+        leader = results[0] if results else None
+        runner_up = results[1] if len(results) > 1 else None
+        margin = (leader["pct"] - runner_up["pct"]) if (leader and runner_up) else (leader["pct"] if leader else 0)
+        total_stations = s["total_stations"] or 0
+        processed_stations = s["processed_stations"] or 0
+        out.append({
+            **s,
+            "processed_pct": round(100 * processed_stations / total_stations, 2) if total_stations else 0,
+            "turnout_pct": round(100 * (s["total_voted"] or 0) / (s["registered_voters"] or 1), 2),
+            "leader": leader,
+            "margin_pct": round(margin, 2),
+            "results": results,
+        })
+    return out
 
 
 @app.get("/elections/{election_id}/regions")
