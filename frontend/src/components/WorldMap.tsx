@@ -5,6 +5,7 @@ import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from "re
 import type { RegionResult } from "@/lib/types";
 
 const WORLD_GEO = "/data/world.geojson";
+const SERBIA_UN_GEO = "/data/serbia-world-un.geojson";
 
 // Staticka lista ambasada sa koordinatama (generisano iz RIK 2023 region 101)
 import diasporaStations from "../../public/data/diaspora-stations.json";
@@ -70,8 +71,9 @@ export default function WorldMap({
                 .filter((geo) => {
                   const p = (geo as unknown as { properties: Record<string, unknown> }).properties as Record<string, unknown>;
                   const name = (p?.name as string) || (p?.NAME as string) || "";
-                  // UN: Kosovo se ne prikazuje kao posebna država
+                  // UN: Kosovo nije posebna država - filtriramo i staru Srbiju bez Kosova
                   if (name === "Kosovo" || name === "Kosovo*") return false;
+                  if (name === "Republic of Serbia" || name === "Serbia") return false;
                   return true;
                 })
                 .map((geo) => (
@@ -84,6 +86,22 @@ export default function WorldMap({
                     style={{ outline: "none" }}
                   />
                 ))
+            }
+          </Geographies>
+
+          {/* Srbija po UN - sa Kosovom kao deo Srbije */}
+          <Geographies geography={SERBIA_UN_GEO}>
+            {({ geographies }) =>
+              geographies.map((geo) => (
+                <Geography
+                  key={(geo as unknown as { rsmKey: string }).rsmKey}
+                  geography={geo as never}
+                  fill="#1a1f2a"
+                  stroke="#0b0d12"
+                  strokeWidth={0.5}
+                  style={{ outline: "none" }}
+                />
+              ))
             }
           </Geographies>
 
