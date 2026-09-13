@@ -17,7 +17,13 @@ const GEO_OPSTINE = "/data/serbia-opstine.geojson";
 
 const DEFAULT_CENTER: [number, number] = [20.95, 44.05];
 const DEFAULT_SCALE = 4200;
-const SELECTED_SCALE = 9000;
+const REGION_SCALES: Record<string, number> = {
+  "Београдски регион": 16000,
+  "Регион Војводине": 5200,
+  "Регион Шумадије и Западне Србије": 4800,
+  "Регион Јужне и Источне Србије": 4600,
+  "Регион Косово и Метохија": 7500,
+};
 
 type GeographyFeature = Feature<Geometry> & { rsmKey: string; svgPath: string };
 
@@ -101,8 +107,10 @@ export default function SerbiaMap({
   const projectionConfig = useMemo(() => {
     if (isLocked && selectedGeo) {
       const c = geoCentroid(selectedGeo);
+      const name = nameOf(selectedGeo);
+      const scale = (name && REGION_SCALES[name]) || 9000;
       if (c && Number.isFinite(c[0]) && Number.isFinite(c[1])) {
-        return { center: c as [number, number], scale: SELECTED_SCALE };
+        return { center: c as [number, number], scale };
       }
     }
     return { center: DEFAULT_CENTER, scale: DEFAULT_SCALE };
