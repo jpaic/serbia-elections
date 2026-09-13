@@ -132,7 +132,7 @@ def municipalities_results(election_id: int):
     stations = fetchall(
         """
         SELECT
-            m.id, m.name, m.region,
+            m.id, m.name, m.region, m.rzs_code,
             COUNT(DISTINCT ps.id) AS total_stations,
             COUNT(DISTINCT CASE WHEN r.is_processed THEN ps.id END) AS processed_stations,
             SUM(CASE WHEN r.is_processed THEN r.total_voted ELSE 0 END) AS total_voted,
@@ -140,7 +140,7 @@ def municipalities_results(election_id: int):
         FROM municipalities m
         JOIN polling_stations ps ON ps.municipality_id = m.id
         LEFT JOIN results r ON r.polling_station_id = ps.id AND r.election_id = :eid
-        GROUP BY m.id, m.name, m.region
+        GROUP BY m.id, m.name, m.region, m.rzs_code
         ORDER BY m.name
         """,
         {"eid": election_id},

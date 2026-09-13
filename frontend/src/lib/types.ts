@@ -26,6 +26,7 @@ export interface MunicipalityRow {
   id: number;
   name: string;
   region: string;
+  rzs_code?: string | null;
   total_stations: number;
   processed_stations: number;
   processed_pct: number;
