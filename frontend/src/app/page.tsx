@@ -192,10 +192,12 @@ export default function Dashboard() {
                 regions={regions.filter((r) => r.region !== "Inostranstvo" && r.region !== "Заводи за извршење кривичних санкција")}
                 municipalities={municipalities}
                 selectedRegion={selectedRegion}
+                selectedMunicipalityId={selectedMunicipalityId}
                 onSelectRegion={(region) => {
                   setSelectedRegion(region);
                   setSelectedMunicipalityId(null);
                 }}
+                onSelectMunicipality={setSelectedMunicipalityId}
               />
             ) : (
               <div className="h-full flex items-center justify-center text-white/30 text-sm">Učitavanje mape…</div>

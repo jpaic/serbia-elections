@@ -13,7 +13,7 @@ import type { MunicipalityRow, RegionResult } from "@/lib/types";
 import opstinaRegionMap from "../../public/data/opstina-region-map.json";
 
 const GEO_REGIONI = "/data/serbia-regioni.geojson";
-const GEO_OPSTINE = "/data/serbia-opstine.geojson";
+const GEO_OPSTINE = "/data/serbia-opstine-detailed.geojson";
 
 const DEFAULT_CENTER: [number, number] = [20.95, 44.05];
 const DEFAULT_SCALE = 4200;
@@ -43,11 +43,15 @@ export default function SerbiaMap({
   municipalities,
   onSelectRegion,
   selectedRegion,
+  selectedMunicipalityId,
+  onSelectMunicipality,
 }: {
   regions: RegionResult[];
   municipalities?: MunicipalityRow[];
   onSelectRegion: (regionName: string | null) => void;
   selectedRegion: string | null;
+  selectedMunicipalityId?: number | null;
+  onSelectMunicipality?: (id: number | null) => void;
 }) {
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const [hoveredOpstina, setHoveredOpstina] = useState<string | null>(null);
@@ -69,9 +73,24 @@ export default function SerbiaMap({
       const k = normalize(mun.name);
       if (!m.has(k)) m.set(k, mun);
       m.set(mun.name.toLowerCase(), mun);
+      m.set(String(mun.id), mun);
     }
     return m;
   }, [municipalities]);
+
+  // Za selektovanu opštinu na mapi - nađi njen shapeName
+  const selectedOpstinaShape = useMemo(() => {
+    if (!selectedMunicipalityId || !municipalities) return null;
+    const mun = municipalities.find((x) => x.id === selectedMunicipalityId);
+    if (!mun) return null;
+    const norm = normalize(mun.name);
+    // nađi shapeName koji mapira na ovu opštinu
+    for (const [shape, region] of Object.entries(OPSTINA_TO_REGION)) {
+      if (region !== selectedRegion) continue;
+      if (normalize(shape) === norm) return shape;
+    }
+    return null;
+  }, [selectedMunicipalityId, municipalities, selectedRegion]);
 
   const tossupColors = useMemo(() => {
     const s = new Set<string>();
@@ -116,91 +135,94 @@ export default function SerbiaMap({
           ))}
         </defs>
 
-        {/* Kada je zaključano, prikaži SAMO izabrani region (okvir) - kao RIK */}
-        <Geographies geography={GEO_REGIONI}>
-          {({ geographies }) => {
-            if (geographies.length && regionGeos.length === 0) setTimeout(() => setRegionGeos(geographies as RSMFeature[]), 0);
-            const geos = geographies as RSMFeature[];
-            // Ako je zaključano, prikaži samo izabrani region
-            const toRender = isLocked && selectedRegion ? geos.filter((g) => nameOf(g) === selectedRegion) : geos;
-            return toRender.map((geo) => {
-              const g = geo as RSMFeature;
-              const name = nameOf(g);
-              const data = regionByName.get(name);
-              const sel = selectedRegion === name;
-              const hov = hoveredRegion === name;
-              // Kad je zaključano, nema dimovanih - samo izabrani
-              const fill = (() => {
-                if (!data?.leader) return NO_DATA_COLOR;
-                const t = getTier(data.margin_pct, true);
-                if (t === "tossup") return `url(#${stripePatternId(data.leader.color_hex)})`;
-                return tieredLeaderFill(data.leader.color_hex, data.margin_pct);
-              })();
-              return (
-                <Geography
-                  key={g.rsmKey}
-                  geography={g}
-                  onMouseEnter={() => !isLocked && setHoveredRegion(name)}
-                  onMouseLeave={() => !isLocked && setHoveredRegion(null)}
-                  onClick={() => handleRegionClick(g)}
-                  fill={fill}
-                  stroke={sel ? "#ffffff" : "#0a0c10"}
-                  strokeWidth={sel ? 2.0 : 1.0}
-                  opacity={hov && !isLocked ? 1 : 0.97}
-                  style={{ cursor: isLocked ? "default" : "pointer", outline: "none" }}
-                />
-              );
-            });
-          }}
-        </Geographies>
-
-        {/* Opštine unutar izabranog regiona - bele granice, kao RIK */}
-        {isLocked && selectedRegion && (
-          <Geographies geography={GEO_OPSTINE}>
+        {/* Kada nije zumirano - prikaži 5 regiona */}
+        {!isLocked && (
+          <Geographies geography={GEO_REGIONI}>
             {({ geographies }) => {
-              const geos = geographies as RSMFeature[];
-              // Filtriraj samo opštine koje pripadaju izabranom regionu i imaju podatke (za demo) ili sve geografski
-              const filtered = geos.filter((op) => {
-                const sName = shapeNameOf(op);
-                const regionForOpstina = OPSTINA_TO_REGION[sName];
-                if (regionForOpstina !== selectedRegion) return false;
-                // Za demo gde ima 10 opština, prikaži samo one sa podacima da ne bude 41 siva
-                const norm = normalize(sName);
-                const hasData = munByNorm.has(norm) || munByNorm.has(sName.toLowerCase());
-                // Ako ima bar neka sa podacima u regionu, prikaži samo te; inače prikaži sve geografski da se vidi mreža
-                return true; // za sada prikaži sve geografski unutar regiona
-              });
-
-              // Ako nema mapiranih (Kosovo), ne prikazuj ništa
-              if (filtered.length === 0) return null;
-
-              return filtered.map((op) => {
-                const sName = shapeNameOf(op);
-                const mun = munByNorm.get(normalize(sName)) || munByNorm.get(sName.toLowerCase());
-                const hov = hoveredOpstina === op.rsmKey;
+              if (geographies.length && regionGeos.length === 0) setTimeout(() => setRegionGeos(geographies as RSMFeature[]), 0);
+              return geographies.map((geo) => {
+                const g = geo as RSMFeature;
+                const name = nameOf(g);
+                const data = regionByName.get(name);
+                const hov = hoveredRegion === name;
                 const fill = (() => {
-                  if (!mun?.leader) return "rgba(42,48,62,0.35)"; // providno da se vidi region ispod
-                  const t = getTier(mun.margin_pct, true);
-                  if (t === "tossup") return `url(#${stripePatternId(mun.leader.color_hex)})`;
-                  return tieredLeaderFill(mun.leader.color_hex, mun.margin_pct);
+                  if (!data?.leader) return NO_DATA_COLOR;
+                  const t = getTier(data.margin_pct, true);
+                  if (t === "tossup") return `url(#${stripePatternId(data.leader.color_hex)})`;
+                  return tieredLeaderFill(data.leader.color_hex, data.margin_pct);
                 })();
-                const hasData = !!mun?.leader;
                 return (
                   <Geography
-                    key={op.rsmKey}
-                    geography={op}
-                    onMouseEnter={() => setHoveredOpstina(op.rsmKey)}
-                    onMouseLeave={() => setHoveredOpstina(null)}
+                    key={g.rsmKey}
+                    geography={g}
+                    onMouseEnter={() => setHoveredRegion(name)}
+                    onMouseLeave={() => setHoveredRegion(null)}
+                    onClick={() => handleRegionClick(g)}
                     fill={fill}
-                    stroke={hov ? "#ffffff" : hasData ? "#f1f5f9" : "rgba(241,245,249,0.6)"}
-                    strokeWidth={hov ? 1.6 : hasData ? 1.0 : 0.7}
-                    opacity={hov ? 1 : hasData ? 0.88 : 0.45}
-                    style={{ outline: "none" }}
+                    stroke="#0a0c10"
+                    strokeWidth={1.0}
+                    opacity={hov ? 1 : 0.97}
+                    style={{ cursor: "pointer", outline: "none" }}
                   />
                 );
               });
             }}
           </Geographies>
+        )}
+
+        {/* Kad je zumirano - samo okvir regiona + opštine */}
+        {isLocked && selectedGeo && (
+          <>
+            <Geographies geography={GEO_REGIONI}>
+              {() => (
+                <Geography
+                  key={selectedGeo.rsmKey + "-frame"}
+                  geography={selectedGeo}
+                  fill="none"
+                  stroke="rgba(255,255,255,0.25)"
+                  strokeWidth={1.8}
+                  style={{ pointerEvents: "none", outline: "none" }}
+                />
+              )}
+            </Geographies>
+            <Geographies geography={GEO_OPSTINE}>
+              {({ geographies }) => {
+                const geos = geographies as RSMFeature[];
+                const filtered = geos.filter((op) => OPSTINA_TO_REGION[shapeNameOf(op)] === selectedRegion);
+                if (filtered.length === 0) return null;
+                return filtered.map((op) => {
+                  const sName = shapeNameOf(op);
+                  const mun = munByNorm.get(normalize(sName)) || munByNorm.get(sName.toLowerCase());
+                  const isSelectedOpstina = selectedOpstinaShape ? normalize(sName) === normalize(selectedOpstinaShape) : false;
+                  const hov = hoveredOpstina === op.rsmKey;
+                  const fill = (() => {
+                    if (!mun?.leader) return "rgba(42,48,62,0.45)";
+                    const t = getTier(mun.margin_pct, true);
+                    if (t === "tossup") return `url(#${stripePatternId(mun.leader.color_hex)})`;
+                    return tieredLeaderFill(mun.leader.color_hex, mun.margin_pct);
+                  })();
+                  const hasData = !!mun?.leader;
+                  return (
+                    <Geography
+                      key={op.rsmKey}
+                      geography={op}
+                      onMouseEnter={() => setHoveredOpstina(op.rsmKey)}
+                      onMouseLeave={() => setHoveredOpstina(null)}
+                      onClick={() => {
+                        if (!mun) return;
+                        onSelectMunicipality?.(mun.id === selectedMunicipalityId ? null : mun.id);
+                      }}
+                      fill={fill}
+                      stroke={isSelectedOpstina ? "#ffffff" : hov ? "#ffffff" : hasData ? "#f1f5f9" : "rgba(241,245,249,0.5)"}
+                      strokeWidth={isSelectedOpstina ? 2.2 : hov ? 1.6 : 1.0}
+                      opacity={isSelectedOpstina ? 1 : hov ? 1 : hasData ? 0.92 : 0.5}
+                      style={{ cursor: mun ? "pointer" : "default", outline: "none" }}
+                    />
+                  );
+                });
+              }}
+            </Geographies>
+          </>
         )}
       </ComposableMap>
 
@@ -244,7 +266,7 @@ export default function SerbiaMap({
 
       {isLocked && (
         <div className="pointer-events-none absolute bottom-3 left-3 rounded-xl bg-black/60 backdrop-blur border border-white/10 px-3 py-2">
-          <p className="text-[11px] text-white/70">Opštine u regionu — bele granice, zumirano na region</p>
+          <p className="text-[11px] text-white/70">Opštine u regionu — klik na opštinu za detalje</p>
         </div>
       )}
     </div>
