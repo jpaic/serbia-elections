@@ -83,9 +83,16 @@ export function tieredLeaderFill(
   return "#2a2f3a";
 }
 
-// Za dijagonalne linije - id patterna po boji
-export function stripePatternId(partyColorHex: string): string {
+// Za dijagonalne linije - id patterna po boji (null-safe: bez boje nema pruga)
+export function stripePatternId(partyColorHex: string | null | undefined): string | null {
+  if (!partyColorHex) return null;
   return `stripe-${partyColorHex.replace("#", "").toLowerCase()}`;
+}
+
+// Tossup fill: pruge ako ima boje, inace neutralna (nikad ne puca na null)
+export function tossupFill(partyColorHex: string | null | undefined): string {
+  const id = stripePatternId(partyColorHex);
+  return id ? `url(#${id})` : "#2a2f3a";
 }
 
 // Helper za legendu

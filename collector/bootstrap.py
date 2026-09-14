@@ -122,10 +122,15 @@ def ensure_party(conn, election_id: int, ballot_number: int, list_name: str):
         return existing.id
     # short_name = skraćeno, npr. "1. SNS"
     short = re.sub(r"^\s*\d+\.\s*", "", list_name).strip()[:50] or f"Lista {ballot_number}"
+    # podrazumevana paleta da mapa nikad ne ostane bez boja (moze se rucno korigovati)
+    palette = ["#e63946", "#457b9d", "#7c3aed", "#78716c", "#f59e0b", "#0ea5e9",
+               "#22c55e", "#a855f7", "#14b8a6", "#94a3b8", "#3b82d6", "#f97316",
+               "#84cc16", "#eab308", "#64748b", "#ef4444", "#8b5cf6", "#06b6d4"]
+    color = palette[(ballot_number - 1) % len(palette)]
     pid = conn.execute(text("""
-        INSERT INTO parties (election_id, name, short_name, ballot_number)
-        VALUES (:eid, :name, :short, :bn) RETURNING id
-    """), {"eid": election_id, "name": list_name.strip(), "short": short, "bn": ballot_number}).scalar()
+        INSERT INTO parties (election_id, name, short_name, ballot_number, color_hex)
+        VALUES (:eid, :name, :short, :bn, :color) RETURNING id
+    """), {"eid": election_id, "name": list_name.strip(), "short": short, "bn": ballot_number, "color": color}).scalar()
     log.info("  + lista %s: %s", ballot_number, short[:60])
     return pid
 

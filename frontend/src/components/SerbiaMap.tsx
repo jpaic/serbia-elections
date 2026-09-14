@@ -6,6 +6,7 @@ import type { Feature, Geometry } from "geojson";
 import {
   NO_DATA_COLOR,
   tieredLeaderFill,
+  tossupFill,
   getTier,
   stripePatternId,
 } from "@/lib/colorScale";
@@ -165,7 +166,7 @@ export default function SerbiaMap({
         <ComposableMap projection="geoMercator" projectionConfig={{ center: DEFAULT_CENTER, scale: DEFAULT_SCALE }} style={{ width: "100%", height: "100%" }}>
           <defs>
             {tossupColors.map((c) => (
-              <pattern key={c} id={stripePatternId(c)} width={8} height={8} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <pattern key={c} id={stripePatternId(c) ?? undefined} width={8} height={8} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
                 <rect width={8} height={8} fill="#161a23" />
                 <rect width={4} height={8} fill={c} opacity={0.55} />
               </pattern>
@@ -182,7 +183,7 @@ export default function SerbiaMap({
                 const fill = (() => {
                   if (!data?.leader) return NO_DATA_COLOR;
                   const t = getTier(data.margin_pct, true);
-                  if (t === "tossup") return `url(#${stripePatternId(data.leader.color_hex)})`;
+                  if (t === "tossup") return tossupFill(data.leader.color_hex);
                   return tieredLeaderFill(data.leader.color_hex, data.margin_pct);
                 })();
                 return (
@@ -214,7 +215,7 @@ export default function SerbiaMap({
         >
           <defs>
             {tossupColors.map((c) => (
-              <pattern key={c} id={stripePatternId(c)} width={8} height={8} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <pattern key={c} id={stripePatternId(c) ?? undefined} width={8} height={8} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
                 <rect width={8} height={8} fill="#161a23" />
                 <rect width={4} height={8} fill={c} opacity={0.55} />
               </pattern>
@@ -229,7 +230,7 @@ export default function SerbiaMap({
             const fill = (() => {
               if (!mun?.leader) return "#161a23";
               const t = getTier(mun.margin_pct, true);
-              if (t === "tossup") return `url(#${stripePatternId(mun.leader.color_hex)})`;
+              if (t === "tossup") return tossupFill(mun.leader.color_hex);
               return tieredLeaderFill(mun.leader.color_hex, mun.margin_pct);
             })();
             const hasData = !!mun?.leader;
