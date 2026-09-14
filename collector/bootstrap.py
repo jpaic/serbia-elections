@@ -179,6 +179,21 @@ def main():
             mun_value = mun["value"]
             mun_data_id = mun["data_id"]
             mun_name = mun["name"]
+            # RESUME: ako opština već ima mapirana mesta za ovaj krug, preskoči fetch
+            with engine.connect() as _c:
+                _mid = _c.execute(text(
+                    "SELECT id FROM municipalities WHERE rzs_code = :c"
+                ), {"c": str(mun_data_id or f"rik-{mun_value}")}).fetchone()
+                if _mid:
+                    _n = _c.execute(text(
+                        """SELECT COUNT(*) FROM election_station_codes esc
+                           JOIN polling_stations ps ON ps.id = esc.polling_station_id
+                           WHERE esc.election_id = :eid AND ps.municipality_id = :mid"""
+                    ), {"eid": election_id, "mid": _mid.id}).scalar()
+                    if (_n or 0) > 0:
+                        total_stations += int(_n)
+                        done_muns += 1
+                        continue
             try:
                 stations = get_election_stations(session, args.election_type, args.election_round, region_id, mun_value)
             except Exception as e:

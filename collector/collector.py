@@ -51,11 +51,41 @@ def _parse_won_number(s) -> int:
         return 0
 
 
-def fetch_raw_results(election_id: int, limit_stations: int | None = None, skip_processed: bool = True, delay: float = 0.35) -> list[dict]:
+def fetch_and_store(election_id: int, limit_stations: int | None = None, skip_processed: bool = True, flush_every: int = 50, shard: int | None = None, shards: int | None = None) -> tuple[int, int]:
     """
-    Povlači sve biračka mesta za dati election_id preko election_station_codes.
-    Rate limited (delay između get_results), preskače već obrađena ako skip_processed.
-    Vraća listu redova u obliku koji očekuje upsert_results.
+    Povlači mesta i upisuje IH U TURAMA (flush_every) — prekid ne gubi urađeno,
+    sledeće pokretanje nastavlja (skip_processed preskače obrađena).
+    Vraća (broj_redova, broj_mesta).
+    """
+    total_rows = 0
+    total_stations = 0
+    batch: list[dict] = []
+    batch_stations = 0
+
+    def flush():
+        nonlocal total_rows, total_stations, batch, batch_stations
+        if not batch:
+            return
+        clean = validate(batch)
+        total_rows += upsert_results(election_id, clean)
+        total_stations += batch_stations
+        batch = []
+        batch_stations = 0
+
+    for row in iter_station_results(election_id, limit_stations=limit_stations, skip_processed=skip_processed, shard=shard, shards=shards):
+        batch.extend(row["rows"])
+        batch_stations += 1
+        if batch_stations >= flush_every:
+            flush()
+            log.info("Progres: %d mesta upisano...", total_stations)
+    flush()
+    return total_rows, total_stations
+
+
+def iter_station_results(election_id: int, limit_stations: int | None = None, skip_processed: bool = True, shard: int | None = None, shards: int | None = None):
+    """
+    Generator: po jedno biračko mesto sa RIK-a -> {"polling_station_id", "rik_station_id", "rows"}.
+    Nema upisa u bazu — samo fetch+parse, upis radi fetch_and_store u turama.
     """
     with engine.connect() as conn:
         election = conn.execute(text("SELECT id, rik_type, rik_round, name FROM elections WHERE id = :id"), {"id": election_id}).fetchone()
@@ -94,7 +124,7 @@ def fetch_raw_results(election_id: int, limit_stations: int | None = None, skip_
                     to_fetch.append(r)
             if not to_fetch:
                 log.info("Sva biračka mesta već obrađena (%d), nema fetch-a", len(rows))
-                return []
+                return
             log.info("Preskačem %d već obrađenih, fetchujem %d preostalih", len(processed_ids), len(to_fetch))
         else:
             to_fetch = rows
@@ -103,14 +133,16 @@ def fetch_raw_results(election_id: int, limit_stations: int | None = None, skip_
             to_fetch = to_fetch[:limit_stations]
             log.info("Limit --limit-stations=%d", limit_stations)
 
+        # sharding za paralelne radnike: svaki uzima svako shards-to mesto (i % shards == shard)
+        if shard is not None and shards:
+            to_fetch = [r for i, r in enumerate(to_fetch) if i % shards == shard]
+            log.info("Shard %d/%d: %d mesta", shard, shards, len(to_fetch))
+
     session = create_session()
-    out: list[dict] = []
     total = len(to_fetch)
 
     for idx, r in enumerate(to_fetch, start=1):
         rik_sid = int(r.rik_station_id)
-        # RIK zahteva pun cascading payload, ali get_results na nivou stanice
-        # radi i samo sa election_station (ostali su opciono). Ipak šaljemo minimalno.
         try:
             raw = get_results_raw(session, rik_type, rik_round, station_id=rik_sid)
         except Exception as e:
@@ -123,45 +155,32 @@ def fetch_raw_results(election_id: int, limit_stations: int | None = None, skip_
         table = parse_table_data(raw)
         stat = parse_stat_sum(raw)
         is_processed = bool(stat.get("processed_stations")) and stat.get("processed_stations") != 0
-        # Za neobrađena mesta table_data su nule/null - i dalje upisujemo kao not processed
-        if not is_processed:
-            # na dan izbora mnoga mesta još nisu obrađena - upiši jedan red po partiji sa is_processed=false
-            # da frontend zna da je mesto postoji ali bez rezultata
-            for row in table:
-                votes = _parse_won_number(row.get("won_number"))
-                if votes is None:
-                    votes = 0
-                # ako su svi na 0 i won_percent null, to je neobrađeno
-                out.append({
-                    "polling_station_id": int(r.polling_station_id),
-                    "rik_station_id": rik_sid,
-                    "party_ballot_number": int(row["ballot_number"]),
-                    "votes": votes,
-                    "valid_ballots": stat.get("valid"),
-                    "invalid_ballots": stat.get("invalid"),
-                    "total_voted": stat.get("available"),
-                    "is_processed": False,
-                })
-            # takođe slučaj 2026 gde je raw prazan / 500 -> raw={} već preskočen gore
-        else:
-            for row in table:
-                votes = _parse_won_number(row.get("won_number"))
-                out.append({
-                    "polling_station_id": int(r.polling_station_id),
-                    "rik_station_id": rik_sid,
-                    "party_ballot_number": int(row["ballot_number"]),
-                    "votes": votes,
-                    "valid_ballots": stat.get("valid"),
-                    "invalid_ballots": stat.get("invalid"),
-                    "total_voted": stat.get("available"),
-                    "is_processed": True,
-                })
+        station_rows = []
+        for row in table:
+            # parse_table_data normalizuje na "votes"; ostavi fallback na sirovo "won_number"
+            raw_votes = row.get("votes")
+            if raw_votes is None:
+                raw_votes = row.get("won_number")
+            votes = _parse_won_number(raw_votes)
+            station_rows.append({
+                "polling_station_id": int(r.polling_station_id),
+                "rik_station_id": rik_sid,
+                "party_ballot_number": int(row["ballot_number"]),
+                "votes": votes,
+                "valid_ballots": stat.get("valid"),
+                "invalid_ballots": stat.get("invalid"),
+                "total_voted": stat.get("available"),
+                "is_processed": bool(is_processed),
+            })
 
         if idx % 100 == 0:
             log.info("Fetch %d/%d...", idx, total)
 
-    log.info("Fetch gotov: %d redova za %d biračkih mesta", len(out), total)
-    return out
+        yield {
+            "polling_station_id": int(r.polling_station_id),
+            "rik_station_id": rik_sid,
+            "rows": station_rows,
+        }
 
 
 def validate(raw_results: list[dict]) -> list[dict]:
@@ -257,13 +276,9 @@ def log_ingestion(election_id: int, source: str, stations_updated: int, success:
         """), {"eid": election_id, "source": source, "count": stations_updated, "success": success, "error": error})
 
 
-def run_once(election_id: int, limit_stations=None, skip_processed=True):
+def run_once(election_id: int, limit_stations=None, skip_processed=True, shard=None, shards=None):
     try:
-        raw = fetch_raw_results(election_id, limit_stations=limit_stations, skip_processed=skip_processed)
-        clean = validate(raw)
-        count = upsert_results(election_id, clean)
-        # broj biračkih mesta je dedupl. po polling_station_id
-        stations = len({r.get("polling_station_id") or r.get("rik_station_id") for r in clean}) if clean else 0
+        count, stations = fetch_and_store(election_id, limit_stations=limit_stations, skip_processed=skip_processed, shard=shard, shards=shards)
         log_ingestion(election_id, "rik_api", stations, True)
         log.info("Ažurirano %d redova (%d biračkih mesta)", count, stations)
     except Exception as e:
@@ -278,15 +293,19 @@ def main():
     ap.add_argument("--once", action="store_true", help="Pokreni samo jednom, bez petlje")
     ap.add_argument("--limit-stations", type=int, default=None, help="Ograniči broj biračkih mesta (debug)")
     ap.add_argument("--no-skip", action="store_true", help="Ne preskači već obrađena mesta")
+    ap.add_argument("--shard", type=int, default=None, help="Indeks shard-a (0-based), uz --shards")
+    ap.add_argument("--shards", type=int, default=None, help="Ukupan broj shardova za paralelne radnike")
     args = ap.parse_args()
+    if (args.shard is None) != (args.shards is None):
+        raise SystemExit("--shard i --shards moraju zajedno")
 
     if args.once:
-        run_once(args.election_id, limit_stations=args.limit_stations, skip_processed=not args.no_skip)
+        run_once(args.election_id, limit_stations=args.limit_stations, skip_processed=not args.no_skip, shard=args.shard, shards=args.shards)
         return
 
     log.info("Collector pokrenut, interval %ds", args.interval)
     while True:
-        run_once(args.election_id, limit_stations=args.limit_stations, skip_processed=not args.no_skip)
+        run_once(args.election_id, limit_stations=args.limit_stations, skip_processed=not args.no_skip, shard=args.shard, shards=args.shards)
         time.sleep(args.interval)
 
 
