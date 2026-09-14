@@ -30,7 +30,8 @@ for code, fname in FILES.items():
     m = re.search(r'"width":\s*"?(\d+)"?,\s*"height":\s*"?(\d+)"?', txt)
     width, height = (int(m.group(1)), int(m.group(2))) if m else (750, 700)
     # Parsiraj paths: "ID": {"name": "...", "path": "..."}
-    entries = re.findall(r'"(\d+)"\s*:\s*\{\s*"name":\s*"([^"]+)",\s*"path":\s*"([^"]+)"', txt)
+    # Kljucevi su numeric (data-id, npr. "70203") ili alfanumericki (npr. "id20" za Decane na KiM)
+    entries = re.findall(r'"([A-Za-z0-9]+)"\s*:\s*\{\s*"name":\s*"([^"]+)",\s*"path":\s*"([^"]+)"', txt)
     munis = [{"id": k, "name": name, "path": path} for k, name, path in entries]
     print(f"{code}: {len(munis)} opstina, {width}x{height}")
     for mu in munis[:3]:

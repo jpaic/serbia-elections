@@ -58,6 +58,7 @@ export default function Dashboard() {
   const [viewMode, setViewMode] = useState<ViewMode>("serbia");
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [selectedMunicipalityId, setSelectedMunicipalityId] = useState<number | null>(null);
+  const [selectedRikOpstina, setSelectedRikOpstina] = useState<{ id: string; name: string } | null>(null);
   const [selectedDiasporaStation, setSelectedDiasporaStation] = useState<number | null>(null);
 
   const { data: summary, error: summaryError } = useSWR(
@@ -155,6 +156,7 @@ export default function Dashboard() {
               setViewMode("diaspora");
               setSelectedRegion(null);
               setSelectedMunicipalityId(null);
+              setSelectedRikOpstina(null);
             }}
             className={`px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1.5 ${
               viewMode === "diaspora" ? "bg-white text-black" : "text-white/60 hover:text-white"
@@ -193,11 +195,14 @@ export default function Dashboard() {
                 municipalities={municipalities}
                 selectedRegion={selectedRegion}
                 selectedMunicipalityId={selectedMunicipalityId}
+                selectedRikOpstina={selectedRikOpstina}
                 onSelectRegion={(region) => {
                   setSelectedRegion(region);
                   setSelectedMunicipalityId(null);
+                  setSelectedRikOpstina(null);
                 }}
                 onSelectMunicipality={setSelectedMunicipalityId}
+                onSelectRikOpstina={setSelectedRikOpstina}
               />
             ) : (
               <div className="h-full flex items-center justify-center text-white/30 text-sm">Učitavanje mape…</div>
@@ -285,40 +290,30 @@ export default function Dashboard() {
 
                     <div className="mt-4">
                       <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">
-                        Opštine u okrugu ({regionMunicipalities.length})
+                        Opština ({regionMunicipalities.length})
                       </p>
-                      <div className="flex flex-col gap-1.5 max-h-[220px] overflow-y-auto hide-scrollbar pr-1">
+                      <select
+                        value={selectedMunicipalityId ?? ""}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          setSelectedMunicipalityId(v ? Number(v) : null);
+                          setSelectedRikOpstina(null);
+                        }}
+                        className="w-full rounded-lg bg-white/[0.04] border border-white/10 px-3 py-2 text-xs text-white outline-none focus:border-white/30 cursor-pointer"
+                      >
+                        <option value="">Izaberi opštinu…</option>
                         {regionMunicipalities
                           .slice()
-                          .sort((a, b) => b.margin_pct - a.margin_pct)
-                          .map((m) => {
-                            const tier = getTier(m.margin_pct, !!m.leader);
-                            const isSelected = selectedMunicipalityId === m.id;
-                            return (
-                              <button
-                                key={m.id}
-                                onClick={() => setSelectedMunicipalityId(isSelected ? null : m.id)}
-                                className={`text-left rounded-lg border px-3 py-2 flex items-center gap-2 transition-colors ${
-                                  isSelected ? "bg-white/10 border-white/20" : "bg-white/[0.03] border-white/10 hover:bg-white/[0.06] hover:border-white/15"
-                                }`}
-                              >
-                                <span className="w-2 h-2 rounded-full shrink-0" style={{ background: m.leader?.color_hex || "#333" }} />
-                                <div className="min-w-0 flex-1">
-                                  <p className="text-xs text-white truncate leading-tight">{m.name}</p>
-                                  <p className="text-[11px] text-white/40 tabular-nums">
-                                    {m.processed_pct.toFixed(0)}% obrađeno · {m.turnout_pct.toFixed(1)}% izlaznost
-                                  </p>
-                                </div>
-                                <div className="text-right shrink-0">
-                                  <p className="text-xs font-semibold text-white tabular-nums">{m.leader ? `${m.leader.pct.toFixed(1)}%` : "—"}</p>
-                                  <p className={`text-[10px] font-medium ${tier === "secure" ? "text-emerald-300" : tier === "lean" ? "text-amber-300" : tier === "tossup" ? "text-white/50" : "text-white/30"}`}>
-                                    {tier === "secure" ? "Sigurno" : tier === "lean" ? "Umereno" : tier === "tossup" ? "Neizv." : "—"}
-                                  </p>
-                                </div>
-                              </button>
-                            );
-                          })}
-                      </div>
+                          .sort((a, b) => a.name.localeCompare(b.name, "sr"))
+                          .map((m) => (
+                            <option key={m.id} value={m.id} className="bg-[#0e1117]">
+                              {m.name} · {m.leader ? `${m.leader.short_name} ${m.leader.pct.toFixed(1)}%` : "nema rezultata"}
+                            </option>
+                          ))}
+                      </select>
+                      <p className="text-[11px] text-white/30 mt-1.5">
+                        Ili klikni direktno na opštinu na mapi.
+                      </p>
                     </div>
                   </div>
                 )}
@@ -326,6 +321,17 @@ export default function Dashboard() {
                 {selectedMunicipalityId && (
                   <div className="border-t border-white/10 pt-5">
                     <MunicipalityPanel electionId={ELECTION_ID} municipalityId={selectedMunicipalityId} />
+                  </div>
+                )}
+
+                {!selectedMunicipalityId && selectedRikOpstina && (
+                  <div className="border-t border-white/10 pt-5">
+                    <div className="rounded-xl bg-white/[0.04] border border-white/10 p-4">
+                      <p className="text-base font-semibold text-white leading-tight">{selectedRikOpstina.name}</p>
+                      <p className="text-xs text-white/40 mt-1">
+                        RIK id: {selectedRikOpstina.id} · Nema rezultata u bazi za ovu opštinu (pokreni bootstrap + collector za tekuće izbore).
+                      </p>
+                    </div>
                   </div>
                 )}
 
