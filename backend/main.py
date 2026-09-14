@@ -247,6 +247,8 @@ def regions_results(election_id: int):
             "processed_stations": processed_stations,
             "processed_pct": round(100 * processed_stations / total_stations, 2) if total_stations else 0,
             "turnout_pct": round(100 * (s["total_voted"] or 0) / (s["registered_voters"] or 1), 2),
+            "total_voted": s["total_voted"] or 0,
+            "registered_voters": s["registered_voters"] or 0,
             "leader": leader,
             "margin_pct": round(margin, 2),
             "results": results,
