@@ -79,6 +79,7 @@ export default function SerbiaMap({
   onSelectMunicipality,
   selectedRikOpstina,
   onSelectRikOpstina,
+  showRaceBadges = false,
 }: {
   regions: RegionResult[];
   municipalities?: MunicipalityRow[];
@@ -88,6 +89,8 @@ export default function SerbiaMap({
   onSelectMunicipality?: (id: number | null) => void;
   selectedRikOpstina?: RikOpstina | null;
   onSelectRikOpstina?: (op: RikOpstina | null) => void;
+  // Bedževi trke (SIGURNO/UMERENO/NEIZVESNO) imaju smisla samo dok izbori traju
+  showRaceBadges?: boolean;
 }) {
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const [hoveredOpstina, setHoveredOpstina] = useState<string | null>(null);
@@ -280,6 +283,7 @@ export default function SerbiaMap({
       {!isLocked && hoveredRegion && (() => {
         const d = regionByName.get(hoveredRegion);
         if (!d) return null;
+        const tier = getTier(d.margin_pct, !!d.leader);
         return (
           <div className="pointer-events-none absolute bottom-3 left-3 right-3 sm:right-auto sm:min-w-[260px] rounded-xl bg-black/80 backdrop-blur border border-white/10 px-4 py-3 shadow-xl">
             <p className="text-sm font-semibold text-white mb-1">{d.region}</p>
@@ -289,6 +293,11 @@ export default function SerbiaMap({
                   <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ background: d.leader.color_hex || "#888" }} />
                   <span className="text-xs text-white/90">{d.leader.short_name || d.leader.name}</span>
                   <span className="text-xs font-semibold text-white ml-auto tabular-nums">{d.leader.pct.toFixed(1)}%</span>
+                  {showRaceBadges && (
+                    <span className={`text-[10px] px-1.5 py-0.5 rounded font-semibold border ml-1 ${tier === "secure" ? "bg-white/15 text-white border-white/20" : tier === "lean" ? "bg-white/10 text-white/80 border-white/15" : "bg-amber-500/20 text-amber-300 border-amber-500/30"}`}>
+                      {tier === "secure" ? "SIGURNO" : tier === "lean" ? "UMERENO" : "NEIZVESNO"}
+                    </span>
+                  )}
                 </div>
                 <div className="flex gap-3 text-[11px] text-white/50 tabular-nums">
                   <span>{d.processed_stations}/{d.total_stations} BM · {d.processed_pct.toFixed(0)}% obrađeno</span>

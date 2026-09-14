@@ -67,7 +67,7 @@ export default function ElectionPicker({
               <button
                 key={e.id}
                 onClick={() => onPick(e.id)}
-                className="group text-left rounded-2xl bg-white/[0.04] border border-white/10 p-5 hover:bg-white/[0.07] hover:border-white/25 transition-all hover:-translate-y-0.5"
+                className="group text-left rounded-2xl bg-white/[0.04] border border-white/10 p-5 hover:bg-white/[0.07] hover:border-white/25 transition-all hover:-translate-y-0.5 h-full flex flex-col"
               >
                 <div className="flex items-center justify-between mb-3">
                   <StatusBadge status={e.status} />
@@ -77,7 +77,7 @@ export default function ElectionPicker({
                 </div>
                 <p className="text-base font-semibold text-white leading-snug">{e.name}</p>
                 <p className="text-xs text-white/40 mt-1 tabular-nums">{formatDate(e.election_date)}</p>
-                <div className="flex items-center gap-4 mt-4 pt-3 border-t border-white/10">
+                <div className="flex items-center gap-4 mt-auto pt-3 border-t border-white/10">
                   <div>
                     <p className="text-[10px] uppercase tracking-wide text-white/35 leading-none mb-1">
                       Obrađeno mesta
@@ -95,11 +95,9 @@ export default function ElectionPicker({
                     </p>
                   </div>
                 </div>
-                {!hasData && (
-                  <p className="text-[11px] text-white/30 mt-3">
-                    Još nema unetih rezultata.
-                  </p>
-                )}
+                <p className="text-[11px] text-white/30 mt-3 min-h-[16px]">
+                  {!hasData ? "Još nema unetih rezultata." : ""}
+                </p>
               </button>
             );
           })}

@@ -296,6 +296,7 @@ export default function Dashboard() {
                 selectedRegion={selectedRegion}
                 selectedMunicipalityId={selectedMunicipalityId}
                 selectedRikOpstina={selectedRikOpstina}
+                showRaceBadges={summary?.election.status !== "closed"}
                 onSelectRegion={(region) => {
                   setSelectedRegion(region);
                   setSelectedMunicipalityId(null);
@@ -371,7 +372,7 @@ export default function Dashboard() {
                           {(selectedRegionData.registered_voters ?? 0).toLocaleString("sr-RS")} birača · {(selectedRegionData.total_voted ?? 0).toLocaleString("sr-RS")} izašlih
                         </p>
                       </div>
-                      {selectedRegionData.leader && (
+                      {selectedRegionData.leader && summary?.election.status !== "closed" && (
                         <span
                           className={`text-[10px] px-2 py-1 rounded-full border font-semibold tracking-wide shrink-0 ${
                             getTier(selectedRegionData.margin_pct, true) === "secure"
