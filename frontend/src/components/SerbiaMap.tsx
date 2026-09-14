@@ -10,6 +10,7 @@ import {
   stripePatternId,
 } from "@/lib/colorScale";
 import type { MunicipalityRow, RegionResult } from "@/lib/types";
+import { formatPlaceName } from "@/lib/display";
 import rikOpstine from "../../public/data/rik-opstine.json";
 
 const GEO_REGIONI = "/data/serbia-regioni.geojson";
@@ -237,25 +238,26 @@ export default function SerbiaMap({
                 key={op.id}
                 d={op.path}
                 fill={fill}
-                stroke={isSel ? "#ffffff" : isHov ? "#ffffff" : "#e8edf5"}
-                strokeWidth={isSel ? 2.2 : isHov ? 1.6 : 0.9}
+                stroke={isSel ? "#ffffff" : isHov ? "#ffffff" : "#dbe2ee"}
+                strokeWidth={isSel ? 2 : isHov ? 1.5 : 1}
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                shapeRendering="geometricPrecision"
                 opacity={1}
                 style={{ cursor: "pointer", outline: "none" }}
                 onMouseEnter={() => setHoveredOpstina(op.id)}
                 onMouseLeave={() => setHoveredOpstina(null)}
                 onClick={() => {
                   if (mun) {
-                    // ima DB zapis -> prikazi rezultate, ocisti RIK-only selekciju
                     onSelectRikOpstina?.(null);
                     onSelectMunicipality?.(mun.id === selectedMunicipalityId ? null : mun.id);
                   } else {
-                    // nema rezultata -> svejedno selektuj, prikazi ime + poruku
                     onSelectMunicipality?.(null);
                     onSelectRikOpstina?.(isSelRik ? null : { id: op.id, name: op.name });
                   }
                 }}
               >
-                <title>{op.name}</title>
+                <title>{formatPlaceName(op.name)}</title>
               </path>
             );
           })}
@@ -303,7 +305,7 @@ export default function SerbiaMap({
       {isLocked && selectedRegion && !hoveredOpstina && (
         <div className="pointer-events-none absolute bottom-3 left-3 rounded-xl bg-black/60 backdrop-blur border border-white/10 px-3 py-2">
           <p className="text-[11px] text-white/70">
-            {selectedRegion} — {rikRegion?.municipalities.length ?? 0} opština (RIK oblici) · klik na opštinu za detalje
+            {selectedRegion} · {rikRegion?.municipalities.length ?? 0} opština · klik na opštinu za detalje
           </p>
         </div>
       )}
@@ -314,7 +316,7 @@ export default function SerbiaMap({
         const mun = munForRik(op.id, op.name);
         return (
           <div className="pointer-events-none absolute bottom-3 left-3 rounded-xl bg-black/80 backdrop-blur border border-white/10 px-3 py-2 shadow-xl max-w-[280px]">
-            <p className="text-xs font-semibold text-white">{op.name}</p>
+            <p className="text-xs font-semibold text-white">{formatPlaceName(op.name)}</p>
             {mun?.leader ? (
               <p className="text-[11px] text-white/60 tabular-nums mt-0.5">
                 {mun.leader.short_name} {mun.leader.pct.toFixed(1)}% · +{mun.margin_pct.toFixed(1)}pp · {mun.processed_pct.toFixed(0)}% obrađeno

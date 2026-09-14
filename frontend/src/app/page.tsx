@@ -8,6 +8,7 @@ import WorldMap from "@/components/WorldMap";
 import ResultBars from "@/components/ResultBars";
 import MunicipalityPanel from "@/components/MunicipalityPanel";
 import { getTier } from "@/lib/colorScale";
+import { formatPlaceName } from "@/lib/display";
 import diasporaStations from "../../public/data/diaspora-stations.json";
 
 const ELECTION_ID = 1;
@@ -327,9 +328,9 @@ export default function Dashboard() {
                 {!selectedMunicipalityId && selectedRikOpstina && (
                   <div className="border-t border-white/10 pt-5">
                     <div className="rounded-xl bg-white/[0.04] border border-white/10 p-4">
-                      <p className="text-base font-semibold text-white leading-tight">{selectedRikOpstina.name}</p>
+                      <p className="text-base font-semibold text-white leading-tight">{formatPlaceName(selectedRikOpstina.name)}</p>
                       <p className="text-xs text-white/40 mt-1">
-                        RIK id: {selectedRikOpstina.id} · Nema rezultata u bazi za ovu opštinu (pokreni bootstrap + collector za tekuće izbore).
+                        Za ovu opštinu trenutno nema dostupnih rezultata.
                       </p>
                     </div>
                   </div>
@@ -365,11 +366,11 @@ export default function Dashboard() {
                       </div>
                       <ResultBars results={diasporaRegion.results} compact />
                       <p className="text-[11px] text-white/30 mt-2">
-                        Region: <span className="text-white/60">Inostranstvo (101)</span> · Opština: Inostranstvo (198) · 81 ambasada/konzulat kao biračka mesta. Kao na RIK-u: <code className="text-white/50">region=101&municipality=198&election_station=183514</code>
+                        81 biračko mesto u ambasadama i konzulatima širom sveta.
                       </p>
                     </>
                   ) : (
-                    <p className="text-sm text-white/30">Nema podataka za Inostranstvo (potrebno pokrenuti bootstrap za 2023/2026)</p>
+                    <p className="text-sm text-white/30">Trenutno nema dostupnih podataka za inostranstvo.</p>
                   )}
                 </div>
 
@@ -377,10 +378,9 @@ export default function Dashboard() {
                   <div className="border-t border-white/10 pt-4">
                     <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">Biračko mesto</p>
                     <div className="rounded-xl bg-white/[0.04] border border-white/10 p-4">
-                      <p className="text-sm font-semibold text-white">{selectedDiasporaStationData.city}</p>
-                      <p className="text-xs text-white/60">{selectedDiasporaStationData.name}</p>
-                      <p className="text-[11px] text-white/35 mt-1">RIK ID: {selectedDiasporaStationData.id} · {selectedDiasporaStationData.country}</p>
-                      <p className="text-[11px] text-white/30 mt-2">Detaljni rezultati po biračkom mestu dolaze preko <code className="text-white/40">GET /elections/{ELECTION_ID}/polling-stations/{selectedDiasporaStation}</code> nakon bootstrap-a.</p>
+                      <p className="text-sm font-semibold text-white">{selectedDiasporaStationData.city} · {selectedDiasporaStationData.country}</p>
+                      <p className="text-xs text-white/60 mt-0.5">{selectedDiasporaStationData.name}</p>
+                      <p className="text-[11px] text-white/30 mt-2">Za ovo biračko mesto trenutno nema dostupnih rezultata.</p>
                     </div>
                   </div>
                 )}
