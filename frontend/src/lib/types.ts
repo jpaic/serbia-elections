@@ -41,6 +41,20 @@ export interface MunicipalityRow {
   results: PartyResult[];
 }
 
+export interface MandateParty extends PartyResult {
+  ballot_number: number;
+  is_minority: boolean;
+  seats: number;
+}
+
+export interface MandatesResponse {
+  total_seats: number;
+  threshold_pct: number;
+  valid_votes: number;
+  official: boolean;
+  parties: MandateParty[];
+}
+
 export interface StationDetail {
   station: {
     id: number;

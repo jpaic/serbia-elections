@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
 import { api } from "@/lib/api";
 import SerbiaMap from "@/components/SerbiaMap";
+import MandateChart from "@/components/MandateChart";
 import DiasporaStationPanel from "@/components/DiasporaStationPanel";
 import ElectionPicker from "@/components/ElectionPicker";
 import WorldMap from "@/components/WorldMap";
@@ -365,6 +366,11 @@ export default function Dashboard() {
                           Ukupno glasova: {summary.results.reduce((s, r) => s + r.votes, 0).toLocaleString("sr-RS")} · {summary.results[0].short_name} +
                           {(summary.results[0].pct - (summary.results[1]?.pct ?? 0)).toFixed(1)}pp prednosti
                         </p>
+                      )}
+                      {summary.election.election_type === "parliamentary" && activeId && (
+                        <div className="mt-4 pt-4 border-t border-white/10">
+                          <MandateChart electionId={activeId} />
+                        </div>
                       )}
                     </>
               ) : (

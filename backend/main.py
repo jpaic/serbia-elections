@@ -383,6 +383,65 @@ def _station_detail(election_id: int, station_id: int):
     }
 
 
+@app.get("/elections/{election_id}/mandates")
+def mandates(election_id: int, total_seats: int = 250, threshold_pct: float = 3.0):
+    """D'Hondtova raspodela mandata. Manjinske liste (is_minority) bez cenzusa."""
+    election = fetchone("SELECT * FROM elections WHERE id = :id", {"id": election_id})
+    if not election:
+        raise HTTPException(404, "Izbori nisu pronađeni")
+
+    rows = fetchall(
+        """
+        SELECT p.id, p.name, p.short_name, p.color_hex, p.ballot_number,
+               COALESCE(p.is_minority, false) AS is_minority,
+               p.official_seats,
+               COALESCE(SUM(mr.votes), 0) AS votes
+        FROM parties p
+        LEFT JOIN municipality_results mr ON mr.party_id = p.id AND mr.election_id = :eid
+        WHERE p.election_id = :eid
+        GROUP BY p.id, p.name, p.short_name, p.color_hex, p.ballot_number,
+                 p.is_minority, p.official_seats
+        ORDER BY p.ballot_number
+        """,
+        {"eid": election_id},
+    )
+    if not rows:
+        return {"total_seats": total_seats, "threshold_pct": threshold_pct,
+                "valid_votes": 0, "official": False, "parties": []}
+
+    # Za završene izbore koristi zvaničnu raspodelu (čist D'Hondt na snapshot
+    # podacima ne reprodukuje je u glas — granični mandati zavise od konačnih
+    # ispravki nakon ponovljenog glasanja). Uživo se računa projekcija.
+    official_sum = sum(r["official_seats"] or 0 for r in rows)
+    use_official = official_sum == total_seats
+
+    valid_votes = sum(r["votes"] for r in rows) or 1
+    seats: dict[int, int] = {}
+    if use_official:
+        seats = {r["id"]: (r["official_seats"] or 0) for r in rows}
+    else:
+        eligible = [r for r in rows
+                    if r["is_minority"] or (100 * r["votes"] / valid_votes) >= threshold_pct]
+        seats = {r["id"]: 0 for r in eligible}
+        for _ in range(total_seats):
+            best = max(eligible, key=lambda r: (r["votes"] / (seats[r["id"]] + 1), r["votes"]))
+            seats[best["id"]] += 1
+
+    out = []
+    for r in rows:
+        v = r["votes"]
+        out.append({
+            "id": r["id"], "name": r["name"], "short_name": r["short_name"],
+            "color_hex": r["color_hex"], "ballot_number": r["ballot_number"],
+            "is_minority": bool(r["is_minority"]), "votes": v,
+            "pct": round(100 * v / valid_votes, 2),
+            "seats": seats.get(r["id"], 0),
+        })
+    out.sort(key=lambda p: (-p["seats"], -p["votes"]))
+    return {"total_seats": total_seats, "threshold_pct": threshold_pct,
+            "valid_votes": valid_votes, "official": use_official, "parties": out}
+
+
 @app.get("/elections/{election_id}/polling-stations/{station_id}")
 def polling_station_detail(election_id: int, station_id: int):
     return _station_detail(election_id, station_id)
