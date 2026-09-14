@@ -3,6 +3,7 @@
 
 CREATE TABLE elections (
     id SERIAL PRIMARY KEY,
+    slug VARCHAR(50) UNIQUE,                   -- stabilan ključ dataseta: 'demo', 'parlamentarni-2023', ...
     name VARCHAR(200) NOT NULL,               -- npr. "Parlamentarni izbori 2026"
     election_type VARCHAR(50) NOT NULL,       -- 'parliamentary', 'presidential', 'local'
     election_date DATE NOT NULL,

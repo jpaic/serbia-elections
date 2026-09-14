@@ -11,8 +11,14 @@ import { getTier } from "@/lib/colorScale";
 import { formatPlaceName } from "@/lib/display";
 import diasporaStations from "../../public/data/diaspora-stations.json";
 
-const ELECTION_ID = 1;
 const REFRESH_MS = 30000;
+
+// Kratka oznaka dataseta za selektor: Demo ili godina izborа
+function datasetLabel(e: { slug: string | null; name: string; election_date: string }): string {
+  if (e.slug === "demo") return "Demo";
+  const m = e.election_date?.match(/^(\d{4})/);
+  return m ? m[1] : e.name;
+}
 
 // Isti mapping kao u SerbiaMap - okrug (30) -> RIK region (5)
 const OKRUG_TO_RIK: Record<string, string> = {
@@ -62,21 +68,35 @@ export default function Dashboard() {
   const [selectedRikOpstina, setSelectedRikOpstina] = useState<{ id: string; name: string } | null>(null);
   const [selectedDiasporaStation, setSelectedDiasporaStation] = useState<number | null>(null);
 
+  const { data: elections } = useSWR("elections", api.elections);
+  const [electionId, setElectionId] = useState<number | null>(null);
+  // Podrazumevano demo dataset, inace prvi sa liste
+  const activeId =
+    electionId ?? elections?.find((e) => e.slug === "demo")?.id ?? elections?.[0]?.id ?? null;
+
+  function pickElection(id: number) {
+    setElectionId(id);
+    setSelectedRegion(null);
+    setSelectedMunicipalityId(null);
+    setSelectedRikOpstina(null);
+    setSelectedDiasporaStation(null);
+  }
+
   const { data: summary, error: summaryError } = useSWR(
-    ["summary", ELECTION_ID],
-    () => api.summary(ELECTION_ID),
+    activeId ? ["summary", activeId] : null,
+    () => api.summary(activeId!),
     { refreshInterval: REFRESH_MS }
   );
 
   const { data: regions, error: regionsError } = useSWR(
-    ["regions", ELECTION_ID],
-    () => api.regions(ELECTION_ID),
+    activeId ? ["regions", activeId] : null,
+    () => api.regions(activeId!),
     { refreshInterval: REFRESH_MS }
   );
 
   const { data: municipalities, error: municipalitiesError } = useSWR(
-    ["municipalities", ELECTION_ID],
-    () => api.municipalities(ELECTION_ID),
+    activeId ? ["municipalities", activeId] : null,
+    () => api.municipalities(activeId!),
     { refreshInterval: REFRESH_MS }
   );
 
@@ -141,6 +161,24 @@ export default function Dashboard() {
         </div>
 
         <StatusBadge status={summary?.election.status} />
+
+        {/* Dataset selector */}
+        {elections && elections.length > 0 && (
+          <div className="flex items-center rounded-full bg-white/[0.06] border border-white/10 p-1 ml-4">
+            {elections.map((e) => (
+              <button
+                key={e.id}
+                title={e.name}
+                onClick={() => pickElection(e.id)}
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                  (activeId ?? -1) === e.id ? "bg-white text-black" : "text-white/60 hover:text-white"
+                }`}
+              >
+                {datasetLabel(e)}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* View toggle */}
         <div className="flex items-center rounded-full bg-white/[0.06] border border-white/10 p-1 ml-4">
@@ -233,6 +271,11 @@ export default function Dashboard() {
                         <MiniStat label="Biračkih mesta" value={`${summary.processed_pct.toFixed(0)}%`} />
                       </div>
                       <ResultBars results={summary.results} />
+                      {summary.results.length === 0 && (
+                        <p className="text-[11px] text-white/30 mt-2">
+                          Nema podataka za ovaj dataset — biće popunjeno kad krene unos rezultata.
+                        </p>
+                      )}
                       {summary.results[0] && (
                         <p className="text-[11px] text-white/35 mt-2 tabular-nums">
                           Ukupno glasova: {summary.results.reduce((s, r) => s + r.votes, 0).toLocaleString("sr-RS")} · {summary.results[0].short_name} +
@@ -321,7 +364,9 @@ export default function Dashboard() {
 
                 {selectedMunicipalityId && (
                   <div className="border-t border-white/10 pt-5">
-                    <MunicipalityPanel electionId={ELECTION_ID} municipalityId={selectedMunicipalityId} />
+                    {activeId && (
+                      <MunicipalityPanel electionId={activeId} municipalityId={selectedMunicipalityId} />
+                    )}
                   </div>
                 )}
 

@@ -1,5 +1,6 @@
 export interface Election {
   id: number;
+  slug: string | null;
   name: string;
   election_type: string;
   election_date: string;

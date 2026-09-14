@@ -69,7 +69,7 @@ def fetchone(query, params=None):
 
 @app.get("/elections")
 def list_elections():
-    return fetchall("SELECT id, name, election_type, election_date, status FROM elections ORDER BY election_date DESC")
+    return fetchall("SELECT id, slug, name, election_type, election_date, status FROM elections ORDER BY election_date DESC")
 
 
 @app.get("/elections/{election_id}/summary")
