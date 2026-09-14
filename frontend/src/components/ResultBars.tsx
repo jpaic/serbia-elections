@@ -1,4 +1,9 @@
+import { useState } from "react";
 import type { PartyResult } from "@/lib/types";
+
+// Republički cenzus — liste ispod se sklapaju (vredi na državnom nivou,
+// ali pomaže pregledu i na nižim nivoima)
+const CENSUS_PCT = 3;
 
 export default function ResultBars({
   results,
@@ -7,15 +12,22 @@ export default function ResultBars({
   results: PartyResult[];
   compact?: boolean;
 }) {
+  const [expanded, setExpanded] = useState(false);
+
   if (results.length === 0) {
     return <p className="text-sm text-white/40">Još nema obrađenih rezultata.</p>;
   }
 
   const leaderPct = results[0]?.pct ?? 0;
+  const above = results.filter((r) => r.pct >= CENSUS_PCT);
+  const below = results.filter((r) => r.pct < CENSUS_PCT);
+  const visible = expanded || above.length === 0 ? results : above;
 
   return (
     <div className="flex flex-col gap-2.5">
-      {results.map((r, i) => (
+      {visible.map((r) => {
+        const i = results.indexOf(r);
+        return (
         <div key={r.short_name}>
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2 min-w-0">
@@ -24,6 +36,7 @@ export default function ResultBars({
                 style={{ background: r.color_hex || "#888" }}
               />
               <span
+                title={r.name}
                 className={`truncate ${compact ? "text-xs" : "text-sm"} ${
                   i === 0 ? "text-white font-medium" : "text-white/70"
                 }`}
@@ -60,7 +73,17 @@ export default function ResultBars({
             </p>
           )}
         </div>
-      ))}
+        );
+      })}
+      {below.length > 0 && (
+        <button
+          onClick={() => setExpanded((v) => !v)}
+          title="Cenzus od 3% važi na republičkom nivou"
+          className="self-start text-[11px] text-white/45 hover:text-white/80 transition-colors mt-0.5"
+        >
+          {expanded ? "Sakrij ispod cenzusa" : `Prikaži i ispod cenzusa (3%) · ${below.length}`}
+        </button>
+      )}
     </div>
   );
 }

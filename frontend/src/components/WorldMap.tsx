@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { ComposableMap, Geographies, Geography, Marker, ZoomableGroup } from "react-simple-maps";
+import { useState } from "react";
+import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 import type { RegionResult } from "@/lib/types";
 
 const WORLD_GEO = "/data/world.geojson";
@@ -29,21 +29,9 @@ export default function WorldMap({
   selectedStationId?: number | null;
 }) {
   const [hovered, setHovered] = useState<number | null>(null);
-  const [zoom, setZoom] = useState(1);
 
   const leaderColor = diasporaRegion?.leader?.color_hex || "#3b82d6";
   const isTossup = diasporaRegion ? diasporaRegion.margin_pct < 5 : false;
-  // da krugovi ostanu iste veličine na ekranu pri zoomu: radius / zoom
-  const r = (base: number) => base / zoom;
-
-  // Grupiši po državi za tooltip count
-  const byCountry = useMemo(() => {
-    const m = new Map<string, number>();
-    for (const s of diasporaStations as DiasporaStation[]) {
-      m.set(s.country, (m.get(s.country) || 0) + 1);
-    }
-    return m;
-  }, []);
 
   return (
     <div className="relative w-full h-full bg-[#080a0f] overflow-hidden">
@@ -52,19 +40,6 @@ export default function WorldMap({
         projectionConfig={{ scale: 145, center: [15, 38] }}
         style={{ width: "100%", height: "100%" }}
       >
-        <ZoomableGroup
-          center={[15, 38]}
-          zoom={zoom}
-          minZoom={1}
-          maxZoom={6}
-          translateExtent={[
-            [-180, -90],
-            [1000, 600],
-          ]}
-          onMoveEnd={({ zoom: z }) => {
-            if (typeof z === "number") setZoom(z);
-          }}
-        >
           <Geographies geography={WORLD_GEO}>
             {({ geographies }) =>
               geographies
@@ -117,31 +92,30 @@ export default function WorldMap({
                   onClick={() => onSelectStation?.(isSelected ? null : s.id)}
                   style={{ cursor: "pointer" }}
                 >
-                  {/* halo za hover/selected - proporcionalno */}
+                  {/* halo za hover/selected */}
                   {(isHovered || isSelected) && (
-                    <circle r={r(isSelected ? 10 : 8)} fill={leaderColor} opacity={0.18} />
+                    <circle r={isSelected ? 10 : 8} fill={leaderColor} opacity={0.18} />
                   )}
                   {/* spoljni prsten za tossup */}
                   {isToss ? (
                     <>
-                      <circle r={r(isSelected ? 5.5 : 4.5)} fill="#1e232e" stroke={leaderColor} strokeWidth={r(1.2)} />
-                      <circle r={r(isSelected ? 3 : 2.2)} fill={leaderColor} opacity={0.9} />
+                      <circle r={isSelected ? 5.5 : 4.5} fill="#1e232e" stroke={leaderColor} strokeWidth={1.2} />
+                      <circle r={isSelected ? 3 : 2.2} fill={leaderColor} opacity={0.9} />
                     </>
                   ) : (
                     <circle
-                      r={r(isSelected ? 5.5 : 4.2)}
+                      r={isSelected ? 5.5 : 4.2}
                       fill={leaderColor}
                       stroke={isSelected ? "#fff" : "rgba(0,0,0,0.5)"}
-                      strokeWidth={r(isSelected ? 1.2 : 0.6)}
+                      strokeWidth={isSelected ? 1.2 : 0.6}
                       opacity={0.92}
                     />
                   )}
-                  {isHovered && <circle r={r(6)} fill="none" stroke={leaderColor} strokeWidth={r(0.8)} opacity={0.5} />}
+                  {isHovered && <circle r={6} fill="none" stroke={leaderColor} strokeWidth={0.8} opacity={0.5} />}
                 </g>
               </Marker>
             );
           })}
-        </ZoomableGroup>
       </ComposableMap>
 
       {/* Legenda */}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
 import { api } from "@/lib/api";
 import SerbiaMap from "@/components/SerbiaMap";
@@ -149,6 +149,42 @@ export default function Dashboard() {
     [selectedDiasporaStation]
   );
 
+  // Sklopive grupe država u dijaspora panelu
+  const [collapsedCountries, setCollapsedCountries] = useState<Set<string>>(new Set());
+  function toggleCountry(country: string) {
+    setCollapsedCountries((prev) => {
+      const next = new Set(prev);
+      if (next.has(country)) next.delete(country);
+      else next.add(country);
+      return next;
+    });
+  }
+
+  // Auto-scroll na detalje opštine / biračkog mesta kad se izaberu
+  const munDetailRef = useRef<HTMLDivElement>(null);
+  const stationDetailRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (selectedMunicipalityId || selectedRikOpstina) {
+      munDetailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [selectedMunicipalityId, selectedRikOpstina]);
+  useEffect(() => {
+    if (selectedDiasporaStation) {
+      stationDetailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      // otvori grupu države kojoj stanica pripada
+      const all = diasporaStations as unknown as { id: number; country: string }[];
+      const found = all.find((s) => s.id === selectedDiasporaStation);
+      if (found) {
+        setCollapsedCountries((prev) => {
+          if (!prev.has(found.country)) return prev;
+          const next = new Set(prev);
+          next.delete(found.country);
+          return next;
+        });
+      }
+    }
+  }, [selectedDiasporaStation]);
+
   return (
     <main className="flex flex-col h-full w-full">
       {/* Top bar */}
@@ -280,7 +316,8 @@ export default function Dashboard() {
           <div className="flex-1 overflow-y-auto hide-scrollbar px-5 py-5 flex flex-col gap-5">
             {viewMode === "serbia" ? (
               <>
-                {/* Nacionalni pregled */}
+                {/* Nacionalni pregled — samo dok nije izabran region */}
+                {!selectedRegion && (
                 <div>
                   <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-3">Ukupni rezultati</p>
                   {summary ? (
@@ -314,6 +351,7 @@ export default function Dashboard() {
                 </div>
               )}
             </div>
+                )}
 
                 {selectedRegion && selectedRegionData && (
                   <div className="border-t border-white/10 pt-5">
@@ -390,7 +428,7 @@ export default function Dashboard() {
                 )}
 
                 {selectedMunicipalityId && (
-                  <div className="border-t border-white/10 pt-5">
+                  <div ref={munDetailRef} className="border-t border-white/10 pt-5 scroll-mt-5">
                     {activeId && (
                       <MunicipalityPanel electionId={activeId} municipalityId={selectedMunicipalityId} />
                     )}
@@ -398,7 +436,7 @@ export default function Dashboard() {
                 )}
 
                 {!selectedMunicipalityId && selectedRikOpstina && (
-                  <div className="border-t border-white/10 pt-5">
+                  <div ref={munDetailRef} className="border-t border-white/10 pt-5 scroll-mt-5">
                     <div className="rounded-xl bg-white/[0.04] border border-white/10 p-4">
                       <p className="text-base font-semibold text-white leading-tight">{formatPlaceName(selectedRikOpstina.name)}</p>
                       <p className="text-xs text-white/40 mt-1">
@@ -447,7 +485,7 @@ export default function Dashboard() {
                 </div>
 
                 {selectedDiasporaStationData && (
-                  <div className="border-t border-white/10 pt-4">
+                  <div ref={stationDetailRef} className="border-t border-white/10 pt-4 scroll-mt-4">
                     <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">Biračko mesto</p>
                     <div className="rounded-xl bg-white/[0.04] border border-white/10 p-4">
                       <p className="text-sm font-semibold text-white">{selectedDiasporaStationData.city} · {selectedDiasporaStationData.country}</p>
@@ -459,29 +497,48 @@ export default function Dashboard() {
 
                 <div className="border-t border-white/10 pt-4">
                   <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">Ambasade po državama ({diasporaStations.length})</p>
-                  <div className="flex flex-col gap-3 max-h-[320px] overflow-y-auto hide-scrollbar pr-1">
-                    {diasporaByCountry.map(([country, stations]) => (
-                      <div key={country}>
-                        <p className="text-[11px] font-medium text-white/50 mb-1">
-                          {country} · {stations.length} {stations.length === 1 ? "mesto" : "mesta"}
-                        </p>
-                        <div className="flex flex-col gap-1">
-                          {stations.map((s) => (
-                            <button
-                              key={s.id}
-                              onClick={() => setSelectedDiasporaStation(s.id === selectedDiasporaStation ? null : s.id)}
-                              className={`text-left rounded-lg border px-2.5 py-1.5 text-xs transition-colors truncate ${
-                                selectedDiasporaStation === s.id
-                                  ? "bg-white/10 border-white/20 text-white"
-                                  : "bg-white/[0.03] border-white/10 text-white/70 hover:bg-white/[0.06] hover:text-white"
-                              }`}
-                            >
-                              {s.city} — {s.name.slice(0, 48)}
-                            </button>
-                          ))}
-                        </div>
+                  <div className="flex flex-col gap-1.5 max-h-[320px] overflow-y-auto hide-scrollbar pr-1">
+                    {diasporaByCountry.map(([country, stations]) => {
+                      const collapsed = collapsedCountries.has(country);
+                      const hasSelected = stations.some((s) => s.id === selectedDiasporaStation);
+                      return (
+                      <div key={country} className={`rounded-lg border overflow-hidden transition-colors ${hasSelected ? "border-white/20 bg-white/[0.05]" : "border-white/10 bg-white/[0.02]"}`}>
+                        <button
+                          onClick={() => toggleCountry(country)}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-white/[0.04] transition-colors"
+                        >
+                          <svg
+                            className={`w-3 h-3 text-white/40 shrink-0 transition-transform ${collapsed ? "" : "rotate-90"}`}
+                            viewBox="0 0 12 12"
+                            fill="none"
+                          >
+                            <path d="M4.5 2.5L8 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                          <span className="text-xs font-medium text-white/80">{country}</span>
+                          <span className="ml-auto text-[10px] tabular-nums text-white/35 bg-white/[0.06] rounded-full px-1.5 py-0.5">
+                            {stations.length}
+                          </span>
+                        </button>
+                        {!collapsed && (
+                          <div className="flex flex-col gap-1 px-2 pb-2">
+                            {stations.map((s) => (
+                              <button
+                                key={s.id}
+                                onClick={() => setSelectedDiasporaStation(s.id === selectedDiasporaStation ? null : s.id)}
+                                className={`text-left rounded-md border px-2.5 py-1.5 text-xs transition-colors truncate ${
+                                  selectedDiasporaStation === s.id
+                                    ? "bg-white/10 border-white/25 text-white"
+                                    : "border-transparent text-white/65 hover:bg-white/[0.06] hover:text-white"
+                                }`}
+                              >
+                                {s.city} — {s.name.slice(0, 48)}
+                              </button>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
