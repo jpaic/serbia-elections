@@ -31,24 +31,32 @@ export default function MandateChart({ electionId }: { electionId: number }) {
   const total = seated.reduce((s, p) => s + p.seats, 0);
   if (total === 0) return null;
 
-  // Tačke poređane po veličini stranke, s leva na desno
+  // Standardni parlamentarni dijagram (kao u Skupštini / na Vikipediji):
+  // stranke su klinovi od centra ka ivici — najveća kreće s leve strane,
+  // a svaki red seče sve stranke proporcionalno. Zato se pozicije sortiraju
+  // po uglu (pa po poluprečniku), a ne pune red-po-red celim strankama.
   const ordered = [...seated].sort((a, b) => b.seats - a.seats || b.votes - a.votes);
   const flat: typeof ordered = [];
   for (const p of ordered) for (let k = 0; k < p.seats; k++) flat.push(p);
-  const dots: { x: number; y: number; color: string; name: string }[] = [];
-  let cursor = 0;
+  type Pos = { angle: number; R: number };
+  const positions: Pos[] = [];
   ROWS.forEach((count, ri) => {
-    const R = RADII[ri];
-    for (let i = 0; i < count && cursor < flat.length; i++, cursor++) {
-      const party = flat[cursor];
-      const angle = count === 1 ? Math.PI / 2 : Math.PI - (i * Math.PI) / (count - 1);
-      dots.push({
-        x: CX + R * Math.cos(angle),
-        y: CY - R * Math.sin(angle),
-        color: party.color_hex || "#888",
-        name: `${party.short_name || party.name} · ${party.seats}`,
+    for (let i = 0; i < count; i++) {
+      positions.push({
+        angle: count === 1 ? Math.PI / 2 : Math.PI - (i * Math.PI) / (count - 1),
+        R: RADII[ri],
       });
     }
+  });
+  positions.sort((a, b) => b.angle - a.angle || b.R - a.R);
+  const dots = positions.slice(0, flat.length).map((p, k) => {
+    const party = flat[k];
+    return {
+      x: CX + p.R * Math.cos(p.angle),
+      y: CY - p.R * Math.sin(p.angle),
+      color: party.color_hex || "#888",
+      name: `${party.short_name || party.name} · ${party.seats}`,
+    };
   });
 
   return (
