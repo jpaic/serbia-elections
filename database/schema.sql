@@ -49,7 +49,7 @@ CREATE TABLE election_station_codes (
 CREATE TABLE parties (
     id SERIAL PRIMARY KEY,
     election_id INTEGER NOT NULL REFERENCES elections(id),
-    name VARCHAR(200) NOT NULL,
+    name TEXT NOT NULL,                          -- RIK nazivi lista su dugački, VARCHAR(200) je prekratko
     short_name VARCHAR(50),
     ballot_number INTEGER,
     color_hex VARCHAR(7)                      -- za konzistentno bojenje na mapi/grafikonima

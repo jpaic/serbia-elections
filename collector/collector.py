@@ -179,14 +179,23 @@ def validate(raw_results: list[dict]) -> list[dict]:
 
 
 def upsert_results(election_id: int, rows: list[dict]) -> int:
-    # rows sada nose polling_station_id direktno (stabilno), ne rik_station_code
+    # rows nose polling_station_id direktno (stabilno)
     # ali podrži i stari format sa rik_station_code za kompatibilnost
+    if not rows:
+        return 0
     updated = 0
     with engine.begin() as conn:
+        # keširaj party id-jeve jednom (izbegni N upita)
+        party_rows = conn.execute(text(
+            "SELECT id, ballot_number FROM parties WHERE election_id = :eid"
+        ), {"eid": election_id}).fetchall()
+        party_by_ballot = {p.ballot_number: p.id for p in party_rows}
+
+        params = []
+        now = datetime.utcnow()
         for row in rows:
             ps_id = row.get("polling_station_id")
             if ps_id is None:
-                # fallback: reši preko election_station_codes
                 rik_sid = row.get("rik_station_id") or row.get("rik_station_code")
                 if rik_sid is None:
                     continue
@@ -202,39 +211,41 @@ def upsert_results(election_id: int, rows: list[dict]) -> int:
                     continue
                 ps_id = found.polling_station_id
 
-            party = conn.execute(text(
-                "SELECT id FROM parties WHERE election_id = :eid AND ballot_number = :n"
-            ), {"eid": election_id, "n": row["party_ballot_number"]}).fetchone()
-            if not party:
+            pid = party_by_ballot.get(row["party_ballot_number"])
+            if pid is None:
                 log.warning("Nepoznata lista broj %s", row["party_ballot_number"])
                 continue
-
-            conn.execute(text("""
-                INSERT INTO results
-                    (election_id, polling_station_id, party_id, votes,
-                     valid_ballots, invalid_ballots, total_voted, is_processed, ingested_at)
-                VALUES
-                    (:eid, :sid, :pid, :votes, :valid, :invalid, :total, :processed, :now)
-                ON CONFLICT (election_id, polling_station_id, party_id)
-                DO UPDATE SET
-                    votes = EXCLUDED.votes,
-                    valid_ballots = EXCLUDED.valid_ballots,
-                    invalid_ballots = EXCLUDED.invalid_ballots,
-                    total_voted = EXCLUDED.total_voted,
-                    is_processed = EXCLUDED.is_processed,
-                    ingested_at = EXCLUDED.ingested_at
-            """), {
+            params.append({
                 "eid": election_id,
                 "sid": int(ps_id),
-                "pid": party.id,
+                "pid": pid,
                 "votes": row["votes"],
                 "valid": row.get("valid_ballots"),
                 "invalid": row.get("invalid_ballots"),
                 "total": row.get("total_voted"),
                 "processed": row.get("is_processed", False),
-                "now": datetime.utcnow(),
+                "now": now,
             })
-            updated += 1
+
+        # grupni upis u turama od 500 (1 roundtrip po turi umesto po redu)
+        stmt = text("""
+            INSERT INTO results
+                (election_id, polling_station_id, party_id, votes,
+                 valid_ballots, invalid_ballots, total_voted, is_processed, ingested_at)
+            VALUES
+                (:eid, :sid, :pid, :votes, :valid, :invalid, :total, :processed, :now)
+            ON CONFLICT (election_id, polling_station_id, party_id)
+            DO UPDATE SET
+                votes = EXCLUDED.votes,
+                valid_ballots = EXCLUDED.valid_ballots,
+                invalid_ballots = EXCLUDED.invalid_ballots,
+                total_voted = EXCLUDED.total_voted,
+                is_processed = EXCLUDED.is_processed,
+                ingested_at = EXCLUDED.ingested_at
+        """)
+        for i in range(0, len(params), 500):
+            conn.execute(stmt, params[i:i + 500])
+            updated += len(params[i:i + 500])
     return updated
 
 

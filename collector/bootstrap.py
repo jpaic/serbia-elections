@@ -141,18 +141,20 @@ def main():
 
     session = create_session()
 
+    # 0) izbori + liste (brzo, jedna transakcija)
     with engine.begin() as conn:
         election_id = ensure_election(conn, args.election_type, args.election_round, args.election_date, args.election_name)
 
-        # 1) regions
-        regions_resp = get_regions(session, args.election_type, args.election_round)
-        regions = regions_resp.get("regions") or {}
-        if not regions:
-            log.error("get-regions vratio prazno: %s", regions_resp)
-            return
-        log.info("Regioni: %s", ", ".join(f"{k}={v}" for k, v in regions.items()))
+    # 1) regions (samo čitanje sa RIK-a, bez baze)
+    regions_resp = get_regions(session, args.election_type, args.election_round)
+    regions = regions_resp.get("regions") or {}
+    if not regions:
+        log.error("get-regions vratio prazno: %s", regions_resp)
+        return
+    log.info("Regioni: %s", ", ".join(f"{k}={v}" for k, v in regions.items()))
 
-        # 2) parties — iz nacionalnog get_results
+    # 2) parties — iz nacionalnog get_results
+    with engine.begin() as conn:
         raw_national = get_results_raw(session, args.election_type, args.election_round)
         table = parse_table_data(raw_national)
         if table:
@@ -162,47 +164,85 @@ def main():
         else:
             log.warning("Nema table_data za parties (možda izbori bez rezultata kao 2026)")
 
-        # 3) municipalities + stations + election_station_codes
-        total_stations = 0
-        for region_id_str, region_name in regions.items():
-            try:
-                region_id = int(region_id_str)
-            except ValueError:
-                continue
-            # preskačemo zatvore/inostranstvo ako želiš čistu mapu, ali bootstrap ih upisuje svakako
-            muns = get_municipalities(session, args.election_type, args.election_round, region_id)
-            log.info("Region %s (%s): %d opština", region_id, region_name, len(muns))
-            for mun in muns:
-                mun_value = mun["value"]
-                mun_data_id = mun["data_id"]
-                mun_name = mun["name"]
-                municipality_id = ensure_municipality(conn, region_name, mun_value, mun_data_id, mun_name)
-
-                stations = get_election_stations(session, args.election_type, args.election_round, region_id, mun_value)
-                for rik_sid_str, full_name in stations.items():
-                    try:
-                        rik_sid = int(rik_sid_str)
-                    except ValueError:
-                        continue
-                    ps_id = ensure_polling_station(conn, municipality_id, rik_sid, full_name)
-                    # election_station_codes
-                    conn.execute(text("""
-                        INSERT INTO election_station_codes (election_id, polling_station_id, rik_station_id)
-                        VALUES (:eid, :psid, :rik)
-                        ON CONFLICT (election_id, polling_station_id) DO UPDATE SET rik_station_id = EXCLUDED.rik_station_id
-                    """), {"eid": election_id, "psid": ps_id, "rik": rik_sid})
-                    # takođe spreči duplikat rik_station_id unutar istog kruga
-                    total_stations += 1
-
-        log.info("Gotovo. election_id=%s ukupno mapirano biračkih mesta: %s", election_id, total_stations)
-        # prebaci status ako su izbori u prošlosti
+    # 3) municipalities + stations + election_station_codes
+    #    KOMIT PO OPŠTINI: prekid ne briše urađeno, ponovno pokretanje nastavlja (idempotentno).
+    total_stations = 0
+    done_muns = 0
+    for region_id_str, region_name in regions.items():
         try:
-            ed = datetime.strptime(args.election_date, "%Y-%m-%d").date()
-            from datetime import date
-            if ed < date.today():
+            region_id = int(region_id_str)
+        except ValueError:
+            continue
+        muns = get_municipalities(session, args.election_type, args.election_round, region_id)
+        log.info("Region %s (%s): %d opština", region_id, region_name, len(muns))
+        for mun in muns:
+            mun_value = mun["value"]
+            mun_data_id = mun["data_id"]
+            mun_name = mun["name"]
+            try:
+                stations = get_election_stations(session, args.election_type, args.election_round, region_id, mun_value)
+            except Exception as e:
+                log.warning("get-election-stations greška za %s: %s (preskačem)", mun_name, e)
+                continue
+            rik_ids = []
+            for rik_sid_str in stations:
+                try:
+                    rik_ids.append(int(rik_sid_str))
+                except ValueError:
+                    continue
+
+            with engine.begin() as conn:
+                municipality_id = ensure_municipality(conn, region_name, mun_value, mun_data_id, mun_name)
+                if stations:
+                    # grupni upis mesta (1 roundtrip), pa grupni upis kodova (1 roundtrip)
+                    conn.execute(text("""
+                        INSERT INTO polling_stations (municipality_id, name, rik_code)
+                        VALUES (:mid, :name, :code)
+                        ON CONFLICT (municipality_id, name) DO NOTHING
+                    """), [
+                        {"mid": municipality_id, "name": full_name, "code": str(rik_sid)}
+                        for rik_sid, full_name in
+                        ((int(k), v) for k, v in stations.items() if k.lstrip("-").isdigit())
+                    ])
+                    id_rows = conn.execute(text(
+                        "SELECT id, rik_code FROM polling_stations WHERE municipality_id = :mid"
+                    ), {"mid": municipality_id}).fetchall()
+                    # mapiraj po rik_code (stabilno za ovaj krug); fallback po imenu
+                    by_code = {r.rik_code: r.id for r in id_rows}
+                    by_name = dict(conn.execute(text(
+                        "SELECT name, id FROM polling_stations WHERE municipality_id = :mid"
+                    ), {"mid": municipality_id}).fetchall())
+                    code_params = []
+                    for rik_sid_str, full_name in stations.items():
+                        sid = by_code.get(str(rik_sid_str)) or by_name.get(full_name)
+                        if sid is None:
+                            continue
+                        try:
+                            code_params.append({"eid": election_id, "psid": int(sid), "rik": int(rik_sid_str)})
+                        except ValueError:
+                            continue
+                    if code_params:
+                        conn.execute(text("""
+                            INSERT INTO election_station_codes (election_id, polling_station_id, rik_station_id)
+                            VALUES (:eid, :psid, :rik)
+                            ON CONFLICT (election_id, polling_station_id)
+                            DO UPDATE SET rik_station_id = EXCLUDED.rik_station_id
+                        """), code_params)
+            total_stations += len(rik_ids)
+            done_muns += 1
+            if done_muns % 20 == 0:
+                log.info("Progres: %d opština, %d mesta...", done_muns, total_stations)
+
+    log.info("Gotovo. election_id=%s ukupno mapirano biračkih mesta: %s", election_id, total_stations)
+    # prebaci status ako su izbori u prošlosti
+    try:
+        ed = datetime.strptime(args.election_date, "%Y-%m-%d").date()
+        from datetime import date
+        if ed < date.today():
+            with engine.begin() as conn:
                 conn.execute(text("UPDATE elections SET status='closed' WHERE id=:id AND status='upcoming'"), {"id": election_id})
-        except Exception:
-            pass
+    except Exception:
+        pass
 
 
 if __name__ == "__main__":
