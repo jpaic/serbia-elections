@@ -15,17 +15,36 @@ from sqlalchemy import create_engine, text
 DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://localhost/izbori")
 engine = create_engine(DATABASE_URL)
 
+# rzs_code je RIK data-id (1-na-1 sa RIK mapom); regioni su RIK nazivi (5).
+# Palilula Beograd=70203 se time razlikuje od Palilule Nis (71323).
+# "Nis" je ceo grad bez 1-na-1 RIK pandana (RIK ima 5 niskih opstina).
 MUNICIPALITIES = [
-    ("00001", "Beograd", "Grad Beograd", 1680000),
-    ("00002", "Novi Sad", "Južnobački okrug", 340000),
-    ("00003", "Niš", "Nišavski okrug", 260000),
-    ("00004", "Kragujevac", "Šumadijski okrug", 170000),
-    ("00005", "Subotica", "Severnobački okrug", 140000),
-    ("00006", "Zrenjanin", "Srednjebanatski okrug", 120000),
-    ("00007", "Pančevo", "Južnobanatski okrug", 120000),
-    ("00008", "Čačak", "Moravički okrug", 110000),
-    ("00009", "Kraljevo", "Raški okrug", 120000),
-    ("00010", "Novi Pazar", "Raški okrug", 100000),
+    ("70092", "Barajevo", "Београдски регион", 27000),
+    ("70254", "Čukarica", "Београдски регион", 180000),
+    ("70122", "Grocka", "Београдски регион", 85000),
+    ("70165", "Lazarevac", "Београдски регион", 58000),
+    ("70173", "Mladenovac", "Београдски регион", 52000),
+    ("70181", "Novi Beograd", "Београдски регион", 210000),
+    ("70190", "Obrenovac", "Београдски регион", 72000),
+    ("70203", "Palilula", "Београдски регион", 175000),
+    ("70211", "Rakovica", "Београдски регион", 108000),
+    ("70220", "Savski venac", "Београдски регион", 39000),
+    ("70238", "Sopot", "Београдски регион", 20000),
+    ("70246", "Stari grad", "Београдски регион", 48000),
+    ("71293", "Surčin", "Београдски регион", 45000),
+    ("70106", "Voždovac", "Београдски регион", 165000),
+    ("70114", "Vračar", "Београдски регион", 56000),
+    ("70157", "Zemun", "Београдски регион", 170000),
+    ("70149", "Zvezdara", "Београдски регион", 172000),
+    ("89010", "Novi Sad", "Регион Војводине", 340000),
+    ("80314", "Pančevo", "Регион Војводине", 120000),
+    ("80438", "Subotica", "Регион Војводине", 140000),
+    ("80152", "Zrenjanin", "Регион Војводине", 120000),
+    ("70645", "Kragujevac", "Регион Шумадије и Западне Србије", 170000),
+    ("70653", "Kraljevo", "Регион Шумадије и Западне Србије", 120000),
+    ("70874", "Novi Pazar", "Регион Шумадије и Западне Србије", 100000),
+    ("71242", "Čačak", "Регион Шумадије и Западне Србије", 110000),
+    ("00003", "Niš", "Регион Јужне и Источне Србије", 260000),
 ]
 
 PARTIES = [

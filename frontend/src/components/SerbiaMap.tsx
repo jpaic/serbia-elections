@@ -121,12 +121,16 @@ export default function SerbiaMap({
   }, [municipalities]);
 
   function munForRik(rikId: string, rikName: string): MunicipalityRow | undefined {
-    // 1. direktno po data-id (nakon bootstrap-a rzs_code == RIK id)
+    // 1. direktno po data-id (rzs_code == RIK id) - globalno jedinstveno, npr. Palilula BG=70203 vs Nis=71323
     const byId = munByRikId.get(rikId);
     if (byId) return byId;
-    // 2. po imenu (transliteracija)
+    // 2. po imenu SAMO unutar izabranog regiona - sprecava da se npr. niska Palilula
+    //    zalepi za beogradsku kad kodovi nisu RIK (demo podaci)
     const norm = normalizeRik(rikName);
-    return munByNorm.get(norm);
+    const cand = munByNorm.get(norm);
+    if (cand && selectedRegion && cand.region === selectedRegion) return cand;
+    if (cand && !selectedRegion) return cand;
+    return undefined;
   }
 
   const tossupColors = useMemo(() => {
