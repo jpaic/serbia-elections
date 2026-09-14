@@ -1,6 +1,8 @@
 export interface Election {
   id: number;
   slug: string | null;
+  stations_with_results: number;
+  total_votes: number;
   name: string;
   election_type: string;
   election_date: string;

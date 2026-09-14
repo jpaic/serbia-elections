@@ -70,9 +70,13 @@ export default function Dashboard() {
 
   const { data: elections } = useSWR("elections", api.elections);
   const [electionId, setElectionId] = useState<number | null>(null);
-  // Podrazumevano demo dataset, inace prvi sa liste
+  // Podrazumevano dataset koji ima podatke, inace prvi sa liste
   const activeId =
-    electionId ?? elections?.find((e) => e.slug === "demo")?.id ?? elections?.[0]?.id ?? null;
+    electionId ??
+    elections?.find((e) => (e.stations_with_results ?? 0) > 0)?.id ??
+    elections?.[0]?.id ??
+    null;
+
 
   function pickElection(id: number) {
     setElectionId(id);
@@ -101,6 +105,8 @@ export default function Dashboard() {
   );
 
   const error = summaryError || municipalitiesError || regionsError;
+  const isLoadingData =
+    !!activeId && !error && (!summary || !regions || !municipalities);
 
   const regionMunicipalities = useMemo(() => {
     if (!selectedRegion || !municipalities) return [];
@@ -163,22 +169,30 @@ export default function Dashboard() {
         <StatusBadge status={summary?.election.status} />
 
         {/* Dataset selector */}
-        {elections && elections.length > 0 && (
-          <div className="flex items-center rounded-full bg-white/[0.06] border border-white/10 p-1 ml-4">
-            {elections.map((e) => (
-              <button
-                key={e.id}
-                title={e.name}
-                onClick={() => pickElection(e.id)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                  (activeId ?? -1) === e.id ? "bg-white text-black" : "text-white/60 hover:text-white"
-                }`}
-              >
-                {datasetLabel(e)}
-              </button>
+        <div className="relative ml-4 shrink-0">
+          <select
+            aria-label="Izbor dataseta"
+            value={activeId ?? ""}
+            disabled={!elections || elections.length === 0}
+            onChange={(e) => pickElection(Number(e.target.value))}
+            className="appearance-none rounded-full bg-white/[0.06] border border-white/10 pl-4 pr-9 py-1.5 text-xs font-medium text-white outline-none cursor-pointer hover:border-white/25 focus:border-white/30 transition-colors disabled:opacity-50 disabled:cursor-wait"
+          >
+            {!elections && <option value="">Učitavanje…</option>}
+            {elections?.map((e) => (
+              <option key={e.id} value={e.id} className="bg-[#0e1117] text-white">
+                {e.slug === "demo" ? `Demo — ${e.name}` : e.name}
+                {(e.stations_with_results ?? 0) === 0 ? " (nema podataka)" : ""}
+              </option>
             ))}
-          </div>
-        )}
+          </select>
+          <svg
+            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/50"
+            viewBox="0 0 16 16"
+            fill="none"
+          >
+            <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
 
         {/* View toggle */}
         <div className="flex items-center rounded-full bg-white/[0.06] border border-white/10 p-1 ml-4">
@@ -227,6 +241,12 @@ export default function Dashboard() {
       <div className="flex flex-1 min-h-0">
         {/* Map */}
         <section className="relative flex-1 min-w-0 bg-[#0b0d12]">
+          {isLoadingData && (
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-[#0b0d12]/85 backdrop-blur-sm">
+              <span className="w-8 h-8 rounded-full border-2 border-white/15 border-t-white/80 animate-spin" />
+              <p className="text-xs text-white/60">Učitavanje podataka…</p>
+            </div>
+          )}
           {viewMode === "serbia" ? (
             regions ? (
               <SerbiaMap
@@ -283,10 +303,17 @@ export default function Dashboard() {
                         </p>
                       )}
                     </>
-                  ) : (
-                    <p className="text-sm text-white/30">Učitavanje…</p>
-                  )}
+              ) : (
+                <div className="flex flex-col gap-2.5 animate-pulse">
+                  <div className="h-3 rounded bg-white/10 w-2/3" />
+                  <div className="h-1.5 rounded-full bg-white/10" />
+                  <div className="h-3 rounded bg-white/10 w-1/2" />
+                  <div className="h-1.5 rounded-full bg-white/10" />
+                  <div className="h-3 rounded bg-white/10 w-3/5" />
+                  <div className="h-1.5 rounded-full bg-white/10" />
                 </div>
+              )}
+            </div>
 
                 {selectedRegion && selectedRegionData && (
                   <div className="border-t border-white/10 pt-5">

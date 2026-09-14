@@ -69,7 +69,17 @@ def fetchone(query, params=None):
 
 @app.get("/elections")
 def list_elections():
-    return fetchall("SELECT id, slug, name, election_type, election_date, status FROM elections ORDER BY election_date DESC")
+    return fetchall(
+        """
+        SELECT e.id, e.slug, e.name, e.election_type, e.election_date, e.status,
+               COUNT(DISTINCT r.polling_station_id) AS stations_with_results,
+               COALESCE(SUM(r.votes), 0) AS total_votes
+        FROM elections e
+        LEFT JOIN results r ON r.election_id = e.id AND r.is_processed
+        GROUP BY e.id, e.slug, e.name, e.election_type, e.election_date, e.status
+        ORDER BY e.election_date DESC
+        """
+    )
 
 
 @app.get("/elections/{election_id}/summary")
