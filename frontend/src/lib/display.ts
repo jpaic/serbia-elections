@@ -1,3 +1,10 @@
+// Glagol pobednika: sadašnje vreme dok traju, prošlo za završene izbore
+export function leaderVerb(status?: string, capitalized = false): string {
+  const past = status === "closed";
+  if (capitalized) return past ? "Pobedio" : "Vodi";
+  return past ? "pobedio" : "vodi";
+}
+
 // "ПАЛИЛУЛА" -> "Палилула", "ПЕТРОВАЦ НА МЛАВИ" -> "Петровац на Млави"
 const SMALL_WORDS = new Set(["на", "у", "и", "са", "с", "из", "од", "до", "за", "по", "о", "а"]);
 export function formatPlaceName(name: string): string {

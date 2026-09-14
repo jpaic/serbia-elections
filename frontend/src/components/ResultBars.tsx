@@ -8,9 +8,12 @@ const CENSUS_PCT = 3;
 export default function ResultBars({
   results,
   compact = false,
+  pastTense = false,
 }: {
   results: PartyResult[];
   compact?: boolean;
+  // Za završene izbore bedž glasi "Pobedio" umesto "Vodi"
+  pastTense?: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -45,7 +48,7 @@ export default function ResultBars({
               </span>
               {i === 0 && (
                 <span className="text-[10px] uppercase tracking-wide text-emerald-400/90 font-semibold shrink-0">
-                  Vodi
+                  {pastTense ? "Pobedio" : "Vodi"}
                 </span>
               )}
             </div>

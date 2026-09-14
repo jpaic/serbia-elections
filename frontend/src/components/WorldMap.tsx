@@ -23,11 +23,14 @@ export default function WorldMap({
   diasporaRegion,
   onSelectStation,
   selectedStationId,
+  electionStatus,
 }: {
   diasporaRegion?: RegionResult | null;
   onSelectStation?: (id: number | null) => void;
   selectedStationId?: number | null;
+  electionStatus?: string;
 }) {
+  const verb = electionStatus === "closed" ? "pobedio" : "vodi";
   const [hovered, setHovered] = useState<number | null>(null);
 
   const leaderColor = diasporaRegion?.leader?.color_hex || "#3b82d6";
@@ -122,7 +125,7 @@ export default function WorldMap({
       <div className="absolute bottom-3 right-3 rounded-xl bg-black/70 backdrop-blur border border-white/10 px-3 py-2 flex items-center gap-2">
         <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: leaderColor }} />
         <span className="text-[11px] text-white/70">
-          Dijaspora {diasporaRegion?.leader ? `· ${diasporaRegion.leader.short_name} vodi ${diasporaRegion.leader.pct.toFixed(1)}%` : "· nema podataka"}
+          Dijaspora {diasporaRegion?.leader ? `· ${diasporaRegion.leader.short_name} ${verb} ${diasporaRegion.leader.pct.toFixed(1)}%` : "· nema podataka"}
         </span>
         <span className="text-[10px] text-white/30 ml-2">{(diasporaStations as DiasporaStation[]).length} biračkih mesta</span>
       </div>
@@ -137,7 +140,7 @@ export default function WorldMap({
             <p className="text-[11px] text-white/60 truncate max-w-[260px]">{s.name}</p>
             {diasporaRegion?.leader && (
               <p className="text-[11px] text-white/40 mt-1">
-                Ukupno dijaspora: {diasporaRegion.leader.short_name} {diasporaRegion.leader.pct.toFixed(1)}% (margina +{diasporaRegion.margin_pct.toFixed(1)}pp)
+                Ukupno dijaspora: {diasporaRegion.leader.short_name} {verb} {diasporaRegion.leader.pct.toFixed(1)}% (margina +{diasporaRegion.margin_pct.toFixed(1)}pp)
               </p>
             )}
           </div>

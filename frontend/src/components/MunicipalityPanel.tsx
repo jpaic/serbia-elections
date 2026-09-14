@@ -7,9 +7,11 @@ import ResultBars from "./ResultBars";
 export default function MunicipalityPanel({
   electionId,
   municipalityId,
+  pastTense = false,
 }: {
   electionId: number;
   municipalityId: number;
+  pastTense?: boolean;
 }) {
   const { data, error, isLoading } = useSWR(
     ["municipality-detail", electionId, municipalityId],
@@ -31,7 +33,7 @@ export default function MunicipalityPanel({
               {data.municipality.registered_voters?.toLocaleString("sr-RS")} birača
             </span>
           </div>
-          <ResultBars results={data.results} />
+          <ResultBars results={data.results} pastTense={pastTense} />
         </>
       )}
     </div>

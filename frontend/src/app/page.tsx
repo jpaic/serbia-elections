@@ -9,7 +9,7 @@ import WorldMap from "@/components/WorldMap";
 import ResultBars from "@/components/ResultBars";
 import MunicipalityPanel from "@/components/MunicipalityPanel";
 import { getTier } from "@/lib/colorScale";
-import { formatPlaceName } from "@/lib/display";
+import { formatPlaceName, leaderVerb } from "@/lib/display";
 import diasporaStations from "../../public/data/diaspora-stations.json";
 
 const REFRESH_MS = 30000;
@@ -203,6 +203,8 @@ export default function Dashboard() {
               ? "Dijaspora · 81 biračko mesto u 35 država"
               : selectedRegion
               ? selectedRegion
+              : summary?.election.status === "closed"
+              ? "Konačni rezultati · klik na okrug za detalje"
               : "Rezultati uživo · klik na okrug za detalje"}
           </p>
         </div>
@@ -266,7 +268,7 @@ export default function Dashboard() {
           <Metric label="Izlaznost" value={summary ? `${summary.turnout_pct.toFixed(1)}%` : "—"} />
           {summary && viewMode === "serbia" && (
             <div className="hidden sm:flex items-center gap-2 text-[11px] text-white/35 border-l border-white/10 pl-6">
-              <span className="tabular-nums">{summary.results[0]?.short_name || ""} vodi</span>
+              <span className="tabular-nums">{summary.results[0]?.short_name || ""} {leaderVerb(summary.election.status)}</span>
             </div>
           )}
         </div>
@@ -313,6 +315,7 @@ export default function Dashboard() {
               diasporaRegion={diasporaRegion}
               selectedStationId={selectedDiasporaStation}
               onSelectStation={setSelectedDiasporaStation}
+              electionStatus={summary?.election.status}
             />
           )}
         </section>
@@ -333,7 +336,7 @@ export default function Dashboard() {
                         <MiniStat label="Izlaznost" value={`${summary.turnout_pct.toFixed(1)}%`} />
                         <MiniStat label="Biračkih mesta" value={`${summary.processed_pct.toFixed(0)}%`} />
                       </div>
-                      <ResultBars results={summary.results} />
+                      <ResultBars results={summary.results} pastTense={summary.election.status === "closed"} />
                       {summary.results.length === 0 && (
                         <p className="text-[11px] text-white/30 mt-2">
                           Nema podataka za ovaj dataset — biće popunjeno kad krene unos rezultata.
@@ -397,14 +400,14 @@ export default function Dashboard() {
                       <div className="rounded-lg bg-white/[0.04] border border-white/10 px-3 py-2.5 mb-3 flex items-center gap-2">
                         <span className="w-3 h-3 rounded-full shrink-0" style={{ background: selectedRegionData.leader.color_hex || "#888" }} />
                         <div className="min-w-0">
-                          <p className="text-xs font-medium text-white truncate">{selectedRegionData.leader.short_name} vodi</p>
+                          <p className="text-xs font-medium text-white truncate">{selectedRegionData.leader.short_name} {leaderVerb(summary?.election.status)}</p>
                           <p className="text-[11px] text-white/50 truncate">{selectedRegionData.leader.name}</p>
                         </div>
                         <span className="ml-auto text-sm font-semibold text-white tabular-nums">{selectedRegionData.leader.pct.toFixed(1)}%</span>
                       </div>
                     )}
 
-                    <ResultBars results={selectedRegionData.results} />
+                    <ResultBars results={selectedRegionData.results} pastTense={summary?.election.status === "closed"} />
 
                     <div className="mt-4">
                       <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">
@@ -439,7 +442,7 @@ export default function Dashboard() {
                 {selectedMunicipalityId && (
                   <div ref={munDetailRef} className="border-t border-white/10 pt-5 scroll-mt-5">
                     {activeId && (
-                      <MunicipalityPanel electionId={activeId} municipalityId={selectedMunicipalityId} />
+                      <MunicipalityPanel electionId={activeId} municipalityId={selectedMunicipalityId} pastTense={summary?.election.status === "closed"} />
                     )}
                   </div>
                 )}
@@ -483,7 +486,7 @@ export default function Dashboard() {
                           </div>
                         )}
                       </div>
-                      <ResultBars results={diasporaRegion.results} compact />
+                      <ResultBars results={diasporaRegion.results} compact pastTense={summary?.election.status === "closed"} />
                       <p className="text-[11px] text-white/30 mt-2">
                         81 biračko mesto u ambasadama i konzulatima širom sveta.
                       </p>
