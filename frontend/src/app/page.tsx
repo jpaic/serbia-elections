@@ -268,12 +268,24 @@ export default function Dashboard() {
           <Metric label="Obrađeno" value={summary ? `${summary.processed_pct.toFixed(1)}%` : "—"} />
           <Metric label="Izlaznost" value={summary ? `${summary.turnout_pct.toFixed(1)}%` : "—"} />
           {summary && viewMode === "serbia" && summary.results[0] && (
-            <div className="hidden sm:flex items-center gap-2 text-[11px] text-white/35 border-l border-white/10 pl-6 flex-1 min-w-0">
+            <div className="hidden sm:flex items-center gap-2 text-[11px] border-l border-white/10 pl-6 flex-1 min-w-0">
               <span
-                title={`${summary.results[0].name} — ${leaderVerb(summary.election.status, true).toUpperCase()}`}
-                className="tabular-nums leading-snug line-clamp-2"
+                title={summary.results[0].name}
+                className="tabular-nums leading-snug line-clamp-2 text-white/35"
               >
-                {summary.results[0].name} {leaderVerb(summary.election.status, true).toUpperCase()}
+                {summary.results[0].name}
+              </span>
+              <span
+                className={`shrink-0 text-[10px] font-bold tracking-wide px-2 py-1 rounded-full border ${
+                  summary.election.status === "closed"
+                    ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+                    : "bg-red-500/15 text-red-400 border-red-500/30"
+                }`}
+              >
+                {summary.election.status === "live" && (
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 animate-pulse align-middle" />
+                )}
+                {leaderVerb(summary.election.status, true).toUpperCase()}
               </span>
             </div>
           )}
