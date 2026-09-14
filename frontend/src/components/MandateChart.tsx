@@ -3,12 +3,13 @@
 import useSWR from "swr";
 import { api } from "@/lib/api";
 
-// Polukružna raspodela: spolja veći, unutra manji redovi (zbir mora biti 250)
-const ROWS = [56, 50, 44, 38, 33, 29];
-const RADII = [185, 160, 135, 110, 85, 60];
+// Polukružna raspodela kao u srpskim medijima: 10 redova sa ravnomernom
+// gustinom (svako mesto ~jednak luk), krupnije tačke. Zbir redova je 250.
+const ROWS = [39, 36, 33, 30, 27, 23, 20, 17, 14, 11];
+const RADII = [185, 170, 155, 140, 125, 110, 95, 80, 65, 50];
 const CX = 200;
 const CY = 200;
-const DOT_R = 3;
+const DOT_R = 4.5;
 
 export default function MandateChart({ electionId }: { electionId: number }) {
   const { data, error, isLoading } = useSWR(
