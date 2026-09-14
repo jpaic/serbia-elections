@@ -58,6 +58,8 @@ export interface RegionResult {
   processed_stations: number;
   processed_pct: number;
   turnout_pct: number;
+  total_voted: number | null;
+  registered_voters: number | null;
   leader: PartyResult | null;
   margin_pct: number;
   results: PartyResult[];

@@ -149,17 +149,6 @@ export default function Dashboard() {
     [selectedDiasporaStation]
   );
 
-  // Sklopive grupe država u dijaspora panelu
-  const [collapsedCountries, setCollapsedCountries] = useState<Set<string>>(new Set());
-  function toggleCountry(country: string) {
-    setCollapsedCountries((prev) => {
-      const next = new Set(prev);
-      if (next.has(country)) next.delete(country);
-      else next.add(country);
-      return next;
-    });
-  }
-
   // Auto-scroll na detalje opštine / biračkog mesta kad se izaberu
   const munDetailRef = useRef<HTMLDivElement>(null);
   const stationDetailRef = useRef<HTMLDivElement>(null);
@@ -171,17 +160,6 @@ export default function Dashboard() {
   useEffect(() => {
     if (selectedDiasporaStation) {
       stationDetailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      // otvori grupu države kojoj stanica pripada
-      const all = diasporaStations as unknown as { id: number; country: string }[];
-      const found = all.find((s) => s.id === selectedDiasporaStation);
-      if (found) {
-        setCollapsedCountries((prev) => {
-          if (!prev.has(found.country)) return prev;
-          const next = new Set(prev);
-          next.delete(found.country);
-          return next;
-        });
-      }
     }
   }, [selectedDiasporaStation]);
 
@@ -362,6 +340,9 @@ export default function Dashboard() {
                         <p className="text-[11px] text-white/40 tabular-nums">
                           {selectedRegionData.processed_stations}/{selectedRegionData.total_stations} BM · {selectedRegionData.processed_pct.toFixed(0)}% obrađeno
                         </p>
+                        <p className="text-[11px] text-white/40 tabular-nums mt-0.5">
+                          {(selectedRegionData.registered_voters ?? 0).toLocaleString("sr-RS")} birača · {(selectedRegionData.total_voted ?? 0).toLocaleString("sr-RS")} izašlih
+                        </p>
                       </div>
                       {selectedRegionData.leader && (
                         <span
@@ -395,7 +376,7 @@ export default function Dashboard() {
                       </div>
                     )}
 
-                    <ResultBars results={selectedRegionData.results} compact />
+                    <ResultBars results={selectedRegionData.results} />
 
                     <div className="mt-4">
                       <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">
@@ -496,50 +477,31 @@ export default function Dashboard() {
                 )}
 
                 <div className="border-t border-white/10 pt-4">
-                  <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">Ambasade po državama ({diasporaStations.length})</p>
-                  <div className="flex flex-col gap-1.5 max-h-[320px] overflow-y-auto hide-scrollbar pr-1">
-                    {diasporaByCountry.map(([country, stations]) => {
-                      const collapsed = collapsedCountries.has(country);
-                      const hasSelected = stations.some((s) => s.id === selectedDiasporaStation);
-                      return (
-                      <div key={country} className={`rounded-lg border overflow-hidden transition-colors ${hasSelected ? "border-white/20 bg-white/[0.05]" : "border-white/10 bg-white/[0.02]"}`}>
-                        <button
-                          onClick={() => toggleCountry(country)}
-                          className="w-full flex items-center gap-2 px-3 py-2 text-left hover:bg-white/[0.04] transition-colors"
-                        >
-                          <svg
-                            className={`w-3 h-3 text-white/40 shrink-0 transition-transform ${collapsed ? "" : "rotate-90"}`}
-                            viewBox="0 0 12 12"
-                            fill="none"
-                          >
-                            <path d="M4.5 2.5L8 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                          <span className="text-xs font-medium text-white/80">{country}</span>
-                          <span className="ml-auto text-[10px] tabular-nums text-white/35 bg-white/[0.06] rounded-full px-1.5 py-0.5">
-                            {stations.length}
-                          </span>
-                        </button>
-                        {!collapsed && (
-                          <div className="flex flex-col gap-1 px-2 pb-2">
-                            {stations.map((s) => (
-                              <button
-                                key={s.id}
-                                onClick={() => setSelectedDiasporaStation(s.id === selectedDiasporaStation ? null : s.id)}
-                                className={`text-left rounded-md border px-2.5 py-1.5 text-xs transition-colors truncate ${
-                                  selectedDiasporaStation === s.id
-                                    ? "bg-white/10 border-white/25 text-white"
-                                    : "border-transparent text-white/65 hover:bg-white/[0.06] hover:text-white"
-                                }`}
-                              >
-                                {s.city} — {s.name.slice(0, 48)}
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                      );
-                    })}
-                  </div>
+                  <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">
+                    Biračko mesto ({diasporaStations.length})
+                  </p>
+                  <select
+                    value={selectedDiasporaStation ?? ""}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      setSelectedDiasporaStation(v ? Number(v) : null);
+                    }}
+                    className="w-full rounded-lg bg-white/[0.04] border border-white/10 px-3 py-2 text-xs text-white outline-none focus:border-white/30 cursor-pointer"
+                  >
+                    <option value="">Izaberi ambasadu…</option>
+                    {diasporaByCountry.map(([country, stations]) => (
+                      <optgroup key={country} label={`${country} (${stations.length})`}>
+                        {stations.map((s) => (
+                          <option key={s.id} value={s.id} className="bg-[#0e1117]">
+                            {s.city} — {s.name.slice(0, 44)}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  </select>
+                  <p className="text-[11px] text-white/30 mt-1.5">
+                    Ili klikni direktno na tačku na mapi.
+                  </p>
                 </div>
 
                 <div className="border-t border-white/10 pt-4">
