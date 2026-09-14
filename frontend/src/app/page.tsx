@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
 import { api } from "@/lib/api";
 import SerbiaMap from "@/components/SerbiaMap";
+import ElectionPicker from "@/components/ElectionPicker";
 import WorldMap from "@/components/WorldMap";
 import ResultBars from "@/components/ResultBars";
 import MunicipalityPanel from "@/components/MunicipalityPanel";
@@ -68,14 +69,19 @@ export default function Dashboard() {
   const [selectedRikOpstina, setSelectedRikOpstina] = useState<{ id: string; name: string } | null>(null);
   const [selectedDiasporaStation, setSelectedDiasporaStation] = useState<number | null>(null);
 
-  const { data: elections } = useSWR("elections", api.elections);
+  const { data: elections, error: electionsError, isLoading: electionsLoading } = useSWR("elections", api.elections);
   const [electionId, setElectionId] = useState<number | null>(null);
-  // Podrazumevano dataset koji ima podatke, inace prvi sa liste
-  const activeId =
-    electionId ??
-    elections?.find((e) => (e.stations_with_results ?? 0) > 0)?.id ??
-    elections?.[0]?.id ??
-    null;
+  // Početni ekran za izbor; dashboard se otvara tek na klik (nema automatskog defaulta)
+  const activeId = electionId;
+
+  function backToLanding() {
+    setElectionId(null);
+    setSelectedRegion(null);
+    setSelectedMunicipalityId(null);
+    setSelectedRikOpstina(null);
+    setSelectedDiasporaStation(null);
+    setViewMode("serbia");
+  }
 
 
   function pickElection(id: number) {
@@ -163,10 +169,31 @@ export default function Dashboard() {
     }
   }, [selectedDiasporaStation]);
 
+  if (activeId === null) {
+    return (
+      <main className="flex flex-col h-full w-full">
+        <ElectionPicker
+          elections={elections}
+          isLoading={electionsLoading && !electionsError}
+          onPick={pickElection}
+        />
+      </main>
+    );
+  }
+
   return (
     <main className="flex flex-col h-full w-full">
       {/* Top bar */}
       <header className="flex items-center gap-4 px-5 py-3 border-b border-white/10 bg-[#0e1117] shrink-0">
+        <button
+          onClick={backToLanding}
+          title="Nazad na izbor izbora"
+          className="shrink-0 w-8 h-8 rounded-full bg-white/[0.06] border border-white/10 text-white/60 hover:text-white hover:border-white/25 transition-colors flex items-center justify-center"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+            <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
         <div className="min-w-0">
           <h1 className="text-[15px] font-semibold text-white truncate">
             {summary?.election.name || "Izbori"}
