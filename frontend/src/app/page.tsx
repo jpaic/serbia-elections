@@ -266,9 +266,14 @@ export default function Dashboard() {
         <div className="flex items-center gap-6 ml-auto">
           <Metric label="Obrađeno" value={summary ? `${summary.processed_pct.toFixed(1)}%` : "—"} />
           <Metric label="Izlaznost" value={summary ? `${summary.turnout_pct.toFixed(1)}%` : "—"} />
-          {summary && viewMode === "serbia" && (
-            <div className="hidden sm:flex items-center gap-2 text-[11px] text-white/35 border-l border-white/10 pl-6">
-              <span className="tabular-nums">{summary.results[0]?.short_name || ""} {leaderVerb(summary.election.status)}</span>
+          {summary && viewMode === "serbia" && summary.results[0] && (
+            <div className="hidden sm:flex items-center gap-2 text-[11px] text-white/35 border-l border-white/10 pl-6 min-w-0">
+              <span
+                title={`${summary.results[0].name} — ${leaderVerb(summary.election.status, true).toUpperCase()}`}
+                className="tabular-nums truncate max-w-[320px]"
+              >
+                {summary.results[0].name} {leaderVerb(summary.election.status, true).toUpperCase()}
+              </span>
             </div>
           )}
         </div>
