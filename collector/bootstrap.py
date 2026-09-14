@@ -19,6 +19,17 @@ from datetime import datetime
 
 from sqlalchemy import create_engine, text
 
+# DATABASE_URL iz backend/.env da se ne mora rucno exportovati (radi iz repo root-a)
+try:
+    from dotenv import load_dotenv
+    from pathlib import Path
+    for _p in (Path("backend/.env"), Path(__file__).parent.parent / "backend" / ".env"):
+        if _p.exists():
+            load_dotenv(_p)
+            break
+except ImportError:
+    pass
+
 from rik_client import create_session, get_regions, get_municipalities, get_election_stations, get_results_raw, parse_table_data
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -51,11 +62,13 @@ REGION_NAMES = {
 }
 
 
-def ensure_election(conn, rik_type: int, rik_round: int, election_date: str, name: str = None):
+def ensure_election(conn, rik_type: int, rik_round: int, election_date: str | None, name: str = None):
     existing = conn.execute(text("SELECT id FROM elections WHERE rik_round = :r"), {"r": rik_round}).fetchone()
     if existing:
         log.info("Izbori rik_round=%s već postoje id=%s", rik_round, existing.id)
         return existing.id
+    if not election_date:
+        raise ValueError("Novi izborni krug zahteva --election-date (YYYY-MM-DD)")
 
     type_str, prefix = ELECTION_TYPE_MAP.get(rik_type, ("parliamentary", "Избори"))
     final_name = name or f"{prefix} {election_date}"
@@ -139,7 +152,7 @@ def main():
     ap = argparse.ArgumentParser(description="Bootstrap RIK municipalities/stations/parties za jedan izborni krug")
     ap.add_argument("--election-type", type=int, required=True, help="RIK election_type (2=parlamentarni, 3=lokalni)")
     ap.add_argument("--election-round", type=int, required=True, help="RIK election_round id (npr. 341140)")
-    ap.add_argument("--election-date", type=str, required=True, help="YYYY-MM-DD za elections.election_date")
+    ap.add_argument("--election-date", type=str, required=False, default=None, help="YYYY-MM-DD za elections.election_date (samo za novi krug, inace se preskace)")
     ap.add_argument("--election-name", type=str, default=None, help="Opcioni naziv izbora")
     ap.add_argument("--delay", type=float, default=0.35, help="Sekunde između RIK poziva")
     args = ap.parse_args()
@@ -158,9 +171,13 @@ def main():
         return
     log.info("Regioni: %s", ", ".join(f"{k}={v}" for k, v in regions.items()))
 
-    # 2) parties — iz nacionalnog get_results
-    with engine.begin() as conn:
+    # 2) parties — iz nacionalnog get_results (pre izbora baca 500 jer nema rezultata)
+    try:
         raw_national = get_results_raw(session, args.election_type, args.election_round)
+    except Exception as e:
+        log.warning("Nacionalni get_results nedostupan (%s) — liste se dodaju kad krenu rezultati", e)
+        raw_national = {}
+    with engine.begin() as conn:
         table = parse_table_data(raw_national)
         if table:
             for row in table:
@@ -184,21 +201,9 @@ def main():
             mun_value = mun["value"]
             mun_data_id = mun["data_id"]
             mun_name = mun["name"]
-            # RESUME: ako opština već ima mapirana mesta za ovaj krug, preskoči fetch
-            with engine.connect() as _c:
-                _mid = _c.execute(text(
-                    "SELECT id FROM municipalities WHERE rzs_code = :c"
-                ), {"c": str(mun_data_id or f"rik-{mun_value}")}).fetchone()
-                if _mid:
-                    _n = _c.execute(text(
-                        """SELECT COUNT(*) FROM election_station_codes esc
-                           JOIN polling_stations ps ON ps.id = esc.polling_station_id
-                           WHERE esc.election_id = :eid AND ps.municipality_id = :mid"""
-                    ), {"eid": election_id, "mid": _mid.id}).scalar()
-                    if (_n or 0) > 0:
-                        total_stations += int(_n)
-                        done_muns += 1
-                        continue
+            # NEMA skip-a: RIK dopunjuje spisak mesta kako se izbori blize
+            # (2026 trenutno vraca ~1 placeholder po opstini), pa svako ponovno
+            # pokretanje mora da vidi nova mesta. Upisi su idempotentni, komit je po opstini.
             try:
                 stations = get_election_stations(session, args.election_type, args.election_round, region_id, mun_value)
             except Exception as e:
@@ -256,6 +261,8 @@ def main():
     log.info("Gotovo. election_id=%s ukupno mapirano biračkih mesta: %s", election_id, total_stations)
     # prebaci status ako su izbori u prošlosti
     try:
+        if not args.election_date:
+            return
         ed = datetime.strptime(args.election_date, "%Y-%m-%d").date()
         from datetime import date
         if ed < date.today():

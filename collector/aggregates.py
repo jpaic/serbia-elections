@@ -20,6 +20,17 @@ from datetime import datetime
 
 from sqlalchemy import create_engine, text
 
+# DATABASE_URL iz backend/.env da se ne mora rucno exportovati (radi iz repo root-a)
+try:
+    from dotenv import load_dotenv
+    from pathlib import Path
+    for _p in (Path("backend/.env"), Path(__file__).parent.parent / "backend" / ".env"):
+        if _p.exists():
+            load_dotenv(_p)
+            break
+except ImportError:
+    pass
+
 from rik_client import (
     create_session, get_regions, get_municipalities,
     get_results_agg, parse_table_data, parse_stat_sum,
@@ -204,20 +215,34 @@ def run_once(election_id: int, workers: int = 6):
     return ok
 
 
+def resolve_election_id(election_id: int | None, slug: str | None) -> int:
+    if election_id is not None:
+        return election_id
+    if not slug:
+        raise SystemExit("Mora --election-id ili --election-slug")
+    with engine.connect() as conn:
+        row = conn.execute(text("SELECT id FROM elections WHERE slug = :s"), {"s": slug}).fetchone()
+    if not row:
+        raise SystemExit(f"Nema izbora sa slug={slug!r}")
+    return int(row.id)
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--election-id", type=int, required=True)
+    ap.add_argument("--election-id", type=int, default=None)
+    ap.add_argument("--election-slug", type=str, default=None, help="npr. parlamentarni-2026")
     ap.add_argument("--interval", type=int, default=60)
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--workers", type=int, default=6)
     args = ap.parse_args()
+    eid = resolve_election_id(args.election_id, args.election_slug)
     if args.once:
-        run_once(args.election_id, workers=args.workers)
+        run_once(eid, workers=args.workers)
         return
     log.info("Agregatni collector, interval %ds", args.interval)
     while True:
         try:
-            run_once(args.election_id, workers=args.workers)
+            run_once(eid, workers=args.workers)
         except Exception:
             log.exception("Greška u krugu")
         time.sleep(args.interval)

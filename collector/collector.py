@@ -24,6 +24,17 @@ from datetime import datetime
 
 from sqlalchemy import create_engine, text
 
+# DATABASE_URL iz backend/.env da se ne mora rucno exportovati (radi iz repo root-a)
+try:
+    from dotenv import load_dotenv
+    from pathlib import Path
+    for _p in (Path("backend/.env"), Path(__file__).parent.parent / "backend" / ".env"):
+        if _p.exists():
+            load_dotenv(_p)
+            break
+except ImportError:
+    pass
+
 from rik_client import create_session, get_results_raw, parse_table_data, parse_stat_sum
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
