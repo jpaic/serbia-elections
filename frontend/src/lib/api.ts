@@ -20,4 +20,8 @@ export const api = {
     getJson<import("./types").MunicipalityDetail>(
       `/elections/${electionId}/municipalities/${municipalityId}`
     ),
+  stationByRik: (electionId: number, rikStationId: number) =>
+    getJson<import("./types").StationDetail>(
+      `/elections/${electionId}/stations/by-rik/${rikStationId}`
+    ),
 };

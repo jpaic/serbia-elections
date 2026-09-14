@@ -287,8 +287,8 @@ def municipality_detail(election_id: int, municipality_id: int):
     }
 
 
-@app.get("/elections/{election_id}/polling-stations/{station_id}")
-def polling_station_detail(election_id: int, station_id: int):
+def _station_detail(election_id: int, station_id: int):
+    """Zajednička logika: keš iz baze, inače uživo sa RIK-a + upis. Vraća dict."""
     from datetime import datetime
     from rik_live import fetch_station
 
@@ -299,7 +299,7 @@ def polling_station_detail(election_id: int, station_id: int):
     # keš iz baze
     cached = fetchall(
         """
-        SELECT p.name, p.short_name, r.votes, r.is_processed
+        SELECT p.name, p.short_name, p.color_hex, r.votes, r.is_processed
         FROM results r
         JOIN parties p ON p.id = r.party_id
         WHERE r.election_id = :eid AND r.polling_station_id = :sid
@@ -308,7 +308,12 @@ def polling_station_detail(election_id: int, station_id: int):
         {"eid": election_id, "sid": station_id},
     )
     if cached:
-        return {"station": station, "results": cached, "live": False}
+        total = sum(r["votes"] for r in cached) or 1
+        return {
+            "station": station,
+            "results": [{**r, "pct": round(100 * r["votes"] / total, 2)} for r in cached],
+            "live": False,
+        }
 
     # nema keša — povuci uživo sa RIK-a preko mapiranja i upiši
     mapping = fetchone(
@@ -362,7 +367,7 @@ def polling_station_detail(election_id: int, station_id: int):
 
     results = fetchall(
         """
-        SELECT p.name, p.short_name, r.votes, r.is_processed
+        SELECT p.name, p.short_name, p.color_hex, r.votes, r.is_processed
         FROM results r
         JOIN parties p ON p.id = r.party_id
         WHERE r.election_id = :eid AND r.polling_station_id = :sid
@@ -370,4 +375,27 @@ def polling_station_detail(election_id: int, station_id: int):
         """,
         {"eid": election_id, "sid": station_id},
     )
-    return {"station": station, "results": results, "live": True}
+    total = sum(r["votes"] for r in results) or 1
+    return {
+        "station": station,
+        "results": [{**r, "pct": round(100 * r["votes"] / total, 2)} for r in results],
+        "live": True,
+    }
+
+
+@app.get("/elections/{election_id}/polling-stations/{station_id}")
+def polling_station_detail(election_id: int, station_id: int):
+    return _station_detail(election_id, station_id)
+
+
+@app.get("/elections/{election_id}/stations/by-rik/{rik_station_id}")
+def polling_station_by_rik(election_id: int, rik_station_id: int):
+    """Detalj biračkog mesta preko RIK id-ja (npr. ambasade u dijaspori)."""
+    row = fetchone(
+        """SELECT polling_station_id FROM election_station_codes
+           WHERE election_id = :eid AND rik_station_id = :rid""",
+        {"eid": election_id, "rid": rik_station_id},
+    )
+    if not row:
+        raise HTTPException(404, "Biračko mesto nije mapirano za ove izbore")
+    return _station_detail(election_id, int(row["polling_station_id"]))

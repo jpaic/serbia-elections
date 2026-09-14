@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import useSWR from "swr";
 import { api } from "@/lib/api";
 import SerbiaMap from "@/components/SerbiaMap";
+import DiasporaStationPanel from "@/components/DiasporaStationPanel";
 import ElectionPicker from "@/components/ElectionPicker";
 import WorldMap from "@/components/WorldMap";
 import ResultBars from "@/components/ResultBars";
@@ -267,10 +268,10 @@ export default function Dashboard() {
           <Metric label="Obrađeno" value={summary ? `${summary.processed_pct.toFixed(1)}%` : "—"} />
           <Metric label="Izlaznost" value={summary ? `${summary.turnout_pct.toFixed(1)}%` : "—"} />
           {summary && viewMode === "serbia" && summary.results[0] && (
-            <div className="hidden sm:flex items-center gap-2 text-[11px] text-white/35 border-l border-white/10 pl-6 min-w-0">
+            <div className="hidden sm:flex items-center gap-2 text-[11px] text-white/35 border-l border-white/10 pl-6 flex-1 min-w-0">
               <span
                 title={`${summary.results[0].name} — ${leaderVerb(summary.election.status, true).toUpperCase()}`}
-                className="tabular-nums truncate max-w-[320px]"
+                className="tabular-nums leading-snug line-clamp-2"
               >
                 {summary.results[0].name} {leaderVerb(summary.election.status, true).toUpperCase()}
               </span>
@@ -483,6 +484,9 @@ export default function Dashboard() {
                         <p className="text-xs text-white/60 mb-1">Ukupno dijaspora</p>
                         <p className="text-2xl font-bold text-white tabular-nums">{diasporaRegion.processed_stations}/{diasporaRegion.total_stations}</p>
                         <p className="text-[11px] text-white/50">biračkih mesta · {diasporaRegion.processed_pct.toFixed(0)}% obrađeno · {diasporaRegion.turnout_pct.toFixed(1)}% izlaznost</p>
+                        <p className="text-[11px] text-white/50 tabular-nums mt-0.5">
+                          {(diasporaRegion.registered_voters ?? 0).toLocaleString("sr-RS")} birača · {(diasporaRegion.total_voted ?? 0).toLocaleString("sr-RS")} izašlih
+                        </p>
                         {diasporaRegion.leader && (
                           <div className="mt-3 flex items-center gap-2">
                             <span className="w-2.5 h-2.5 rounded-full" style={{ background: diasporaRegion.leader.color_hex }} />
@@ -501,14 +505,16 @@ export default function Dashboard() {
                   )}
                 </div>
 
-                {selectedDiasporaStationData && (
+                {selectedDiasporaStationData && activeId && (
                   <div ref={stationDetailRef} className="border-t border-white/10 pt-4 scroll-mt-4">
-                    <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">Biračko mesto</p>
-                    <div className="rounded-xl bg-white/[0.04] border border-white/10 p-4">
-                      <p className="text-sm font-semibold text-white">{selectedDiasporaStationData.city} · {selectedDiasporaStationData.country}</p>
-                      <p className="text-xs text-white/60 mt-0.5">{selectedDiasporaStationData.name}</p>
-                      <p className="text-[11px] text-white/30 mt-2">Za ovo biračko mesto trenutno nema dostupnih rezultata.</p>
-                    </div>
+                    <DiasporaStationPanel
+                      electionId={activeId}
+                      rikStationId={selectedDiasporaStationData.id}
+                      city={selectedDiasporaStationData.city}
+                      country={selectedDiasporaStationData.country}
+                      placeName={selectedDiasporaStationData.name}
+                      pastTense={summary?.election.status === "closed"}
+                    />
                   </div>
                 )}
 

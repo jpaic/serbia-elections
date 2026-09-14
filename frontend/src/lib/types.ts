@@ -41,6 +41,17 @@ export interface MunicipalityRow {
   results: PartyResult[];
 }
 
+export interface StationDetail {
+  station: {
+    id: number;
+    name: string;
+    municipality_id: number;
+    registered_voters: number | null;
+  };
+  results: PartyResult[];
+  live: boolean;
+}
+
 export interface MunicipalityDetail {
   municipality: {
     id: number;
