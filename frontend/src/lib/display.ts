@@ -1,3 +1,14 @@
+// RIK nazivi regiona su ćirilica, stari demo podaci latinica — prihvati oba
+export function isDiasporaRegion(name: string | null | undefined): boolean {
+  return name === "Inostranstvo" || name === "Иностранство";
+}
+export function isZavodiRegion(name: string | null | undefined): boolean {
+  return (
+    name === "Zavodi za izvršenje krivičnih sankcija" ||
+    name === "Заводи за извршење кривичних санкција"
+  );
+}
+
 // Glagol pobednika: sadašnje vreme dok traju, prošlo za završene izbore
 export function leaderVerb(status?: string, capitalized = false): string {
   const past = status === "closed";

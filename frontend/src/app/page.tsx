@@ -9,7 +9,7 @@ import WorldMap from "@/components/WorldMap";
 import ResultBars from "@/components/ResultBars";
 import MunicipalityPanel from "@/components/MunicipalityPanel";
 import { getTier } from "@/lib/colorScale";
-import { formatPlaceName, leaderVerb } from "@/lib/display";
+import { formatPlaceName, leaderVerb, isDiasporaRegion, isZavodiRegion } from "@/lib/display";
 import diasporaStations from "../../public/data/diaspora-stations.json";
 
 const REFRESH_MS = 30000;
@@ -135,7 +135,7 @@ export default function Dashboard() {
   }, [regions, selectedRegion]);
 
   const diasporaRegion = useMemo(
-    () => regions?.find((r) => r.region === "Inostranstvo") ?? null,
+    () => regions?.find((r) => isDiasporaRegion(r.region)) ?? null,
     [regions]
   );
 
@@ -293,7 +293,7 @@ export default function Dashboard() {
           {viewMode === "serbia" ? (
             regions ? (
               <SerbiaMap
-                regions={regions.filter((r) => r.region !== "Inostranstvo" && r.region !== "Заводи за извршење кривичних санкција")}
+                regions={regions.filter((r) => !isDiasporaRegion(r.region) && !isZavodiRegion(r.region))}
                 municipalities={municipalities}
                 selectedRegion={selectedRegion}
                 selectedMunicipalityId={selectedMunicipalityId}
