@@ -99,6 +99,26 @@ def get_election_stations(session: requests.Session, election_type: int, electio
     return data.get("election_stations") or {}
 
 
+def get_results_agg(session: requests.Session, election_type: int, election_round: int, region_id=None, municipality_value=None) -> dict:
+    """
+    Agregatni get_results sa KRATKIM imenima parametara (type/region/municipality).
+    OVO zaista filtrira: region -> zbir regiona, region+municipality -> zbir opštine.
+    (Duga imena election_region/election_municipality RIK ignoriše i vraća nacionalni zbir!)
+    """
+    payload = {"type": election_type, "election_round": election_round}
+    if region_id is not None:
+        payload["region"] = region_id
+    if municipality_value is not None:
+        payload["municipality"] = municipality_value
+    resp = _post(session, "get_results", payload)
+    if resp.status_code == 500 or not resp.text.strip():
+        return {}
+    try:
+        return resp.json()
+    except ValueError:
+        return {}
+
+
 def get_results_raw(session: requests.Session, election_type: int, election_round: int, region_id=None, municipality_value=None, station_id=None) -> dict:
     payload = {"election_type": election_type, "election_round": election_round}
     if region_id is not None:

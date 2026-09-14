@@ -74,6 +74,42 @@ CREATE INDEX idx_results_election ON results(election_id);
 CREATE INDEX idx_results_station ON results(polling_station_id);
 CREATE INDEX idx_stations_municipality ON polling_stations(municipality_id);
 
+-- Mapiranje opština na RIK (region_id, municipality value) po krugu — za agregatni fetch
+CREATE TABLE election_municipality_codes (
+    election_id INTEGER NOT NULL REFERENCES elections(id) ON DELETE CASCADE,
+    municipality_id INTEGER NOT NULL REFERENCES municipalities(id) ON DELETE CASCADE,
+    rik_region_id INTEGER NOT NULL,
+    rik_mun_value INTEGER NOT NULL,
+    PRIMARY KEY (election_id, municipality_id),
+    UNIQUE (election_id, rik_region_id, rik_mun_value)
+);
+
+-- Agregati po opštini (brzi refresh izborne noći: ~200 poziva umesto 8273)
+CREATE TABLE municipality_stats (
+    election_id INTEGER NOT NULL REFERENCES elections(id) ON DELETE CASCADE,
+    municipality_id INTEGER NOT NULL REFERENCES municipalities(id) ON DELETE CASCADE,
+    total_voted INTEGER,
+    registered_voters INTEGER,
+    valid_ballots INTEGER,
+    invalid_ballots INTEGER,
+    processed_stations INTEGER NOT NULL DEFAULT 0,
+    total_stations INTEGER NOT NULL DEFAULT 0,
+    ingested_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    PRIMARY KEY (election_id, municipality_id)
+);
+
+CREATE TABLE municipality_results (
+    election_id INTEGER NOT NULL REFERENCES elections(id) ON DELETE CASCADE,
+    municipality_id INTEGER NOT NULL REFERENCES municipalities(id) ON DELETE CASCADE,
+    party_id INTEGER NOT NULL REFERENCES parties(id) ON DELETE CASCADE,
+    votes INTEGER NOT NULL DEFAULT 0,
+    ingested_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    PRIMARY KEY (election_id, municipality_id, party_id)
+);
+
+CREATE INDEX idx_munres_election ON municipality_results(election_id);
+CREATE INDEX idx_munstats_election ON municipality_stats(election_id);
+
 -- Log svakog povlačenja podataka sa RIK-a (za auditing i debug pipeline-a)
 CREATE TABLE ingestion_log (
     id SERIAL PRIMARY KEY,

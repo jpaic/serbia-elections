@@ -88,51 +88,42 @@ def election_summary(election_id: int):
     if not election:
         raise HTTPException(404, "Izbori nisu pronađeni")
 
-    processed = fetchone(
+    agg = fetchone(
         """
         SELECT
-            COUNT(DISTINCT ps.id) AS total_stations,
-            COUNT(DISTINCT CASE WHEN r.is_processed THEN ps.id END) AS processed_stations
-        FROM polling_stations ps
-        LEFT JOIN results r ON r.polling_station_id = ps.id AND r.election_id = :eid
-        """,
-        {"eid": election_id},
-    )
-
-    turnout = fetchone(
-        """
-        SELECT
-            SUM(r.total_voted) AS total_voted,
-            SUM(ps.registered_voters) AS total_registered
-        FROM results r
-        JOIN polling_stations ps ON ps.id = r.polling_station_id
-        WHERE r.election_id = :eid AND r.is_processed
+            COALESCE(SUM(total_stations), 0) AS total_stations,
+            COALESCE(SUM(processed_stations), 0) AS processed_stations,
+            COALESCE(SUM(total_voted), 0) AS total_voted,
+            COALESCE(SUM(registered_voters), 0) AS total_registered
+        FROM municipality_stats
+        WHERE election_id = :eid
         """,
         {"eid": election_id},
     )
 
     party_totals = fetchall(
         """
-        SELECT p.id, p.name, p.short_name, p.color_hex, SUM(r.votes) AS votes
-        FROM results r
-        JOIN parties p ON p.id = r.party_id
-        WHERE r.election_id = :eid AND r.is_processed
+        SELECT p.id, p.name, p.short_name, p.color_hex, COALESCE(SUM(mr.votes), 0) AS votes
+        FROM parties p
+        LEFT JOIN municipality_results mr ON mr.party_id = p.id AND mr.election_id = :eid
+        WHERE p.election_id = :eid
         GROUP BY p.id, p.name, p.short_name, p.color_hex
         ORDER BY votes DESC
         """,
         {"eid": election_id},
     )
 
-    total_stations = processed["total_stations"] or 0
-    processed_stations = processed["processed_stations"] or 0
-    total_votes = sum(p["votes"] for p in party_totals) or 1
+    total_stations = agg["total_stations"] or 0
+    processed_stations = agg["processed_stations"] or 0
+    total_votes = sum(p["votes"] for p in party_totals) or 0
 
     return {
         "election": election,
         "processed_pct": round(100 * processed_stations / total_stations, 2) if total_stations else 0,
-        "turnout_pct": round(100 * (turnout["total_voted"] or 0) / (turnout["total_registered"] or 1), 2),
+        "turnout_pct": round(100 * (agg["total_voted"] or 0) / (agg["total_registered"] or 1), 2),
         "results": [
-            {**p, "pct": round(100 * p["votes"] / total_votes, 2)} for p in party_totals
+            {**p, "pct": round(100 * p["votes"] / total_votes, 2) if total_votes else 0}
+            for p in party_totals
         ],
     }
 
@@ -143,14 +134,12 @@ def municipalities_results(election_id: int):
         """
         SELECT
             m.id, m.name, m.region, m.rzs_code,
-            COUNT(DISTINCT ps.id) AS total_stations,
-            COUNT(DISTINCT CASE WHEN r.is_processed THEN ps.id END) AS processed_stations,
-            SUM(CASE WHEN r.is_processed THEN r.total_voted ELSE 0 END) AS total_voted,
-            SUM(ps.registered_voters) AS registered_voters
+            COALESCE(ms.total_stations, 0) AS total_stations,
+            COALESCE(ms.processed_stations, 0) AS processed_stations,
+            COALESCE(ms.total_voted, 0) AS total_voted,
+            COALESCE(ms.registered_voters, 0) AS registered_voters
         FROM municipalities m
-        JOIN polling_stations ps ON ps.municipality_id = m.id
-        LEFT JOIN results r ON r.polling_station_id = ps.id AND r.election_id = :eid
-        GROUP BY m.id, m.name, m.region, m.rzs_code
+        LEFT JOIN municipality_stats ms ON ms.municipality_id = m.id AND ms.election_id = :eid
         ORDER BY m.name
         """,
         {"eid": election_id},
@@ -158,14 +147,11 @@ def municipalities_results(election_id: int):
 
     party_rows = fetchall(
         """
-        SELECT m.id AS municipality_id, p.id, p.name, p.short_name, p.color_hex, SUM(r.votes) AS votes
-        FROM results r
-        JOIN parties p ON p.id = r.party_id
-        JOIN polling_stations ps ON ps.id = r.polling_station_id
-        JOIN municipalities m ON m.id = ps.municipality_id
-        WHERE r.election_id = :eid AND r.is_processed
-        GROUP BY m.id, p.id, p.name, p.short_name, p.color_hex
-        ORDER BY m.id, votes DESC
+        SELECT mr.municipality_id, p.id, p.name, p.short_name, p.color_hex, mr.votes
+        FROM municipality_results mr
+        JOIN parties p ON p.id = mr.party_id
+        WHERE mr.election_id = :eid
+        ORDER BY mr.municipality_id, mr.votes DESC
         """,
         {"eid": election_id},
     )
@@ -211,13 +197,12 @@ def regions_results(election_id: int):
         """
         SELECT
             m.region AS region,
-            COUNT(DISTINCT ps.id) AS total_stations,
-            COUNT(DISTINCT CASE WHEN r.is_processed THEN ps.id END) AS processed_stations,
-            SUM(CASE WHEN r.is_processed THEN r.total_voted ELSE 0 END) AS total_voted,
-            SUM(ps.registered_voters) AS registered_voters
+            COALESCE(SUM(ms.total_stations), 0) AS total_stations,
+            COALESCE(SUM(ms.processed_stations), 0) AS processed_stations,
+            COALESCE(SUM(ms.total_voted), 0) AS total_voted,
+            COALESCE(SUM(ms.registered_voters), 0) AS registered_voters
         FROM municipalities m
-        JOIN polling_stations ps ON ps.municipality_id = m.id
-        LEFT JOIN results r ON r.polling_station_id = ps.id AND r.election_id = :eid
+        LEFT JOIN municipality_stats ms ON ms.municipality_id = m.id AND ms.election_id = :eid
         GROUP BY m.region
         """,
         {"eid": election_id},
@@ -225,12 +210,11 @@ def regions_results(election_id: int):
 
     party_rows = fetchall(
         """
-        SELECT m.region AS region, p.id, p.name, p.short_name, p.color_hex, SUM(r.votes) AS votes
-        FROM results r
-        JOIN parties p ON p.id = r.party_id
-        JOIN polling_stations ps ON ps.id = r.polling_station_id
-        JOIN municipalities m ON m.id = ps.municipality_id
-        WHERE r.election_id = :eid AND r.is_processed
+        SELECT m.region AS region, p.id, p.name, p.short_name, p.color_hex, SUM(mr.votes) AS votes
+        FROM municipality_results mr
+        JOIN parties p ON p.id = mr.party_id
+        JOIN municipalities m ON m.id = mr.municipality_id
+        WHERE mr.election_id = :eid
         GROUP BY m.region, p.id, p.name, p.short_name, p.color_hex
         ORDER BY m.region, votes DESC
         """,
@@ -279,13 +263,11 @@ def municipality_detail(election_id: int, municipality_id: int):
 
     results = fetchall(
         """
-        SELECT p.name, p.short_name, p.color_hex, SUM(r.votes) AS votes
-        FROM results r
-        JOIN parties p ON p.id = r.party_id
-        JOIN polling_stations ps ON ps.id = r.polling_station_id
-        WHERE r.election_id = :eid AND ps.municipality_id = :mid AND r.is_processed
-        GROUP BY p.name, p.short_name, p.color_hex
-        ORDER BY votes DESC
+        SELECT p.name, p.short_name, p.color_hex, mr.votes
+        FROM municipality_results mr
+        JOIN parties p ON p.id = mr.party_id
+        WHERE mr.election_id = :eid AND mr.municipality_id = :mid
+        ORDER BY mr.votes DESC
         """,
         {"eid": election_id, "mid": municipality_id},
     )
@@ -299,9 +281,76 @@ def municipality_detail(election_id: int, municipality_id: int):
 
 @app.get("/elections/{election_id}/polling-stations/{station_id}")
 def polling_station_detail(election_id: int, station_id: int):
+    from datetime import datetime
+    from rik_live import fetch_station
+
     station = fetchone("SELECT * FROM polling_stations WHERE id = :id", {"id": station_id})
     if not station:
         raise HTTPException(404, "Biračko mesto nije pronađeno")
+
+    # keš iz baze
+    cached = fetchall(
+        """
+        SELECT p.name, p.short_name, r.votes, r.is_processed
+        FROM results r
+        JOIN parties p ON p.id = r.party_id
+        WHERE r.election_id = :eid AND r.polling_station_id = :sid
+        ORDER BY r.votes DESC
+        """,
+        {"eid": election_id, "sid": station_id},
+    )
+    if cached:
+        return {"station": station, "results": cached, "live": False}
+
+    # nema keša — povuci uživo sa RIK-a preko mapiranja i upiši
+    mapping = fetchone(
+        """
+        SELECT e.rik_type, e.rik_round, emc.rik_region_id, emc.rik_mun_value,
+               esc.rik_station_id
+        FROM elections e
+        JOIN election_municipality_codes emc
+          ON emc.election_id = e.id AND emc.municipality_id = :mid
+        JOIN election_station_codes esc
+          ON esc.election_id = e.id AND esc.polling_station_id = :sid
+        WHERE e.id = :eid
+        """,
+        {"eid": election_id, "mid": station["municipality_id"], "sid": station_id},
+    )
+    if not mapping or not mapping.get("rik_type") or not mapping.get("rik_round"):
+        return {"station": station, "results": [], "live": False}
+
+    try:
+        live = fetch_station(
+            int(mapping["rik_type"]), int(mapping["rik_round"]),
+            int(mapping["rik_region_id"]), int(mapping["rik_mun_value"]),
+            int(mapping["rik_station_id"]),
+        )
+    except Exception:
+        return {"station": station, "results": [], "live": False}
+
+    party_rows = fetchall(
+        "SELECT id, ballot_number FROM parties WHERE election_id = :eid",
+        {"eid": election_id},
+    )
+    by_ballot = {p["ballot_number"]: p["id"] for p in party_rows}
+    params = [
+        {"eid": election_id, "sid": station_id, "pid": by_ballot[row["ballot_number"]],
+         "votes": row["votes"], "processed": bool(live["stat"].get("processed")),
+         "now": datetime.utcnow()}
+        for row in live["rows"]
+        if row["ballot_number"] in by_ballot
+    ]
+    if params:
+        with engine.begin() as conn:
+            conn.execute(text("""
+                INSERT INTO results
+                    (election_id, polling_station_id, party_id, votes, is_processed, ingested_at)
+                VALUES (:eid, :sid, :pid, :votes, :processed, :now)
+                ON CONFLICT (election_id, polling_station_id, party_id)
+                DO UPDATE SET votes = EXCLUDED.votes,
+                              is_processed = EXCLUDED.is_processed,
+                              ingested_at = EXCLUDED.ingested_at
+            """), params)
 
     results = fetchall(
         """
@@ -313,4 +362,4 @@ def polling_station_detail(election_id: int, station_id: int):
         """,
         {"eid": election_id, "sid": station_id},
     )
-    return {"station": station, "results": results}
+    return {"station": station, "results": results, "live": True}
