@@ -72,11 +72,17 @@ def list_elections():
     return fetchall(
         """
         SELECT e.id, e.slug, e.name, e.election_type, e.election_date, e.status,
-               COUNT(DISTINCT r.polling_station_id) AS stations_with_results,
-               COALESCE(SUM(r.votes), 0) AS total_votes
+               COALESCE(s.proc, 0) AS stations_with_results,
+               COALESCE(v.votes, 0) AS total_votes
         FROM elections e
-        LEFT JOIN results r ON r.election_id = e.id AND r.is_processed
-        GROUP BY e.id, e.slug, e.name, e.election_type, e.election_date, e.status
+        LEFT JOIN (
+            SELECT election_id, SUM(processed_stations) AS proc
+            FROM municipality_stats GROUP BY election_id
+        ) s ON s.election_id = e.id
+        LEFT JOIN (
+            SELECT election_id, SUM(votes) AS votes
+            FROM municipality_results GROUP BY election_id
+        ) v ON v.election_id = e.id
         ORDER BY e.election_date DESC
         """
     )
