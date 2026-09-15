@@ -3,10 +3,13 @@ export interface Election {
   slug: string | null;
   stations_with_results: number;
   total_votes: number;
+  municipalities_with_data: number;
   name: string;
   election_type: string;
   election_date: string;
   status: "upcoming" | "live" | "closed";
+  prime_minister?: string | null;
+  pm_party?: string | null;
 }
 
 export interface PartyResult {
@@ -22,6 +25,9 @@ export interface ElectionSummary {
   election: Election;
   processed_pct: number;
   turnout_pct: number;
+  total_stations: number;
+  total_voted: number;
+  total_registered: number;
   results: PartyResult[];
 }
 

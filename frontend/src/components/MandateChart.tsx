@@ -11,7 +11,17 @@ const CX = 200;
 const CY = 200;
 const DOT_R = 4.5;
 
-export default function MandateChart({ electionId }: { electionId: number }) {
+export default function MandateChart({
+  electionId,
+  governingBallots = [],
+  primeMinister = null,
+  primeMinisterParty = null,
+}: {
+  electionId: number;
+  governingBallots?: number[];
+  primeMinister?: string | null;
+  primeMinisterParty?: string | null;
+}) {
   const { data, error, isLoading } = useSWR(
     ["mandates", electionId],
     () => api.mandates(electionId),
@@ -49,6 +59,9 @@ export default function MandateChart({ electionId }: { electionId: number }) {
     }
   });
   positions.sort((a, b) => b.angle - a.angle || b.R - a.R);
+  const gov = new Set(
+    data.parties.filter((p) => governingBallots.includes(p.ballot_number ?? -1)).map((p) => p.id)
+  );
   const dots = positions.slice(0, flat.length).map((p, k) => {
     const party = flat[k];
     return {
@@ -56,6 +69,7 @@ export default function MandateChart({ electionId }: { electionId: number }) {
       y: CY - p.R * Math.sin(p.angle),
       color: party.color_hex || "#888",
       name: `${party.short_name || party.name} · ${party.seats}`,
+      governing: gov.has(party.id),
     };
   });
 
@@ -66,8 +80,16 @@ export default function MandateChart({ electionId }: { electionId: number }) {
       </p>
       <svg viewBox="0 0 400 252" className="w-full h-auto" role="img" aria-label="Polukružni prikaz mandata">
         {dots.map((d, i) => (
-          <circle key={i} cx={d.x.toFixed(1)} cy={d.y.toFixed(1)} r={DOT_R} fill={d.color}>
-            <title>{d.name}</title>
+          <circle
+            key={i}
+            cx={d.x.toFixed(1)}
+            cy={d.y.toFixed(1)}
+            r={DOT_R}
+            fill={d.color}
+            stroke={d.governing ? "#f87171" : "none"}
+            strokeWidth={d.governing ? 1.4 : 0}
+          >
+            <title>{d.name}{d.governing ? " (vlast)" : ""}</title>
           </circle>
         ))}
         {/* Ukupan broj ispod luka, u praznoj zoni — bez preklapanja sa tačkama */}
@@ -78,14 +100,29 @@ export default function MandateChart({ electionId }: { electionId: number }) {
           MANDATA · VEĆINA {Math.floor(data.total_seats / 2) + 1}
         </text>
       </svg>
+      {primeMinister && (
+        <p className="text-[11px] text-white/45 mt-2">
+          Vlada: <span className="text-white/80 font-medium">{primeMinister}</span>
+          {primeMinisterParty && <span className="text-white/35"> ({primeMinisterParty})</span>}
+        </p>
+      )}
       <div className="flex flex-col gap-1.5 mt-2">
         {ordered.map((p) => (
           <div key={p.id} className="flex items-center gap-2 min-w-0">
             <span
               className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
-              style={{ background: p.color_hex || "#888" }}
+              style={{
+                background: p.color_hex || "#888",
+                outline: gov.has(p.id) ? "1.5px solid #f87171" : "none",
+                outlineOffset: 1,
+              }}
             />
-            <span title={p.name} className="truncate text-xs text-white/70">
+            <span
+              title={p.name}
+              className={`truncate text-xs text-white/70 ${
+                gov.has(p.id) ? "underline decoration-red-400/80 underline-offset-[3px]" : ""
+              }`}
+            >
               {p.short_name || p.name}
             </span>
             <span className="ml-auto text-xs font-semibold text-white tabular-nums shrink-0">
@@ -101,6 +138,7 @@ export default function MandateChart({ electionId }: { electionId: number }) {
         {data.official
           ? "Zvanična raspodela mandata."
           : `Projekcija mandata uživo (D'Hondt, cenzus ${data.threshold_pct}%).`}
+        {gov.size > 0 && " Crveni okvir = vladajuća koalicija."}
       </p>
     </div>
   );

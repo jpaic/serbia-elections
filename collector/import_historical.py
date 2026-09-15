@@ -76,10 +76,73 @@ CONFIG = {
            "minor": ["MADARA", "ZUKORLI", "PRAVDE I POMIRENJA", "SDA", "ALBANSKA DEMOKRATSKA"]},
     2022: {"slug": "parlamentarni-2022", "name": "Parlamentarni izbori 2022",
            "date": "2022-04-03", "threshold": 3, "src": "sddb",
-           "file": "2022-glasovi.json",
+           "file": "2022-glasovi.json", "terr_key": "Teritorija - NSTJ",
+           "list_codes": "2022-list-codes.json",
            "mandati": "2022-mandati.json",
            "minor": ["MADARA", "MUFTIJIN", "SDA", "VOJVODINU", "ALBANACA", "ALTERNATIVA",
                      "RUSKI MANJINSKI", "ROMSKA PARTIJA"]},
+    2008: {"slug": "parlamentarni-2008", "name": "Parlamentarni izbori 2008",
+           "date": "2008-05-11", "threshold": 5, "src": "xls",
+           "file": "2008-bm.xls", "sheet": 0, "hrow": 0, "layout": "hier-direct",
+           "list_from": 10, "list_step": 1,
+           "c_reg": 5, "c_voted": 9, "c_invalid": 7, "c_valid": 8, "c_stname": 2,
+           "mandati": "2008-mandati.json",
+           "minor": ["MADARSKA", "BOSNJACKA", "GORANACA", "GIG", "VLASI", "VOJVODANSKE",
+                     "ROMI", "UNIJA ROMA", "ROMSKA", "ALBANACA", "BUNJEVACA"]},
+    2007: {"slug": "parlamentarni-2007", "name": "Parlamentarni izbori 2007",
+           "date": "2007-01-21", "threshold": 5, "src": "xls",
+           "file": "2007-bm.xls", "sheet": 0, "hrow": 1, "layout": "flat-latin",
+           "c_code": 1, "c_mun": 2, "c_st": 3, "c_stname": 4,
+           "c_reg": 7, "c_voted": 8, "c_invalid": 10, "c_valid": 11,
+           "list_from": 12, "canonical_lists": "2007-mandati.json",
+           "mandati": "2007-mandati.json",
+           "minor": ["MADARA", "SANDZAK", "ROMA", "UNIJA ROMA", "ALBANACA", "ZAJEDNICA",
+                     "MADARSKA SLOGA", "ROMSKA"]},
+    2003: {"slug": "parlamentarni-2003", "name": "Parlamentarni izbori 2003",
+           "date": "2003-12-28", "threshold": 5, "src": "xls",
+           "file": "2003-bm.xls", "sheet": 0, "hrow": 2, "layout": "hier-direct",
+           "list_from": 6, "list_step": 1,
+           "c_reg": 3, "c_voted": 4, "c_invalid": None, "c_valid": None, "c_stname": 2,
+           "canonical_lists": "2003-mandati.json",
+           "mandati": "2003-mandati.json",
+           "minor": ["TOLERANCIJU"]},
+    2000: {"slug": "parlamentarni-2000", "name": "Parlamentarni izbori 2000",
+           "date": "2000-12-23", "threshold": 5, "src": "sddb",
+           "file": "2000-glasovi.json", "terr_key": "Teritorija - RPJ",
+           "list_codes": "2000-list-codes.json", "terr_names": "2000-territories.json",
+           "code_remap": {"70858": "00003", "80284": "89010"},
+           "mandati": "2000-mandati.json",
+           "minor": []},
+    2008: {"slug": "parlamentarni-2008", "name": "Parlamentarni izbori 2008",
+           "date": "2008-05-11", "threshold": 5, "src": "xls",
+           "file": "2008-bm.xls", "sheet": 0, "hrow": 0, "layout": "hier-direct",
+           "list_from": 10, "list_step": 1,
+           "c_reg": 5, "c_voted": 9, "c_invalid": 7, "c_valid": 8, "c_stname": 2,
+           "mandati": "2008-mandati.json",
+           "extra_aggs": [
+               {"suffixes": ["SAKIM", "UNUTARKIM"], "target": "Интерно расељени бирачи"},
+               {"suffixes": ["INOSTRANSTVO"], "target": "Иностранство"},
+               {"contains": ["ZAVODIZAIZVRSENJE"], "target": "Заводи за извршење кривичних санкција"},
+           ],
+           "minor": ["MADARSKA", "BOSNJACKA", "GORANACA", "VLASI", "VOJVODANSKE",
+                     "ROMI", "UNIJA ROMA", "ROMSKA", "ALBANACA", "BUNJEVACA"]},
+    2007: {"slug": "parlamentarni-2007", "name": "Parlamentarni izbori 2007",
+           "date": "2007-01-21", "threshold": 5, "src": "xls",
+           "file": "2007-bm.xls", "sheet": 0, "hrow": 1, "layout": "flat-latin",
+           "c_code": 1, "c_mun": 2, "c_st": 3, "c_stname": 4,
+           "c_reg": 7, "c_voted": 8, "c_invalid": 10, "c_valid": 11,
+           "list_from": 12, "canonical_lists": "2007-mandati.json",
+           "mandati": "2007-mandati.json",
+           "minor": ["MADARA", "SANDZAK", "ROMA", "UNIJA ROMA", "ALBANACA", "ZAJEDNICA",
+                     "MADARSKA SLOGA", "ROMSKA"]},
+    2003: {"slug": "parlamentarni-2003", "name": "Parlamentarni izbori 2003",
+           "date": "2003-12-28", "threshold": 5, "src": "xls",
+           "file": "2003-bm.xls", "sheet": 0, "hrow": 2, "layout": "hier-direct",
+           "list_from": 6, "list_step": 1,
+           "c_reg": 3, "c_voted": 4, "c_invalid": None, "c_valid": None, "c_stname": 2,
+           "canonical_lists": "2003-mandati.json",
+           "mandati": "2003-mandati.json",
+           "minor": ["TOLERANCIJU"]},
 }
 
 _CYR = "АБВГДЂЕЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШабвгдђежзијклљмнњопрстћуфхцчџш"
@@ -153,6 +216,7 @@ def parse_flat(path: str, sheet, hrow: int):
             "mun_name": str(sh.cell_value(r, 3)).strip(),
             "okrug": str(sh.cell_value(r, 1)).strip(),
             "st": st.rstrip("0").rstrip(".") if "." in st else st,
+            "stname": None,
             "registered": num(sh.cell_value(r, 5)),
             "voted": num(sh.cell_value(r, 8)),
             "invalid": num(sh.cell_value(r, 10)),
@@ -162,18 +226,23 @@ def parse_flat(path: str, sheet, hrow: int):
     return lists, stations
 
 
-def parse_hier(path: str, sheet, hrow: int):
+def parse_hier(path: str, sheet, hrow: int, list_from: int = 12, list_step: int = 2,
+               c_reg: int = 2, c_voted: int = 3, c_invalid=8, c_valid=10,
+               c_stname=None, canonical: list[str] | None = None):
+    """Hijerarhijski XLS: agregatni redovi (prazna stanica) + stanice.
+    list_step=2 za parove Broj/% (2012/2014), =1 za direktne glasove (2008/2003)."""
     wb = xlrd.open_workbook(path)
     sh = wb.sheet_by_index(sheet) if isinstance(sheet, int) else wb.sheet_by_name(sheet)
     header = [str(sh.cell_value(hrow, c)).strip() for c in range(sh.ncols)]
     lists, colmap = [], {}
     bn = 0
-    for c in range(12, sh.ncols, 2):
+    for c in range(list_from, sh.ncols, list_step):
         if header[c]:
             bn += 1
-            lists.append({"bn": bn, "name": header[c]})
+            name = canonical[bn - 1] if canonical and bn - 1 < len(canonical) else header[c]
+            lists.append({"bn": bn, "name": name})
             colmap[bn] = c
-    stations, aggregates = [], 0
+    stations, aggregates, agg_rows = [], 0, []
     for r in range(hrow + 2, sh.nrows):
         terr = str(sh.cell_value(r, 0)).strip()
         st = str(sh.cell_value(r, 1)).strip()
@@ -181,18 +250,64 @@ def parse_hier(path: str, sheet, hrow: int):
             continue
         if not st or st in ("0", "0.0"):
             aggregates += 1
+            votes = [num(sh.cell_value(r, colmap[i + 1])) or 0 for i in range(len(lists))]
+            agg_rows.append({"terr": terr, "votes": votes,
+                             "registered": num(sh.cell_value(r, c_reg)),
+                             "voted": num(sh.cell_value(r, c_voted))})
             continue
         votes = [num(sh.cell_value(r, colmap[i + 1])) or 0 for i in range(len(lists))]
+        stname = None
+        if c_stname is not None:
+            stname = str(sh.cell_value(r, c_stname)).strip() or None
         stations.append({
             "code": None, "mun_name": terr, "okrug": None,
             "st": st.rstrip("0").rstrip(".") if "." in st else st,
-            "registered": num(sh.cell_value(r, 2)),
-            "voted": num(sh.cell_value(r, 3)),
-            "invalid": num(sh.cell_value(r, 8)),
-            "valid": num(sh.cell_value(r, 10)),
+            "stname": stname,
+            "registered": num(sh.cell_value(r, c_reg)),
+            "voted": num(sh.cell_value(r, c_voted)),
+            "invalid": num(sh.cell_value(r, c_invalid)) if c_invalid is not None else None,
+            "valid": num(sh.cell_value(r, c_valid)) if c_valid is not None else None,
             "votes": votes,
         })
-    log.info("  hijerarhijski: %d stanica, %d agregatnih redova preskoceno", len(stations), aggregates)
+    log.info("  hijerarhijski: %d stanica, %d agregatnih redova (%d sacuvano za extra)",
+             len(stations), aggregates, len(agg_rows))
+    return lists, stations, agg_rows
+
+
+def parse_flat_latin(path: str, sheet, hrow: int, c_code=1, c_mun=2, c_st=3, c_stname=4,
+                     c_reg=7, c_voted=8, c_invalid=10, c_valid=11,
+                     list_from=12, canonical: list[str] | None = None):
+    """2007: flat sa RZS kodovima, latinicna imena; imena lista iz mandati fajla po redosledu."""
+    wb = xlrd.open_workbook(path)
+    sh = wb.sheet_by_index(sheet) if isinstance(sheet, int) else wb.sheet_by_name(sheet)
+    header = [str(sh.cell_value(hrow, c)).strip() for c in range(sh.ncols)]
+    lists = []
+    bn = 0
+    for c in range(list_from, sh.ncols):
+        if header[c]:
+            bn += 1
+            name = canonical[bn - 1] if canonical and bn - 1 < len(canonical) else header[c]
+            lists.append({"bn": bn, "name": name})
+    stations = []
+    for r in range(hrow + 2, sh.nrows):
+        st = str(sh.cell_value(r, c_st)).strip()
+        if not st:
+            continue
+        code = re.sub(r"\.0$", "", str(sh.cell_value(r, c_code)).strip())
+        votes = [num(sh.cell_value(r, list_from + i)) or 0 for i in range(len(lists))]
+        stname = str(sh.cell_value(r, c_stname)).strip() or None
+        stations.append({
+            "code": code if re.fullmatch(r"\d+", code) else None,
+            "mun_name": str(sh.cell_value(r, c_mun)).strip(),
+            "okrug": str(sh.cell_value(r, 0)).strip(),
+            "st": st.rstrip("0").rstrip(".") if "." in st else st,
+            "stname": stname,
+            "registered": num(sh.cell_value(r, c_reg)),
+            "voted": num(sh.cell_value(r, c_voted)),
+            "invalid": num(sh.cell_value(r, c_invalid)),
+            "valid": num(sh.cell_value(r, c_valid)),
+            "votes": votes,
+        })
     return lists, stations
 
 
@@ -215,11 +330,12 @@ def parse_addr(path: str, sheet: str):
     return out
 
 
-def parse_sddb(path: str):
+def parse_sddb(path: str, terr_key: str = "Teritorija - NSTJ", codes_file: str = "2022-list-codes.json",
+               terr_names_file: str | None = None):
     d = json.load(open(path, encoding="utf-8"))
     rows = [r for r in d["rows"] if r.get("Vrsta podatka") == "1"]
-    # zvanican redosled sa glasackog listica: NP202201 -> 1 ...
-    codes = json.load(open(os.path.join(RAW, "2022-list-codes.json"), encoding="utf-8"))
+    # zvanican redosled sa glasackog listica: NP...01 -> 1 ...
+    codes = json.load(open(os.path.join(RAW, codes_file), encoding="utf-8"))
     ordered = sorted(codes.items(), key=lambda kv: kv[0])
     names = [v for _, v in ordered]
     have = {r["Izborna lista"] for r in rows}
@@ -227,12 +343,33 @@ def parse_sddb(path: str):
     if missing:
         log.warning("  liste bez glasova u SDDB: %s", missing)
     lists = [{"bn": i + 1, "name": n} for i, n in enumerate(names) if n in have]
+    name2code = None
+    if terr_names_file:
+        tree = json.load(open(os.path.join(RAW, terr_names_file), encoding="utf-8"))
+        name2code = {}
+        for n in tree:
+            t = (n.get("text") or "").strip()
+            if t and re.fullmatch(r"\d{5}", n.get("id") or ""):
+                name2code[t] = n["id"]
     mun_votes: dict[str, dict] = {}
+    skipped = 0
     for r in rows:
-        t = r["Teritorija - NSTJ"]
+        t = str(r.get(terr_key) or "").strip()
+        if name2code is not None:
+            t = name2code.get(t)
+            if not t:
+                skipped += 1
+                continue
         v = num(r.get("Vrednost")) or 0
         mun_votes.setdefault(t, {})[r["Izborna lista"]] = v
+    if skipped:
+        log.info("  SDDB agregati (nacionalni/regioni) preskoceni: %d slogova", skipped)
     return lists, mun_votes
+
+
+def canonical_names(mandati_file: str) -> list[str]:
+    md = json.load(open(os.path.join(RAW, mandati_file), encoding="utf-8"))
+    return [clean_name(m["Izborna lista"]) for m in md["rows"]]
 
 
 AGG_WORDS = ["OKRUG", "REPUBLIKASRBIJA", "CENTRALNASRBIJA", "VOJVODINA",
@@ -257,10 +394,13 @@ def load_region2023(conn):
     return {r.municipality_id: r.rik_region_id for r in rows}
 
 
-def resolve_municipality(st, by_code, by_name, inostranstvo_id, zavodi_id, report):
+def resolve_municipality(st, by_code, by_name, inostranstvo_id, zavodi_id, report,
+                         create_map=None):
     if st.get("code") and st["code"] in by_code:
         return by_code[st["code"]]["id"], False
     key = norm_key(st["mun_name"])
+    if create_map and key in create_map and key not in by_name:
+        return create_map[key], False
     cands = lookup_municipality(key, by_name)
     if len(cands) == 1:
         return cands[0]["id"], False
@@ -323,15 +463,35 @@ def ingest_year(conn, year: int, commit: bool, redo: bool):
     log.info("%s (%s) -- %s", cfg["name"], cfg["date"], "UPIS" if commit else "DRY-RUN")
     if cfg["src"] == "xls":
         path = os.path.join(RAW, cfg["file"])
+        canon = canonical_names(cfg["canonical_lists"]) if cfg.get("canonical_lists") else None
         if cfg["layout"] == "flat":
             lists, stations = parse_flat(path, cfg["sheet"], cfg["hrow"])
+        elif cfg["layout"] == "flat-latin":
+            lists, stations = parse_flat_latin(
+                path, cfg["sheet"], cfg["hrow"], c_code=cfg.get("c_code", 1),
+                c_mun=cfg.get("c_mun", 2), c_st=cfg.get("c_st", 3),
+                c_stname=cfg.get("c_stname", 4), c_reg=cfg.get("c_reg", 7),
+                c_voted=cfg.get("c_voted", 8), c_invalid=cfg.get("c_invalid", 10),
+                c_valid=cfg.get("c_valid", 11), list_from=cfg.get("list_from", 12),
+                canonical=canon)
         else:
-            lists, stations = parse_hier(path, cfg["sheet"], cfg["hrow"])
+            lists, stations, agg_rows = parse_hier(
+                path, cfg["sheet"], cfg["hrow"], list_from=cfg.get("list_from", 12),
+                list_step=cfg.get("list_step", 2),
+                c_reg=cfg.get("c_reg", 2), c_voted=cfg.get("c_voted", 3),
+                c_invalid=cfg.get("c_invalid", 8), c_valid=cfg.get("c_valid", 10),
+                c_stname=cfg.get("c_stname"), canonical=canon)
+        if cfg.get("layout") in ("flat", "flat-latin"):
+            agg_rows = []
         addr = parse_addr(path, cfg["addr_sheet"]) if cfg.get("addr_sheet") else {}
         mun_votes = None
     else:
-        lists, mun_votes = parse_sddb(os.path.join(RAW, cfg["file"]))
+        lists, mun_votes = parse_sddb(os.path.join(RAW, cfg["file"]),
+                                      cfg.get("terr_key", "Teritorija - NSTJ"),
+                                      cfg.get("list_codes", "2022-list-codes.json"),
+                                      cfg.get("terr_names"))
         stations, addr = [], {}
+        agg_rows = []
     for li in lists:
         li["name"] = clean_name(li["name"])
     log.info("  lista: %d, stanica: %d, opstina(SDDB): %d",
@@ -346,6 +506,8 @@ def ingest_year(conn, year: int, commit: bool, redo: bool):
 
     by_code, by_name = load_municipalities(conn)
     region2023 = load_region2023(conn)
+    code_of_mid = {v["id"]: c for c, v in by_code.items()}
+    REGION_FALLBACK = {"X-PODUJEVO": 5, "X-IDP": 5, "00003": 4}
     ino = by_name.get(norm_key("Иностранство"), [{}])[0].get("id")
     zav = by_code.get("55001", {}).get("id")
     report = {"nema_opstine": {}, "viseznacne": {}, "agregati": set()}
@@ -357,6 +519,27 @@ def ingest_year(conn, year: int, commit: bool, redo: bool):
             if skip or mid is None:
                 continue
             mun_ids.setdefault(mid, []).append(st)
+        # extra agregati bez stanica (IDP / inostranstvo / zavodi)
+        extra: dict[int, dict] = {}
+        for cfg_e in cfg.get("extra_aggs", []):
+            tgt = by_name.get(norm_key(cfg_e["target"]), [])
+            if not tgt:
+                report["nema_opstine"].setdefault("EXTRA:" + cfg_e["target"], 1)
+                continue
+            mid = tgt[0]["id"]
+            e = extra.setdefault(mid, {"votes": [0] * len(lists), "reg": 0, "voted": 0})
+            for a in agg_rows:
+                k = norm_key(a["terr"])
+                hit = any(k.endswith(s) for s in cfg_e.get("suffixes", [])) or \
+                    any(s in k for s in cfg_e.get("contains", []))
+                if hit:
+                    for i in range(len(lists)):
+                        e["votes"][i] += a["votes"][i]
+                    e["reg"] += a["registered"] or 0
+                    e["voted"] += a["voted"] or 0
+            mun_ids.setdefault(mid, [])
+        if extra:
+            print(f"  extra agregati: { {m: sum(v['votes']) for m, v in extra.items()} }")
         print(f"--- {year} opstine: {len(mun_ids)} sa stanicama ---")
         if report["nema_opstine"]:
             print("  NEPOZNATE TERITORIJE (idu u inostranstvo):")
@@ -367,21 +550,36 @@ def ingest_year(conn, year: int, commit: bool, redo: bool):
         # nacionalna kontrola
         tot_votes = sum(sum(st["votes"]) for sts in mun_ids.values() for st in sts)
         tot_voted = sum((st["voted"] or 0) for sts in mun_ids.values() for st in sts)
-        top = sorted(range(len(lists)), key=lambda i: -sum(st["votes"][i] for sts in mun_ids.values() for st in sts))[:6]
+        for ex in extra.values():
+            tot_votes += sum(ex["votes"])
+            tot_voted += ex["voted"]
+        def list_total(i):
+            return sum(st["votes"][i] for sts in mun_ids.values() for st in sts) + \
+                sum(ex["votes"][i] for ex in extra.values())
+        top = sorted(range(len(lists)), key=lambda i: -list_total(i))[:6]
         print(f"  stanica sa podacima: {sum(len(v) for v in mun_ids.values())}, valid~{tot_votes}, glasalo~{tot_voted}")
         for i in top:
-            v = sum(st["votes"][i] for sts in mun_ids.values() for st in sts)
+            v = list_total(i)
             print(f"    {v:8d} {100*v/(tot_votes or 1):5.2f}%  {lists[i]['name'][:70]}")
     else:
-        leaf_path = os.path.join(RAW, "2022-municipalities.json")
-        leaves = set(json.load(open(leaf_path, encoding="utf-8"))) if os.path.exists(leaf_path) else None
+        leaf_names = {2000: None, 2022: "2022-municipalities.json"}
+        leaf_file = leaf_names.get(year)
+        if leaf_file:
+            leaves = set(json.load(open(os.path.join(RAW, leaf_file), encoding="utf-8")))
+        else:
+            leaves = None  # svi 5-cifreni kodovi su opstine
+        remap = cfg.get("code_remap", {})
         mun_ids = {}
         for code in mun_votes:
+            if not re.fullmatch(r"\d{5}", code):
+                report["agregati"].add(f"code:{code}")
+                continue
             if leaves is not None and code not in leaves:
                 report["agregati"].add(f"code:{code}")
                 continue
-            if code in by_code:
-                mun_ids[by_code[code]["id"]] = code
+            dbcode = remap.get(code, code)
+            if dbcode in by_code:
+                mun_ids[by_code[dbcode]["id"]] = code
             else:
                 report["nema_opstine"].setdefault(f"code:{code}", 0)
                 report["nema_opstine"][f"code:{code}"] += 1
@@ -432,7 +630,7 @@ def ingest_year(conn, year: int, commit: bool, redo: bool):
     # emc za sve opstine izbora
     emc_rows = []
     for mid in mun_ids:
-        rid = region2023.get(mid)
+        rid = region2023.get(mid, REGION_FALLBACK.get(code_of_mid.get(mid)))
         if rid is None:
             log.warning("  opstina id=%s nema region 2023 mape!", mid)
             continue
@@ -464,11 +662,12 @@ def ingest_year(conn, year: int, commit: bool, redo: bool):
         jobs, all_mun_stats, all_mun_res = [], [], []
         for mid, sts in mun_ids.items():
             agg_votes = [0] * len(lists)
-            reg = vot = val = inv = 0
+            reg = vot = 0
+            val = inv = None
             for st in sts:
                 key = (norm_key(st["mun_name"]), st["st"])
                 aname, aaddr = addr.get(key, (None, None))
-                base = clean_name(aname or f"BM {st['st']}")
+                base = clean_name(aname or st.get("stname") or f"BM {st['st']}")
                 sname = base
                 k = 1
                 while (mid, sname) in seen_names:
@@ -480,8 +679,16 @@ def ingest_year(conn, year: int, commit: bool, redo: bool):
                     agg_votes[i] += st["votes"][i]
                 reg += st["registered"] or 0
                 vot += st["voted"] or 0
-                val += st["valid"] or 0
-                inv += st["invalid"] or 0
+                if st["valid"] is not None:
+                    val = (val or 0) + st["valid"]
+                if st["invalid"] is not None:
+                    inv = (inv or 0) + st["invalid"]
+            ex = extra.get(mid)
+            if ex:
+                for i in range(len(lists)):
+                    agg_votes[i] += ex["votes"][i]
+                reg += ex["reg"]
+                vot += ex["voted"]
             all_mun_stats.append((eid, mid, vot, reg, val, inv, len(sts), len(sts)))
             for i in range(len(lists)):
                 if agg_votes[i]:

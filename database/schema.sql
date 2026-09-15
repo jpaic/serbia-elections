@@ -10,6 +10,8 @@ CREATE TABLE elections (
     status VARCHAR(20) NOT NULL DEFAULT 'upcoming', -- 'upcoming', 'live', 'closed'
     rik_type INTEGER,                          -- RIK election_type (1-4), npr. 2 = parlamentarni
     rik_round INTEGER UNIQUE,                  -- RIK election_round id (npr. 341140, 680072)
+    prime_minister VARCHAR(150),                 -- predsednik Vlade formirane posle izbora
+    pm_party VARCHAR(100),                       -- stranka premijera (kratka oznaka)
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 

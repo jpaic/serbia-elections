@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { api } from "@/lib/api";
 import SerbiaMap from "@/components/SerbiaMap";
 import MandateChart from "@/components/MandateChart";
+import { GOVERNING_BALLOTS } from "@/lib/governing";
 import DiasporaStationPanel from "@/components/DiasporaStationPanel";
 import ElectionPicker from "@/components/ElectionPicker";
 import WorldMap from "@/components/WorldMap";
@@ -359,8 +360,18 @@ export default function Dashboard() {
                     <>
                       <div className="grid grid-cols-3 gap-2 mb-4">
                         <MiniStat label="Obrađeno" value={`${summary.processed_pct.toFixed(1)}%`} />
-                        <MiniStat label="Izlaznost" value={`${summary.turnout_pct.toFixed(1)}%`} />
-                        <MiniStat label="Biračkih mesta" value={`${summary.processed_pct.toFixed(0)}%`} />
+                        <MiniStat
+                          label="Izlaznost"
+                          value={summary.total_registered > 0 ? `${summary.turnout_pct.toFixed(1)}%` : "—"}
+                        />
+                        <MiniStat
+                          label="Biračkih mesta"
+                          value={
+                            summary.total_stations > 0
+                              ? `${summary.processed_pct.toFixed(0)}%`
+                              : `${summary.election.municipalities_with_data ?? 0} opština`
+                          }
+                        />
                       </div>
                       <ResultBars results={summary.results} pastTense={summary.election.status === "closed"} censusPct={censusPct} />
                       {summary.results.length === 0 && (
@@ -376,7 +387,12 @@ export default function Dashboard() {
                       )}
                       {summary.election.election_type === "parliamentary" && activeId && (
                         <div className="mt-4 pt-4 border-t border-white/10">
-                          <MandateChart electionId={activeId} />
+                          <MandateChart
+                            electionId={activeId}
+                            governingBallots={GOVERNING_BALLOTS[summary.election.slug ?? ""] ?? []}
+                            primeMinister={summary.election.prime_minister}
+                            primeMinisterParty={summary.election.pm_party}
+                          />
                         </div>
                       )}
                     </>
@@ -422,8 +438,24 @@ export default function Dashboard() {
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 mb-3">
-                      <MiniStat label="Obrađeno" value={`${selectedRegionData.processed_pct.toFixed(0)}%`} />
-                      <MiniStat label="Izlaznost" value={`${selectedRegionData.turnout_pct.toFixed(1)}%`} />
+                      <MiniStat
+                        label="Obrađeno"
+                        value={
+                          selectedRegionData.total_stations > 0
+                            ? `${selectedRegionData.processed_pct.toFixed(0)}%`
+                            : selectedRegionData.results.length > 0
+                            ? "100%"
+                            : "0%"
+                        }
+                      />
+                      <MiniStat
+                        label="Izlaznost"
+                        value={
+                          (selectedRegionData.registered_voters ?? 0) > 0
+                            ? `${selectedRegionData.turnout_pct.toFixed(1)}%`
+                            : "—"
+                        }
+                      />
                       <MiniStat label="Prednost" value={`+${selectedRegionData.margin_pct.toFixed(1)}pp`} />
                     </div>
 

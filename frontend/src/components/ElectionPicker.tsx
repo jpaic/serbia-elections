@@ -62,7 +62,10 @@ export default function ElectionPicker({
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-3xl">
           {elections.map((e) => {
-            const hasData = (e.stations_with_results ?? 0) > 0;
+            const stations = e.stations_with_results ?? 0;
+            const votes = e.total_votes ?? 0;
+            const muns = e.municipalities_with_data ?? 0;
+            const hasData = stations > 0 || votes > 0;
             return (
               <button
                 key={e.id}
@@ -80,10 +83,14 @@ export default function ElectionPicker({
                 <div className="flex items-center gap-4 mt-auto pt-3 border-t border-white/10">
                   <div>
                     <p className="text-[10px] uppercase tracking-wide text-white/35 leading-none mb-1">
-                      Obrađeno mesta
+                      {stations > 0 ? "Obrađeno mesta" : "Opština sa podacima"}
                     </p>
                     <p className="text-sm font-semibold text-white tabular-nums">
-                      {(e.stations_with_results ?? 0).toLocaleString("sr-RS")}
+                      {stations > 0
+                        ? stations.toLocaleString("sr-RS")
+                        : muns > 0
+                        ? muns.toLocaleString("sr-RS")
+                        : "—"}
                     </p>
                   </div>
                   <div>
@@ -91,7 +98,7 @@ export default function ElectionPicker({
                       Glasova
                     </p>
                     <p className="text-sm font-semibold text-white tabular-nums">
-                      {hasData ? Number(e.total_votes ?? 0).toLocaleString("sr-RS") : "—"}
+                      {hasData ? Number(votes).toLocaleString("sr-RS") : "—"}
                     </p>
                   </div>
                 </div>

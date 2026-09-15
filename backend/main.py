@@ -73,7 +73,8 @@ def list_elections():
         """
         SELECT e.id, e.slug, e.name, e.election_type, e.election_date, e.status,
                COALESCE(s.proc, 0) AS stations_with_results,
-               COALESCE(v.votes, 0) AS total_votes
+               COALESCE(v.votes, 0) AS total_votes,
+               COALESCE(m.muns, 0) AS municipalities_with_data
         FROM elections e
         LEFT JOIN (
             SELECT election_id, SUM(processed_stations) AS proc
@@ -83,6 +84,10 @@ def list_elections():
             SELECT election_id, SUM(votes) AS votes
             FROM municipality_results GROUP BY election_id
         ) v ON v.election_id = e.id
+        LEFT JOIN (
+            SELECT election_id, COUNT(DISTINCT municipality_id) AS muns
+            FROM municipality_results GROUP BY election_id
+        ) m ON m.election_id = e.id
         ORDER BY e.election_date DESC
         """
     )
@@ -122,10 +127,19 @@ def election_summary(election_id: int):
     total_stations = agg["total_stations"] or 0
     processed_stations = agg["processed_stations"] or 0
     total_votes = sum(p["votes"] for p in party_totals) or 0
+    # Izbori bez stanicnog nivoa (2022, 2000) imaju konacne opstinske podatke:
+    # obradjenost je 100%, a izlaznost je nepoznata bez birackog spiska.
+    if total_stations == 0 and total_votes > 0:
+        processed_pct = 100.0
+    else:
+        processed_pct = round(100 * processed_stations / total_stations, 2) if total_stations else 0
 
     return {
         "election": election,
-        "processed_pct": round(100 * processed_stations / total_stations, 2) if total_stations else 0,
+        "processed_pct": processed_pct,
+        "total_stations": total_stations,
+        "total_voted": agg["total_voted"] or 0,
+        "total_registered": agg["total_registered"] or 0,
         "turnout_pct": round(100 * (agg["total_voted"] or 0) / (agg["total_registered"] or 1), 2),
         "results": [
             {**p, "pct": round(100 * p["votes"] / total_votes, 2) if total_votes else 0}
