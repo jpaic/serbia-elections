@@ -335,6 +335,7 @@ export default function Dashboard() {
               selectedStationId={selectedDiasporaStation}
               onSelectStation={setSelectedDiasporaStation}
               electionStatus={summary?.election.status}
+              electionId={activeId}
             />
           )}
         </section>

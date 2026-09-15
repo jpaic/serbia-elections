@@ -70,11 +70,11 @@ export default function MandateChart({ electionId }: { electionId: number }) {
             <title>{d.name}</title>
           </circle>
         ))}
-        <text x={CX} y={CY - 8} textAnchor="middle" fill="#fff" fontSize="22" fontWeight="700" className="tabular-nums">
+        <text x={CX} y={CY - 22} textAnchor="middle" fill="#fff" fontSize="26" fontWeight="800" className="tabular-nums">
           {total}
         </text>
-        <text x={CX} y={CY + 10} textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="10">
-          mandata · većina {Math.floor(data.total_seats / 2) + 1}
+        <text x={CX} y={CY - 2} textAnchor="middle" fill="rgba(255,255,255,0.45)" fontSize="9.5" letterSpacing="2">
+          MANDATA · VEĆINA {Math.floor(data.total_seats / 2) + 1}
         </text>
       </svg>
       <div className="flex flex-col gap-1.5 mt-2">

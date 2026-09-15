@@ -28,4 +28,8 @@ export const api = {
     getJson<import("./types").MandatesResponse>(
       `/elections/${electionId}/mandates`
     ),
+  diaspora: (electionId: number) =>
+    getJson<import("./types").DiasporaStationResult[]>(
+      `/elections/${electionId}/diaspora`
+    ),
 };

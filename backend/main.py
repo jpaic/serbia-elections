@@ -442,6 +442,46 @@ def mandates(election_id: int, total_seats: int = 250, threshold_pct: float = 3.
             "valid_votes": valid_votes, "official": use_official, "parties": out}
 
 
+@app.get("/elections/{election_id}/diaspora")
+def diaspora_stations(election_id: int):
+    """Lider po svakoj ambasadi (region 101) za bojenje tačaka na mapi sveta."""
+    rows = fetchall(
+        """
+        SELECT esc.rik_station_id, p.short_name, p.name, p.color_hex, r.votes
+        FROM results r
+        JOIN parties p ON p.id = r.party_id
+        JOIN election_station_codes esc
+          ON esc.election_id = r.election_id AND esc.polling_station_id = r.polling_station_id
+        JOIN polling_stations ps ON ps.id = r.polling_station_id
+        JOIN election_municipality_codes emc
+          ON emc.election_id = r.election_id AND emc.municipality_id = ps.municipality_id
+        WHERE r.election_id = :eid AND emc.rik_region_id = 101 AND r.is_processed
+        ORDER BY esc.rik_station_id, r.votes DESC
+        """,
+        {"eid": election_id},
+    )
+    totals: dict[int, int] = {}
+    for row in rows:
+        totals[row["rik_station_id"]] = totals.get(row["rik_station_id"], 0) + row["votes"]
+    out = []
+    seen = set()
+    for row in rows:
+        rid = row["rik_station_id"]
+        if rid in seen:
+            continue
+        seen.add(rid)
+        total = totals[rid] or 1
+        out.append({
+            "rik_station_id": rid,
+            "short_name": row["short_name"],
+            "name": row["name"],
+            "color_hex": row["color_hex"],
+            "votes": row["votes"],
+            "pct": round(100 * row["votes"] / total, 2),
+        })
+    return out
+
+
 @app.get("/elections/{election_id}/polling-stations/{station_id}")
 def polling_station_detail(election_id: int, station_id: int):
     return _station_detail(election_id, station_id)

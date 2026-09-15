@@ -55,6 +55,15 @@ export interface MandatesResponse {
   parties: MandateParty[];
 }
 
+export interface DiasporaStationResult {
+  rik_station_id: number;
+  short_name: string;
+  name: string;
+  color_hex: string | null;
+  votes: number;
+  pct: number;
+}
+
 export interface StationDetail {
   station: {
     id: number;
