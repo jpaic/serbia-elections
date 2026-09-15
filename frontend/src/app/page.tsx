@@ -116,6 +116,10 @@ export default function Dashboard() {
   const isLoadingData =
     !!activeId && !error && (!summary || !regions || !municipalities);
 
+  // Cenzus: 5% do izborne reforme (feb. 2020), 3% od 2020. nadalje.
+  const censusPct =
+    (summary?.election.election_date ?? "") < "2020-01-01" ? 5 : 3;
+
   const regionMunicipalities = useMemo(() => {
     if (!selectedRegion || !municipalities) return [];
     // direktan match (demo podaci)
@@ -226,7 +230,9 @@ export default function Dashboard() {
             {elections?.map((e) => (
               <option key={e.id} value={e.id} className="bg-[#0e1117] text-white">
                 {e.slug === "demo" ? `Demo — ${e.name}` : e.name}
-                {(e.stations_with_results ?? 0) === 0 ? " (nema podataka)" : ""}
+                {(e.stations_with_results ?? 0) === 0 && (e.total_votes ?? 0) === 0
+                  ? " (nema podataka)"
+                  : ""}
               </option>
             ))}
           </select>
@@ -356,7 +362,7 @@ export default function Dashboard() {
                         <MiniStat label="Izlaznost" value={`${summary.turnout_pct.toFixed(1)}%`} />
                         <MiniStat label="Biračkih mesta" value={`${summary.processed_pct.toFixed(0)}%`} />
                       </div>
-                      <ResultBars results={summary.results} pastTense={summary.election.status === "closed"} />
+                      <ResultBars results={summary.results} pastTense={summary.election.status === "closed"} censusPct={censusPct} />
                       {summary.results.length === 0 && (
                         <p className="text-[11px] text-white/30 mt-2">
                           Nema podataka za ovaj dataset — biće popunjeno kad krene unos rezultata.
@@ -432,7 +438,7 @@ export default function Dashboard() {
                       </div>
                     )}
 
-                    <ResultBars results={selectedRegionData.results} pastTense={summary?.election.status === "closed"} />
+                    <ResultBars results={selectedRegionData.results} pastTense={summary?.election.status === "closed"} censusPct={censusPct} />
 
                     <div className="mt-4">
                       <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">
@@ -467,7 +473,8 @@ export default function Dashboard() {
                 {selectedMunicipalityId && (
                   <div ref={munDetailRef} className="border-t border-white/10 pt-5 scroll-mt-5">
                     {activeId && (
-                      <MunicipalityPanel electionId={activeId} municipalityId={selectedMunicipalityId} pastTense={summary?.election.status === "closed"} />
+                      <MunicipalityPanel electionId={activeId}
+municipalityId={selectedMunicipalityId} pastTense={summary?.election.status === "closed"} censusPct={censusPct} />
                     )}
                   </div>
                 )}
@@ -514,7 +521,7 @@ export default function Dashboard() {
                           </div>
                         )}
                       </div>
-                      <ResultBars results={diasporaRegion.results} compact pastTense={summary?.election.status === "closed"} />
+                      <ResultBars results={diasporaRegion.results} compact pastTense={summary?.election.status === "closed"} censusPct={censusPct} />
                       <p className="text-[11px] text-white/30 mt-2">
                         81 biračko mesto u ambasadama i konzulatima širom sveta.
                       </p>
@@ -533,6 +540,7 @@ export default function Dashboard() {
                       country={selectedDiasporaStationData.country}
                       placeName={selectedDiasporaStationData.name}
                       pastTense={summary?.election.status === "closed"}
+                      censusPct={censusPct}
                     />
                   </div>
                 )}

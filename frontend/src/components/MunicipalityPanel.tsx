@@ -8,10 +8,12 @@ export default function MunicipalityPanel({
   electionId,
   municipalityId,
   pastTense = false,
+  censusPct = 3,
 }: {
   electionId: number;
   municipalityId: number;
   pastTense?: boolean;
+  censusPct?: number;
 }) {
   const { data, error, isLoading } = useSWR(
     ["municipality-detail", electionId, municipalityId],
@@ -33,7 +35,7 @@ export default function MunicipalityPanel({
               {data.municipality.registered_voters?.toLocaleString("sr-RS")} birača
             </span>
           </div>
-          <ResultBars results={data.results} pastTense={pastTense} />
+          <ResultBars results={data.results} pastTense={pastTense} censusPct={censusPct} />
         </>
       )}
     </div>

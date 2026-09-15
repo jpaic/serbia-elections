@@ -2,18 +2,18 @@ import { useState } from "react";
 import type { PartyResult } from "@/lib/types";
 
 // Republički cenzus — liste ispod se sklapaju (vredi na državnom nivou,
-// ali pomaže pregledu i na nižim nivoima)
-const CENSUS_PCT = 3;
-
+// ali pomaže pregledu i na nižim nivoima). Do reforme feb. 2020. bio je 5%.
 export default function ResultBars({
   results,
   compact = false,
   pastTense = false,
+  censusPct = 3,
 }: {
   results: PartyResult[];
   compact?: boolean;
   // Za završene izbore bedž glasi "Pobedio" umesto "Vodi"
   pastTense?: boolean;
+  censusPct?: number;
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -22,8 +22,8 @@ export default function ResultBars({
   }
 
   const leaderPct = results[0]?.pct ?? 0;
-  const above = results.filter((r) => r.pct >= CENSUS_PCT);
-  const below = results.filter((r) => r.pct < CENSUS_PCT);
+  const above = results.filter((r) => r.pct >= censusPct);
+  const below = results.filter((r) => r.pct < censusPct);
   const visible = expanded || above.length === 0 ? results : above;
 
   return (
@@ -81,10 +81,10 @@ export default function ResultBars({
       {below.length > 0 && (
         <button
           onClick={() => setExpanded((v) => !v)}
-          title="Cenzus od 3% važi na republičkom nivou"
+          title={`Cenzus od ${censusPct}% važi na republičkom nivou`}
           className="self-start text-[11px] text-white/45 hover:text-white/80 transition-colors mt-0.5"
         >
-          {expanded ? "Sakrij ispod cenzusa" : `Prikaži i ispod cenzusa (3%) · ${below.length}`}
+          {expanded ? "Sakrij ispod cenzusa" : `Prikaži i ispod cenzusa (${censusPct}%) · ${below.length}`}
         </button>
       )}
     </div>
