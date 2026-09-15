@@ -22,3 +22,8 @@ Thumbs.db
 
 # Vercel
 .vercel
+
+# Krupni sirovi izvori (ponovo se skidaju; URL-ovi u import_historical.py / sddb_fetch.py)
+collector/raw/*.xls
+collector/raw/*.html
+collector/raw/2022-glasovi.json

@@ -64,16 +64,17 @@ export default function MandateChart({ electionId }: { electionId: number }) {
       <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">
         Raspodela mandata · {data.total_seats}
       </p>
-      <svg viewBox="0 0 400 212" className="w-full h-auto" role="img" aria-label="Polukružni prikaz mandata">
+      <svg viewBox="0 0 400 252" className="w-full h-auto" role="img" aria-label="Polukružni prikaz mandata">
         {dots.map((d, i) => (
           <circle key={i} cx={d.x.toFixed(1)} cy={d.y.toFixed(1)} r={DOT_R} fill={d.color}>
             <title>{d.name}</title>
           </circle>
         ))}
-        <text x={CX} y={CY - 22} textAnchor="middle" fill="#fff" fontSize="26" fontWeight="800" className="tabular-nums">
+        {/* Ukupan broj ispod luka, u praznoj zoni — bez preklapanja sa tačkama */}
+        <text x={CX} y={CY + 32} textAnchor="middle" fill="#fff" fontSize="24" fontWeight="800" className="tabular-nums">
           {total}
         </text>
-        <text x={CX} y={CY - 2} textAnchor="middle" fill="rgba(255,255,255,0.45)" fontSize="9.5" letterSpacing="2">
+        <text x={CX} y={CY + 48} textAnchor="middle" fill="rgba(255,255,255,0.45)" fontSize="9.5" letterSpacing="2">
           MANDATA · VEĆINA {Math.floor(data.total_seats / 2) + 1}
         </text>
       </svg>

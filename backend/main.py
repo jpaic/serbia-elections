@@ -389,6 +389,9 @@ def mandates(election_id: int, total_seats: int = 250, threshold_pct: float = 3.
     election = fetchone("SELECT * FROM elections WHERE id = :id", {"id": election_id})
     if not election:
         raise HTTPException(404, "Izbori nisu pronađeni")
+    # Cenzus: 5% do izborne reforme (feb. 2020), 3% od 2020. nadalje.
+    if str(election.get("election_date") or "") < "2020-01-01":
+        threshold_pct = 5.0
 
     rows = fetchall(
         """
