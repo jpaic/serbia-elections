@@ -42,15 +42,16 @@ export default function ElectionPicker({
   onPick: (id: number) => void;
 }) {
   return (
-    <main className="min-h-full w-full flex flex-col items-center justify-center px-5 py-12 bg-[#0b0d12]">
-      <img src="/logo.svg" alt="Serbia Election Dashboard" width={56} height={56} className="mb-4" />
-      <p className="text-[11px] uppercase tracking-[0.2em] text-white/35 font-medium mb-3">
+    <main className="h-full w-full overflow-y-auto bg-[#0b0d12]">
+      <div className="min-h-full w-full max-w-5xl mx-auto flex flex-col items-center justify-center px-5 py-8">
+      <img src="/logo.svg" alt="Serbia Election Dashboard" width={44} height={44} className="mb-3" />
+      <p className="text-[11px] uppercase tracking-[0.2em] text-white/35 font-medium mb-2">
         Serbia Elections
       </p>
-      <h1 className="text-2xl sm:text-3xl font-semibold text-white text-center">
+      <h1 className="text-xl sm:text-2xl font-semibold text-white text-center">
         Koje izbore želite da vidite?
       </h1>
-      <p className="text-sm text-white/40 mt-2 mb-8 text-center">
+      <p className="text-sm text-white/40 mt-2 mb-6 text-center">
         Izaberite izborni ciklus za pregled rezultata po regionima i opštinama.
       </p>
 
@@ -62,7 +63,7 @@ export default function ElectionPicker({
       ) : elections.length === 0 ? (
         <p className="text-sm text-white/40">Trenutno nema dostupnih izbora.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-3xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 w-full">
           {elections.map((e) => {
             const votes = e.total_votes ?? 0;
             const hasData = votes > 0;
@@ -71,7 +72,7 @@ export default function ElectionPicker({
               <button
                 key={e.id}
                 onClick={() => onPick(e.id)}
-                className="group text-left rounded-2xl bg-white/[0.04] border border-white/10 p-5 hover:bg-white/[0.07] hover:border-white/25 transition-all hover:-translate-y-0.5 h-full flex flex-col"
+                className="group text-left rounded-2xl bg-white/[0.04] border border-white/10 p-4 hover:bg-white/[0.07] hover:border-white/25 transition-all hover:-translate-y-0.5 h-full flex flex-col"
               >
                 <div className="flex items-center justify-between mb-3">
                   <StatusBadge status={e.status} />
@@ -120,6 +121,7 @@ export default function ElectionPicker({
           })}
         </div>
       )}
+      </div>
     </main>
   );
 }
