@@ -26,8 +26,29 @@ export default function MunicipalityPanel({
   );
 
   return (
-    <div className="rounded-xl bg-white/[0.04] border border-white/10 p-4">
-      {isLoading && <p className="text-xs text-white/40">Učitavanje…</p>}
+    <div className="rounded-xl bg-white/[0.04] border border-white/10 p-4 min-h-[460px]">
+      {(isLoading || !data) && !error && (
+        <div className="flex flex-col gap-2.5 animate-pulse" aria-label="Učitavanje rezultata opštine">
+          <div className="flex items-center gap-2">
+            <span className="w-4 h-4 rounded-full border-2 border-white/15 border-t-white/80 animate-spin" />
+            <span className="text-xs text-white/50">Učitavanje rezultata opštine…</span>
+          </div>
+          <div className="h-3 rounded bg-white/10 w-2/3 mt-1" />
+          <div className="h-1.5 rounded-full bg-white/10" />
+          <div className="h-3 rounded bg-white/10 w-1/2" />
+          <div className="h-1.5 rounded-full bg-white/10" />
+          <div className="h-3 rounded bg-white/10 w-3/5" />
+          <div className="h-1.5 rounded-full bg-white/10" />
+          <div className="h-3 rounded bg-white/10 w-2/3" />
+          <div className="h-1.5 rounded-full bg-white/10" />
+          <div className="h-3 rounded bg-white/10 w-1/2" />
+          <div className="h-1.5 rounded-full bg-white/10" />
+          <div className="h-3 rounded bg-white/10 w-3/5" />
+          <div className="h-1.5 rounded-full bg-white/10" />
+          <div className="h-3 rounded bg-white/10 w-1/3" />
+          <div className="h-1.5 rounded-full bg-white/10" />
+        </div>
+      )}
       {error && <p className="text-xs text-red-400">Ne mogu da učitam detalje opštine.</p>}
       {data && (
         <>
