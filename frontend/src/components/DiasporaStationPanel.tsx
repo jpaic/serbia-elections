@@ -13,6 +13,7 @@ export default function DiasporaStationPanel({
   pastTense = false,
   censusPct = 3,
   governingBallots = [],
+  status = "live",
 }: {
   electionId: number;
   rikStationId: number;
@@ -22,6 +23,7 @@ export default function DiasporaStationPanel({
   pastTense?: boolean;
   censusPct?: number;
   governingBallots?: number[];
+  status?: string;
 }) {
   const { data, error, isLoading } = useSWR(
     ["station-by-rik", electionId, rikStationId],
@@ -43,7 +45,7 @@ export default function DiasporaStationPanel({
         <p className="text-xs text-white/40">Za ovo biračko mesto trenutno nema dostupnih rezultata.</p>
       )}
       {data && data.results.length > 0 && (
-        <ResultBars results={data.results} compact pastTense={pastTense} censusPct={censusPct} governingBallots={governingBallots} />
+        <ResultBars results={data.results} compact pastTense={pastTense} censusPct={censusPct} governingBallots={governingBallots} status={status} />
       )}
       {data && data.results.length === 0 && !error && (
         <p className="text-xs text-white/40">Za ovo biračko mesto trenutno nema dostupnih rezultata.</p>

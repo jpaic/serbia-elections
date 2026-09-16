@@ -411,14 +411,16 @@ export default function Dashboard({
                           }
                         />
                       </div>
-                      <ResultBars results={summary.results} pastTense={summary.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} />
+                      <ResultBars results={summary.results} pastTense={summary.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} status={summary.election.status} />
                       {summary.results.length === 0 && (summary.parties ?? []).length > 0 && (
                         <div className="mt-1">
                           <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">
                             Prijavljene liste ({summary.parties.length})
                           </p>
                           <div className="flex flex-col gap-1.5">
-                            {summary.parties.map((p, i) => (
+                            {[...summary.parties]
+                              .sort((a, b) => (a.ballot_number ?? 999) - (b.ballot_number ?? 999))
+                              .map((p, i) => (
                               <div key={`${p.ballot_number}-${i}`} className="flex items-center gap-2 min-w-0">
                                 <span className="text-[10px] text-white/30 tabular-nums w-4 shrink-0">
                                   {p.ballot_number ?? "–"}
@@ -536,7 +538,7 @@ export default function Dashboard({
                       </div>
                     )}
 
-                    <ResultBars results={selectedRegionData.results} pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} />
+                    <ResultBars results={selectedRegionData.results} pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} status={summary?.election.status ?? "live"} />
 
                     <div className="mt-4">
                       <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">
@@ -572,7 +574,7 @@ export default function Dashboard({
                   <div ref={munDetailRef} className="border-t border-white/10 pt-5 scroll-mt-5">
                     {activeId && (
                       <MunicipalityPanel electionId={activeId}
-municipalityId={selectedMunicipalityId} pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} />
+municipalityId={selectedMunicipalityId} pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} status={summary?.election.status ?? "live"} />
                     )}
                   </div>
                 )}
@@ -619,7 +621,7 @@ municipalityId={selectedMunicipalityId} pastTense={summary?.election.status === 
                           </div>
                         )}
                       </div>
-                      <ResultBars results={diasporaRegion.results} compact pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} />
+                      <ResultBars results={diasporaRegion.results} compact pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} status={summary?.election.status ?? "live"} />
                       <p className="text-[11px] text-white/30 mt-2">
                         81 biračko mesto u ambasadama i konzulatima širom sveta.
                       </p>
@@ -640,6 +642,7 @@ municipalityId={selectedMunicipalityId} pastTense={summary?.election.status === 
                       pastTense={summary?.election.status === "closed"}
                       censusPct={censusPct}
                       governingBallots={govBallots}
+                      status={summary?.election.status ?? "live"}
                     />
                   </div>
                 )}

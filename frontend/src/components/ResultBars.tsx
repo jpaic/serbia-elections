@@ -9,6 +9,7 @@ export default function ResultBars({
   pastTense = false,
   censusPct = 3,
   governingBallots = [],
+  status = "live",
 }: {
   results: PartyResult[];
   compact?: boolean;
@@ -16,6 +17,8 @@ export default function ResultBars({
   pastTense?: boolean;
   censusPct?: number;
   governingBallots?: number[];
+  // "Vodi" ima smisla samo dok izbori traju (live), ne za predstojeće
+  status?: string;
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -36,8 +39,16 @@ export default function ResultBars({
       {visible.map((r) => {
         const i = results.indexOf(r);
         const gov = isGov(r);
-        // Pobednik po glasovima nije nužno vlast — bedž nosi vladajuća koalicija
-        const badge = !pastTense && i === 0 ? "Vodi" : pastTense && gov ? "Vlast" : pastTense && !anyGov && i === 0 ? "Pobedio" : null;
+        // Pobednik po glasovima nije nužno vlast — bedž nosi vladajuća koalicija.
+        // "Vodi" samo dok izbori traju (live); za predstojeće nema bedža.
+        const badge =
+          status === "live" && i === 0 && !pastTense
+            ? "Vodi"
+            : pastTense && gov
+            ? "Vlast"
+            : pastTense && !anyGov && i === 0
+            ? "Pobedio"
+            : null;
         return (
         <div key={r.short_name}>
           <div className="flex items-center justify-between mb-1">
