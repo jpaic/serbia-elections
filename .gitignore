@@ -27,3 +27,4 @@ Thumbs.db
 collector/raw/*.xls
 collector/raw/*.html
 collector/raw/2022-glasovi.json
+collector/raw/2000-glasovi.json
