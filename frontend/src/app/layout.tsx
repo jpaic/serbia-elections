@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Izbori — dashboard",
-  description: "Rezultati izbora u realnom vremenu",
+  title: "Serbia Election Dashboard",
+  description: "Rezultati parlamentarnih izbora Srbije 2000–2026 po regionima i opštinama",
+  icons: { icon: "/logo.svg" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

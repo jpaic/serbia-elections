@@ -43,6 +43,7 @@ export default function ElectionPicker({
 }) {
   return (
     <main className="min-h-full w-full flex flex-col items-center justify-center px-5 py-12 bg-[#0b0d12]">
+      <img src="/logo.svg" alt="Serbia Election Dashboard" width={56} height={56} className="mb-4" />
       <p className="text-[11px] uppercase tracking-[0.2em] text-white/35 font-medium mb-3">
         Serbia Elections
       </p>
