@@ -198,17 +198,24 @@ export default function Dashboard({
     [selectedDiasporaStation]
   );
 
-  // Auto-scroll na detalje opštine / biračkog mesta kad se izaberu
+  // Auto-scroll na detalje opštine / biračkog mesta kad se izaberu.
+  // block:"start" da se uvek stigne do podataka opštine (nearest staje na regionu).
   const munDetailRef = useRef<HTMLDivElement>(null);
   const stationDetailRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (selectedMunicipalityId || selectedRikOpstina) {
-      munDetailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      const t = setTimeout(() => {
+        munDetailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 60);
+      return () => clearTimeout(t);
     }
   }, [selectedMunicipalityId, selectedRikOpstina]);
   useEffect(() => {
     if (selectedDiasporaStation) {
-      stationDetailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      const t = setTimeout(() => {
+        stationDetailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 60);
+      return () => clearTimeout(t);
     }
   }, [selectedDiasporaStation]);
 
