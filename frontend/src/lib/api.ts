@@ -32,4 +32,8 @@ export const api = {
     getJson<import("./types").DiasporaStationResult[]>(
       `/elections/${electionId}/diaspora`
     ),
+  swing: (electionId: number) =>
+    getJson<import("./types").SwingResponse>(
+      `/elections/${electionId}/swing`
+    ),
 };

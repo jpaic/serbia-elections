@@ -1,0 +1,695 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import useSWR from "swr";
+import { api } from "@/lib/api";
+import SerbiaMap from "./SerbiaMap";
+import MandateChart from "./MandateChart";
+import { GOVERNING_BALLOTS, GOVERNING_PARTIES, LIST_PARTIES } from "@/lib/governing";
+import DiasporaStationPanel from "./DiasporaStationPanel";
+import WorldMap from "./WorldMap";
+import ResultBars from "./ResultBars";
+import MunicipalityPanel from "./MunicipalityPanel";
+import { getTier } from "@/lib/colorScale";
+import { formatPlaceName, leaderVerb, isDiasporaRegion, isZavodiRegion } from "@/lib/display";
+import diasporaStations from "../../public/data/diaspora-stations.json";
+
+const REFRESH_MS = 30000;
+
+// Kratka oznaka dataseta za selektor: Demo ili godina izborа
+function datasetLabel(e: { slug: string | null; name: string; election_date: string }): string {
+  if (e.slug === "demo") return "Demo";
+  const m = e.election_date?.match(/^(\d{4})/);
+  return m ? m[1] : e.name;
+}
+
+// Isti mapping kao u SerbiaMap - okrug (30) -> RIK region (5)
+const OKRUG_TO_RIK: Record<string, string> = {
+  "Grad Beograd": "Београдски регион",
+  "Severnobački okrug": "Регион Војводине",
+  "Srednjebanatski okrug": "Регион Војводине",
+  "Severnobanatski okrug": "Регион Војводине",
+  "Južnobanatski okrug": "Регион Војводине",
+  "Zapadnobački okrug": "Регион Војводине",
+  "Južnobački okrug": "Регион Војводине",
+  "Sremski okrug": "Регион Војводине",
+  Sremski: "Регион Војводине",
+  "Zlatiborski okrug": "Регион Шумадије и Западне Србије",
+  "Kolubarski okrug": "Регион Шумадије и Западне Србије",
+  "Mačvanski okrug": "Регион Шумадије и Западне Србије",
+  "Moravički okrug": "Регион Шумадије и Западне Србије",
+  "Pomoravski okrug": "Регион Шумадије и Западне Србије",
+  "Rasinski okrug": "Регион Шумадије и Западне Србије",
+  "Raški okrug": "Регион Шумадије и Западне Србије",
+  "Šumadijski okrug": "Регион Шумадије и Западне Србије",
+  "Borski okrug": "Регион Јужне и Источне Србије",
+  "Braničevski okrug": "Регион Јужне и Источне Србије",
+  "Zaječarski okrug": "Регион Јужне и Источне Србије",
+  Zaječarski: "Регион Јужне и Источне Србије",
+  "Jablanički okrug": "Регион Јужне и Источне Србије",
+  "Nišavski okrug": "Регион Јужне и Источне Србије",
+  "Pirotski okrug": "Регион Јужне и Источне Србије",
+  "Podunavski okrug": "Регион Јужне и Источне Србије",
+  "Pčinjski okrug": "Регион Јужне и Источне Србије",
+  "Toplički okrug": "Регион Јужне и Источне Србије",
+  "Kosovski okrug": "Регион Косово и Метохија",
+  Kosovski: "Регион Косово и Метохија",
+  "Pećki okrug": "Регион Косово и Метохија",
+  Pećki: "Регион Косово и Метохија",
+  "Prizrenski okrug": "Регион Косово и Метохија",
+  Prizrenski: "Регион Косово и Метохија",
+  "Kosovsko-mitrovački okrug": "Регион Косово и Метохија",
+  "Kosovsko-pomoravski okrug": "Регион Косово и Метохија",
+};
+
+type ViewMode = "serbia" | "diaspora";
+
+export default function Dashboard({
+  electionId,
+  onPickElection,
+  onBack,
+}: {
+  electionId: number;
+  onPickElection: (slug: string) => void;
+  onBack: () => void;
+}) {
+  const [viewMode, setViewMode] = useState<ViewMode>("serbia");
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [selectedMunicipalityId, setSelectedMunicipalityId] = useState<number | null>(null);
+  const [selectedRikOpstina, setSelectedRikOpstina] = useState<{ id: string; name: string } | null>(null);
+  const [selectedDiasporaStation, setSelectedDiasporaStation] = useState<number | null>(null);
+  const [showTrend, setShowTrend] = useState(false);
+
+  const { data: elections, error: electionsError } = useSWR("elections", api.elections);
+  // activeId se menja samo navigacijom ([slug] ruta); lokalna selekcija se resetuje
+  const activeId = electionId;
+
+  function resetSelection() {
+    setSelectedRegion(null);
+    setSelectedMunicipalityId(null);
+    setSelectedRikOpstina(null);
+    setSelectedDiasporaStation(null);
+    setViewMode("serbia");
+    setShowTrend(false);
+  }
+
+  // Reset selekcije pri promeni ciklusa (navigacija napred/nazad)
+  useEffect(() => {
+    resetSelection();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [electionId]);
+
+  function pickElection(id: number) {
+    const slug = elections?.find((e) => e.id === id)?.slug;
+    if (slug) onPickElection(slug);
+  }
+
+  const { data: summary, error: summaryError } = useSWR(
+    activeId ? ["summary", activeId] : null,
+    () => api.summary(activeId!),
+    { refreshInterval: REFRESH_MS }
+  );
+
+  const { data: regions, error: regionsError } = useSWR(
+    activeId ? ["regions", activeId] : null,
+    () => api.regions(activeId!),
+    { refreshInterval: REFRESH_MS }
+  );
+
+  const { data: municipalities, error: municipalitiesError } = useSWR(
+    activeId ? ["municipalities", activeId] : null,
+    () => api.municipalities(activeId!),
+    { refreshInterval: REFRESH_MS }
+  );
+
+  const { data: swing } = useSWR(
+    activeId && showTrend ? ["swing", activeId] : null,
+    () => api.swing(activeId!),
+    { refreshInterval: REFRESH_MS }
+  );
+
+  const swingMun = useMemo(() => {
+    const m = new Map<number, { change_pp: number | null; prev_party: string | null; prev_pct: number | null }>();
+    for (const s of swing?.municipalities ?? []) {
+      if (s.municipality_id != null) {
+        m.set(s.municipality_id, { change_pp: s.change_pp, prev_party: s.prev_party, prev_pct: s.prev_pct });
+      }
+    }
+    return m;
+  }, [swing]);
+
+  const swingRegion = useMemo(() => {
+    const m = new Map<string, { change_pp: number | null; prev_party: string | null; prev_pct: number | null }>();
+    for (const s of swing?.regions ?? []) {
+      if (s.region) {
+        m.set(s.region, { change_pp: s.change_pp, prev_party: s.prev_party, prev_pct: s.prev_pct });
+      }
+    }
+    return m;
+  }, [swing]);
+
+  const error = summaryError || municipalitiesError || regionsError;
+  const isLoadingData =
+    !!activeId && !error && (!summary || !regions || !municipalities);
+
+  // Cenzus: 5% do izborne reforme (feb. 2020), 3% od 2020. nadalje.
+  const censusPct =
+    (summary?.election.election_date ?? "") < "2020-01-01" ? 5 : 3;
+  const govBallots = GOVERNING_BALLOTS[summary?.election.slug ?? ""] ?? [];
+
+  const regionMunicipalities = useMemo(() => {
+    if (!selectedRegion || !municipalities) return [];
+    // direktan match (demo podaci)
+    let filtered = municipalities.filter((m) => m.region === selectedRegion);
+    if (filtered.length === 0) {
+      const rik = OKRUG_TO_RIK[selectedRegion];
+      if (rik) filtered = municipalities.filter((m) => m.region === rik);
+    }
+    return filtered;
+  }, [municipalities, selectedRegion]);
+
+  const selectedRegionData = useMemo(() => {
+    if (!selectedRegion || !regions) return null;
+    let r = regions.find((x) => x.region === selectedRegion);
+    if (r) return r;
+    const rik = OKRUG_TO_RIK[selectedRegion];
+    if (rik) return regions.find((x) => x.region === rik) ?? null;
+    return null;
+  }, [regions, selectedRegion]);
+
+  const diasporaRegion = useMemo(
+    () => regions?.find((r) => isDiasporaRegion(r.region)) ?? null,
+    [regions]
+  );
+
+  // grupiši dijaspora stanice po državi za side panel
+  const diasporaByCountry = useMemo(() => {
+    const map = new Map<string, typeof diasporaStations>();
+    for (const s of diasporaStations as unknown as { id: number; name: string; city: string; country: string; lat: number; lon: number }[]) {
+      const arr = map.get(s.country) || [];
+      arr.push(s);
+      map.set(s.country, arr);
+    }
+    return Array.from(map.entries()).sort((a, b) => b[1].length - a[1].length);
+  }, []);
+
+  const selectedDiasporaStationData = useMemo(
+    () => (diasporaStations as unknown as { id: number; name: string; city: string; country: string }[]).find((s) => s.id === selectedDiasporaStation) ?? null,
+    [selectedDiasporaStation]
+  );
+
+  // Auto-scroll na detalje opštine / biračkog mesta kad se izaberu
+  const munDetailRef = useRef<HTMLDivElement>(null);
+  const stationDetailRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (selectedMunicipalityId || selectedRikOpstina) {
+      munDetailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [selectedMunicipalityId, selectedRikOpstina]);
+  useEffect(() => {
+    if (selectedDiasporaStation) {
+      stationDetailRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  }, [selectedDiasporaStation]);
+
+  return (
+    <main className="flex flex-col h-full w-full">
+      {/* Top bar */}
+      <header className="flex items-center gap-4 px-5 py-3 border-b border-white/10 bg-[#0e1117] shrink-0">
+        <button
+          onClick={onBack}
+          title="Nazad na izbor izbora"
+          className="shrink-0 w-8 h-8 rounded-full bg-white/[0.06] border border-white/10 text-white/60 hover:text-white hover:border-white/25 transition-colors flex items-center justify-center"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
+            <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+        <div className="min-w-0">
+          <h1 className="text-[15px] font-semibold text-white truncate">
+            {summary?.election.name || "Izbori"}
+          </h1>
+          <p className="text-[11px] text-white/40">
+            {viewMode === "diaspora"
+              ? "Dijaspora · 81 biračko mesto u 35 država"
+              : selectedRegion
+              ? selectedRegion
+              : summary?.election.status === "closed"
+              ? "Konačni rezultati · klik na okrug za detalje"
+              : "Rezultati uživo · klik na okrug za detalje"}
+          </p>
+        </div>
+
+        <StatusBadge status={summary?.election.status} />
+
+        {/* Dataset selector */}
+        <div className="relative ml-4 shrink-0">
+          <select
+            aria-label="Izbor dataseta"
+            value={activeId ?? ""}
+            disabled={!elections || elections.length === 0}
+            onChange={(e) => pickElection(Number(e.target.value))}
+            className="appearance-none rounded-full bg-white/[0.06] border border-white/10 pl-4 pr-9 py-1.5 text-xs font-medium text-white outline-none cursor-pointer hover:border-white/25 focus:border-white/30 transition-colors disabled:opacity-50 disabled:cursor-wait"
+          >
+            {!elections && <option value="">Učitavanje…</option>}
+            {elections?.map((e) => (
+              <option key={e.id} value={e.id} className="bg-[#0e1117] text-white">
+                {e.slug === "demo" ? `Demo — ${e.name}` : e.name}
+                {(e.stations_with_results ?? 0) === 0 && (e.total_votes ?? 0) === 0
+                  ? " (nema podataka)"
+                  : ""}
+              </option>
+            ))}
+          </select>
+          <svg
+            className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/50"
+            viewBox="0 0 16 16"
+            fill="none"
+          >
+            <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+
+        {/* View toggle */}
+        <div className="flex items-center rounded-full bg-white/[0.06] border border-white/10 p-1 ml-4">
+          <button
+            onClick={() => setViewMode("serbia")}
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+              viewMode === "serbia" ? "bg-white text-black" : "text-white/60 hover:text-white"
+            }`}
+          >
+            Srbija
+          </button>
+          <button
+            onClick={() => {
+              setViewMode("diaspora");
+              setSelectedRegion(null);
+              setSelectedMunicipalityId(null);
+              setSelectedRikOpstina(null);
+            }}
+            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1.5 ${
+              viewMode === "diaspora" ? "bg-white text-black" : "text-white/60 hover:text-white"
+            }`}
+          >
+            Dijaspora
+            <span className={`text-[10px] px-1 py-0.5 rounded font-bold ${viewMode === "diaspora" ? "bg-black/10" : "bg-white/10"}`}>81</span>
+          </button>
+        </div>
+
+        <div className="flex items-center gap-6 ml-auto">
+          <Metric label="Obrađeno" value={summary ? `${summary.processed_pct.toFixed(1)}%` : "—"} />
+          <Metric label="Izlaznost" value={summary ? `${summary.turnout_pct.toFixed(1)}%` : "—"} />
+          {summary && viewMode === "serbia" && summary.results[0] && (() => {
+            const govParties = GOVERNING_PARTIES[summary.election.slug ?? ""];
+            const isGov = summary.election.status === "closed" && !!govParties;
+            return (
+              <div className="hidden sm:flex items-center gap-2 text-[11px] border-l border-white/10 pl-6 flex-1 min-w-0">
+                <span
+                  title={summary.results[0].name}
+                  className="tabular-nums leading-snug line-clamp-2 text-white/35"
+                >
+                  {summary.results[0].name}
+                </span>
+                {isGov ? (
+                  <span className="tabular-nums leading-snug text-white/55 shrink-0">
+                    Vlast: <span className="text-white/85 font-medium">{govParties}</span>
+                  </span>
+                ) : (
+                  <span
+                    className={`shrink-0 text-[10px] font-bold tracking-wide px-2 py-1 rounded-full border ${
+                      summary.election.status === "closed"
+                        ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+                        : "bg-red-500/15 text-red-400 border-red-500/30"
+                    }`}
+                  >
+                    {summary.election.status === "live" && (
+                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 animate-pulse align-middle" />
+                    )}
+                    {leaderVerb(summary.election.status, true).toUpperCase()}
+                  </span>
+                )}
+              </div>
+            );
+          })()}
+        </div>
+      </header>
+
+      {error && (
+        <div className="mx-5 mt-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 text-xs px-3 py-2 shrink-0">
+          Ne mogu da se povežem sa API-jem ({process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}).
+          Proveri da li backend radi i da li je baza napunjena podacima.
+        </div>
+      )}
+
+      <div className="flex flex-1 min-h-0">
+        {/* Map */}
+        <section className="relative flex-1 min-w-0 bg-[#0b0d12]">
+          {isLoadingData && (
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-[#0b0d12]/85 backdrop-blur-sm">
+              <span className="w-8 h-8 rounded-full border-2 border-white/15 border-t-white/80 animate-spin" />
+              <p className="text-xs text-white/60">Učitavanje podataka…</p>
+            </div>
+          )}
+          {viewMode === "serbia" ? (
+            regions ? (
+              <SerbiaMap
+                regions={regions.filter((r) => !isDiasporaRegion(r.region) && !isZavodiRegion(r.region))}
+                municipalities={municipalities}
+                selectedRegion={selectedRegion}
+                selectedMunicipalityId={selectedMunicipalityId}
+                selectedRikOpstina={selectedRikOpstina}
+                showRaceBadges={summary?.election.status !== "closed"}
+                showTrend={showTrend}
+                onToggleTrend={() => setShowTrend((v) => !v)}
+                swingMun={swingMun}
+                swingRegion={swingRegion}
+                prevLabel={swing?.prev_election ? `vs ${swing.prev_election.name.replace("Parlamentarni izbori ", "")}` : null}
+                onSelectRegion={(region) => {
+                  setSelectedRegion(region);
+                  setSelectedMunicipalityId(null);
+                  setSelectedRikOpstina(null);
+                }}
+                onSelectMunicipality={setSelectedMunicipalityId}
+                onSelectRikOpstina={setSelectedRikOpstina}
+              />
+            ) : (
+              <div className="h-full flex items-center justify-center text-white/30 text-sm">Učitavanje mape…</div>
+            )
+          ) : (
+            <WorldMap
+              diasporaRegion={diasporaRegion}
+              selectedStationId={selectedDiasporaStation}
+              onSelectStation={setSelectedDiasporaStation}
+              electionStatus={summary?.election.status}
+              electionId={activeId}
+            />
+          )}
+        </section>
+
+        {/* Sidebar */}
+        <aside className="w-[380px] shrink-0 border-l border-white/10 bg-[#0e1117] flex flex-col min-h-0">
+          <div className="flex-1 overflow-y-auto hide-scrollbar px-5 py-5 flex flex-col gap-5">
+            {viewMode === "serbia" ? (
+              <>
+                {/* Nacionalni pregled — samo dok nije izabran region */}
+                {!selectedRegion && (
+                <div>
+                  <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-3">Ukupni rezultati</p>
+                  {summary ? (
+                    <>
+                      <div className="grid grid-cols-3 gap-2 mb-4">
+                        <MiniStat label="Obrađeno" value={`${summary.processed_pct.toFixed(1)}%`} />
+                        <MiniStat
+                          label="Izlaznost"
+                          value={summary.total_registered > 0 ? `${summary.turnout_pct.toFixed(1)}%` : "—"}
+                        />
+                        <MiniStat
+                          label="Biračkih mesta"
+                          value={
+                            summary.total_stations > 0
+                              ? `${summary.processed_pct.toFixed(0)}%`
+                              : `${summary.election.municipalities_with_data ?? 0} opština`
+                          }
+                        />
+                      </div>
+                      <ResultBars results={summary.results} pastTense={summary.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} />
+                      {summary.results.length === 0 && (
+                        <p className="text-[11px] text-white/30 mt-2">
+                          Nema podataka za ovaj dataset — biće popunjeno kad krene unos rezultata.
+                        </p>
+                      )}
+                      {summary.results[0] && (
+                        <p className="text-[11px] text-white/35 mt-2 tabular-nums">
+                          Ukupno glasova: {summary.results.reduce((s, r) => s + r.votes, 0).toLocaleString("sr-RS")} · {summary.results[0].short_name} +
+                          {(summary.results[0].pct - (summary.results[1]?.pct ?? 0)).toFixed(1)}pp prednosti
+                        </p>
+                      )}
+                      {summary.election.election_type === "parliamentary" && activeId && (
+                        <div className="mt-4 pt-4 border-t border-white/10">
+                          <MandateChart
+                            electionId={activeId}
+                            governingBallots={GOVERNING_BALLOTS[summary.election.slug ?? ""] ?? []}
+                            primeMinister={summary.election.prime_minister}
+                            primeMinisterParty={summary.election.pm_party}
+                            primeMinisters={summary.election.prime_ministers}
+                            partyLabels={LIST_PARTIES[summary.election.slug ?? ""] ?? {}}
+                          />
+                        </div>
+                      )}
+                    </>
+              ) : (
+                <div className="flex flex-col gap-2.5 animate-pulse">
+                  <div className="h-3 rounded bg-white/10 w-2/3" />
+                  <div className="h-1.5 rounded-full bg-white/10" />
+                  <div className="h-3 rounded bg-white/10 w-1/2" />
+                  <div className="h-1.5 rounded-full bg-white/10" />
+                  <div className="h-3 rounded bg-white/10 w-3/5" />
+                  <div className="h-1.5 rounded-full bg-white/10" />
+                </div>
+              )}
+            </div>
+                )}
+
+                {selectedRegion && selectedRegionData && (
+                  <div className="border-t border-white/10 pt-5">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium">Okrug</p>
+                        <p className="text-[15px] font-semibold text-white leading-tight">{selectedRegion}</p>
+                        <p className="text-[11px] text-white/40 tabular-nums">
+                          {selectedRegionData.processed_stations}/{selectedRegionData.total_stations} BM · {selectedRegionData.processed_pct.toFixed(0)}% obrađeno
+                        </p>
+                        <p className="text-[11px] text-white/40 tabular-nums mt-0.5">
+                          {(selectedRegionData.registered_voters ?? 0).toLocaleString("sr-RS")} birača · {(selectedRegionData.total_voted ?? 0).toLocaleString("sr-RS")} izašlih
+                        </p>
+                      </div>
+                      {selectedRegionData.leader && summary?.election.status !== "closed" && (
+                        <span
+                          className={`text-[10px] px-2 py-1 rounded-full border font-semibold tracking-wide shrink-0 ${
+                            getTier(selectedRegionData.margin_pct, true) === "secure"
+                              ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+                              : getTier(selectedRegionData.margin_pct, true) === "lean"
+                              ? "bg-amber-500/15 text-amber-300 border-amber-500/30"
+                              : "bg-white/10 text-white/70 border-white/15"
+                          }`}
+                        >
+                          {getTier(selectedRegionData.margin_pct, true) === "secure" ? "SIGURNO" : getTier(selectedRegionData.margin_pct, true) === "lean" ? "UMERENO" : "NEIZVESNO"}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2 mb-3">
+                      <MiniStat
+                        label="Obrađeno"
+                        value={
+                          selectedRegionData.total_stations > 0
+                            ? `${selectedRegionData.processed_pct.toFixed(0)}%`
+                            : selectedRegionData.results.length > 0
+                            ? "100%"
+                            : "0%"
+                        }
+                      />
+                      <MiniStat
+                        label="Izlaznost"
+                        value={
+                          (selectedRegionData.registered_voters ?? 0) > 0
+                            ? `${selectedRegionData.turnout_pct.toFixed(1)}%`
+                            : "—"
+                        }
+                      />
+                      <MiniStat label="Prednost" value={`+${selectedRegionData.margin_pct.toFixed(1)}pp`} />
+                    </div>
+
+                    {selectedRegionData.leader && (
+                      <div className="rounded-lg bg-white/[0.04] border border-white/10 px-3 py-2.5 mb-3 flex items-center gap-2">
+                        <span className="w-3 h-3 rounded-full shrink-0" style={{ background: selectedRegionData.leader.color_hex || "#888" }} />
+                        <div className="min-w-0">
+                          <p className="text-xs font-medium text-white truncate">{selectedRegionData.leader.short_name} {leaderVerb(summary?.election.status)}</p>
+                          <p className="text-[11px] text-white/50 truncate">{selectedRegionData.leader.name}</p>
+                        </div>
+                        <span className="ml-auto text-sm font-semibold text-white tabular-nums">{selectedRegionData.leader.pct.toFixed(1)}%</span>
+                      </div>
+                    )}
+
+                    <ResultBars results={selectedRegionData.results} pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} />
+
+                    <div className="mt-4">
+                      <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">
+                        Opština ({regionMunicipalities.length})
+                      </p>
+                      <select
+                        value={selectedMunicipalityId ?? ""}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          setSelectedMunicipalityId(v ? Number(v) : null);
+                          setSelectedRikOpstina(null);
+                        }}
+                        className="w-full rounded-lg bg-white/[0.04] border border-white/10 px-3 py-2 text-xs text-white outline-none focus:border-white/30 cursor-pointer"
+                      >
+                        <option value="">Izaberi opštinu…</option>
+                        {regionMunicipalities
+                          .slice()
+                          .sort((a, b) => a.name.localeCompare(b.name, "sr"))
+                          .map((m) => (
+                            <option key={m.id} value={m.id} className="bg-[#0e1117]">
+                              {m.name} · {m.leader ? `${m.leader.short_name} ${m.leader.pct.toFixed(1)}%` : "nema rezultata"}
+                            </option>
+                          ))}
+                      </select>
+                      <p className="text-[11px] text-white/30 mt-1.5">
+                        Ili klikni direktno na opštinu na mapi.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {selectedMunicipalityId && (
+                  <div ref={munDetailRef} className="border-t border-white/10 pt-5 scroll-mt-5">
+                    {activeId && (
+                      <MunicipalityPanel electionId={activeId}
+municipalityId={selectedMunicipalityId} pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} />
+                    )}
+                  </div>
+                )}
+
+                {!selectedMunicipalityId && selectedRikOpstina && (
+                  <div ref={munDetailRef} className="border-t border-white/10 pt-5 scroll-mt-5">
+                    <div className="rounded-xl bg-white/[0.04] border border-white/10 p-4">
+                      <p className="text-base font-semibold text-white leading-tight">{formatPlaceName(selectedRikOpstina.name)}</p>
+                      <p className="text-xs text-white/40 mt-1">
+                        Za ovu opštinu trenutno nema dostupnih rezultata.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {!selectedRegion && (
+                  <div className="border-t border-white/10 pt-4">
+                    <p className="text-[11px] leading-relaxed text-white/30">
+                      Klikni na okrug za detalj. Boje: <span className="text-white/60">tamno ≥10%</span>, <span className="text-white/60">srednje 5–10%</span>,{" "}
+                      <span className="text-white/60">šrafirano &lt;5%</span>. Zaključan prikaz opština dok ne izađeš.
+                    </p>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                {/* Dijaspora side panel */}
+                <div>
+                  <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-3">Inostranstvo</p>
+                  {diasporaRegion ? (
+                    <>
+                      <div className="rounded-xl bg-gradient-to-br from-blue-600/20 to-indigo-600/20 border border-blue-500/20 p-4 mb-4">
+                        <p className="text-xs text-white/60 mb-1">Ukupno dijaspora</p>
+                        <p className="text-2xl font-bold text-white tabular-nums">{diasporaRegion.processed_stations}/{diasporaRegion.total_stations}</p>
+                        <p className="text-[11px] text-white/50">biračkih mesta · {diasporaRegion.processed_pct.toFixed(0)}% obrađeno · {diasporaRegion.turnout_pct.toFixed(1)}% izlaznost</p>
+                        <p className="text-[11px] text-white/50 tabular-nums mt-0.5">
+                          {(diasporaRegion.registered_voters ?? 0).toLocaleString("sr-RS")} birača · {(diasporaRegion.total_voted ?? 0).toLocaleString("sr-RS")} izašlih
+                        </p>
+                        {diasporaRegion.leader && (
+                          <div className="mt-3 flex items-center gap-2">
+                            <span className="w-2.5 h-2.5 rounded-full" style={{ background: diasporaRegion.leader.color_hex }} />
+                            <span className="text-xs text-white">{diasporaRegion.leader.short_name} {diasporaRegion.leader.pct.toFixed(1)}%</span>
+                            <span className="text-[11px] text-white/40">+{diasporaRegion.margin_pct.toFixed(1)}pp</span>
+                          </div>
+                        )}
+                      </div>
+                      <ResultBars results={diasporaRegion.results} compact pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} />
+                      <p className="text-[11px] text-white/30 mt-2">
+                        81 biračko mesto u ambasadama i konzulatima širom sveta.
+                      </p>
+                    </>
+                  ) : (
+                    <p className="text-sm text-white/30">Trenutno nema dostupnih podataka za inostranstvo.</p>
+                  )}
+                </div>
+
+                {selectedDiasporaStationData && activeId && (
+                  <div ref={stationDetailRef} className="border-t border-white/10 pt-4 scroll-mt-4">
+                    <DiasporaStationPanel
+                      electionId={activeId}
+                      rikStationId={selectedDiasporaStationData.id}
+                      city={selectedDiasporaStationData.city}
+                      country={selectedDiasporaStationData.country}
+                      placeName={selectedDiasporaStationData.name}
+                      pastTense={summary?.election.status === "closed"}
+                      censusPct={censusPct}
+                      governingBallots={govBallots}
+                    />
+                  </div>
+                )}
+
+                <div className="border-t border-white/10 pt-4">
+                  <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">
+                    Biračko mesto ({diasporaStations.length})
+                  </p>
+                  <select
+                    value={selectedDiasporaStation ?? ""}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      setSelectedDiasporaStation(v ? Number(v) : null);
+                    }}
+                    className="w-full rounded-lg bg-white/[0.04] border border-white/10 px-3 py-2 text-xs text-white outline-none focus:border-white/30 cursor-pointer"
+                  >
+                    <option value="">Izaberi ambasadu…</option>
+                    {diasporaByCountry.map(([country, stations]) => (
+                      <optgroup key={country} label={`${country} (${stations.length})`}>
+                        {stations.map((s) => (
+                          <option key={s.id} value={s.id} className="bg-[#0e1117]">
+                            {s.city} — {s.name.slice(0, 44)}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  </select>
+                  <p className="text-[11px] text-white/30 mt-1.5">
+                    Ili klikni direktno na tačku na mapi.
+                  </p>
+                </div>
+
+                <div className="border-t border-white/10 pt-4">
+                  <p className="text-[11px] leading-relaxed text-white/30">
+                    Globalna mapa prikazuje sva 81 biračka mesta iz RIK-a za 2023 (region 101, opština 198). Svaka tačka je ambasada/konzulat. Boja prati nacionalnog lidera, a izbor na tačku otvara detalje.
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
+        </aside>
+      </div>
+    </main>
+  );
+}
+
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="text-right">
+      <p className="text-[10px] uppercase tracking-wide text-white/35 leading-none mb-1">{label}</p>
+      <p className="text-sm font-semibold text-white tabular-nums leading-none">{value}</p>
+    </div>
+  );
+}
+
+function MiniStat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg bg-white/[0.04] border border-white/10 px-2.5 py-2">
+      <p className="text-[10px] uppercase tracking-wide text-white/35 leading-none mb-1">{label}</p>
+      <p className="text-xs font-semibold text-white tabular-nums">{value}</p>
+    </div>
+  );
+}
+
+function StatusBadge({ status }: { status?: string }) {
+  const map: Record<string, { label: string; className: string }> = {
+    live: { label: "UŽIVO", className: "bg-red-500/15 text-red-400 border-red-500/30" },
+    closed: { label: "ZAVRŠENO", className: "bg-white/10 text-white/60 border-white/15" },
+    upcoming: { label: "PREDSTOJI", className: "bg-amber-500/15 text-amber-400 border-amber-500/30" },
+  };
+  const s = map[status || "upcoming"] ?? map.upcoming;
+  return (
+    <span className={`text-[10px] font-semibold tracking-wide px-2 py-1 rounded-full border ${s.className} shrink-0`}>
+      {status === "live" && <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 animate-pulse align-middle" />}
+      {s.label}
+    </span>
+  );
+}

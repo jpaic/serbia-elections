@@ -63,6 +63,26 @@ export interface MandatesResponse {
   parties: MandateParty[];
 }
 
+export interface SwingInfo {
+  change_pp: number | null;
+  prev_party: string | null;
+  prev_pct: number | null;
+}
+
+export interface SwingNode {
+  municipality_id?: number;
+  region?: string;
+  change_pp: number | null;
+  prev_party: string | null;
+  prev_pct: number | null;
+}
+
+export interface SwingResponse {
+  prev_election: { id: number; slug: string; name: string; election_date: string } | null;
+  municipalities: SwingNode[];
+  regions: SwingNode[];
+}
+
 export interface DiasporaStationResult {
   rik_station_id: number;
   short_name: string;

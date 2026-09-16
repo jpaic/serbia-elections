@@ -460,6 +460,72 @@ def mandates(election_id: int, total_seats: int = 250, threshold_pct: float = 3.
             "valid_votes": valid_votes, "official": use_official, "parties": out}
 
 
+@app.get("/elections/{election_id}/swing")
+def swing(election_id: int):
+    """Promena pobednika po opstini/regionu u odnosu na prethodne izbore.
+    change_pp = pct sadasnjeg lidera - pct proslog pobednika (iste teritorije).
+    Pozitivno = pobednik ojacao, negativno = oslabio (strelica gore/dole)."""
+    cur = fetchone("SELECT id, election_date FROM elections WHERE id = :id", {"id": election_id})
+    if not cur:
+        raise HTTPException(404, "Izbori nisu pronađeni")
+    prev = fetchone(
+        """
+        SELECT e.id, e.slug, e.name, e.election_date FROM elections e
+        WHERE e.election_date < :d AND EXISTS
+            (SELECT 1 FROM municipality_results mr WHERE mr.election_id = e.id)
+        ORDER BY e.election_date DESC LIMIT 1
+        """,
+        {"d": cur["election_date"]},
+    )
+    if not prev:
+        return {"prev_election": None, "municipalities": [], "regions": []}
+
+    def leaders(eid: int):
+        rows = fetchall(
+            """
+            SELECT mr.municipality_id, m.region AS region, p.name AS party,
+                   mr.votes, SUM(mr.votes) OVER (PARTITION BY mr.municipality_id) AS total
+            FROM municipality_results mr
+            JOIN parties p ON p.id = mr.party_id
+            JOIN municipalities m ON m.id = mr.municipality_id
+            WHERE mr.election_id = :eid
+            """,
+            {"eid": eid},
+        )
+        best: dict[int, dict] = {}
+        for r in rows:
+            mid = r["municipality_id"]
+            pct = round(100 * r["votes"] / (r["total"] or 1), 2)
+            if mid not in best or r["votes"] > best[mid]["votes"]:
+                best[mid] = {"party": r["party"], "pct": pct,
+                             "votes": r["votes"], "region": r["region"]}
+        return best
+
+    now, old = leaders(election_id), leaders(prev["id"])
+    muns = [{"municipality_id": mid,
+             "change_pp": round(v["pct"] - old[mid]["pct"], 2) if mid in old else None,
+             "prev_party": old[mid]["party"] if mid in old else None,
+             "prev_pct": old[mid]["pct"] if mid in old else None}
+            for mid, v in now.items()]
+    reg_now: dict[str, dict] = {}
+    reg_old: dict[str, dict] = {}
+    for src, dst in ((now, reg_now), (old, reg_old)):
+        agg: dict[str, dict] = {}
+        for v in src.values():
+            a = agg.setdefault(v["region"], {"parties": {}})
+            a["parties"][v["party"]] = a["parties"].get(v["party"], 0) + v["votes"]
+        for region, a in agg.items():
+            tot = sum(a["parties"].values()) or 1
+            top = max(a["parties"].items(), key=lambda kv: kv[1])
+            dst[region] = {"party": top[0], "pct": round(100 * top[1] / tot, 2)}
+    regs = [{"region": region,
+             "change_pp": round(v["pct"] - reg_old[region]["pct"], 2) if region in reg_old else None,
+             "prev_party": reg_old[region]["party"] if region in reg_old else None,
+             "prev_pct": reg_old[region]["pct"] if region in reg_old else None}
+            for region, v in reg_now.items()]
+    return {"prev_election": prev, "municipalities": muns, "regions": regs}
+
+
 @app.get("/elections/{election_id}/diaspora")
 def diaspora_stations(election_id: int):
     """Lider po svakoj ambasadi (region 101) za bojenje tačaka na mapi sveta."""

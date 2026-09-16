@@ -10,7 +10,7 @@ import {
   getTier,
   stripePatternId,
 } from "@/lib/colorScale";
-import type { MunicipalityRow, RegionResult } from "@/lib/types";
+import type { MunicipalityRow, RegionResult, SwingInfo } from "@/lib/types";
 import { formatCompact, formatPlaceName } from "@/lib/display";
 import rikOpstine from "../../public/data/rik-opstine.json";
 import rikSrbija from "../../public/data/rik-srbija.json";
@@ -93,6 +93,11 @@ export default function SerbiaMap({
   selectedRikOpstina,
   onSelectRikOpstina,
   showRaceBadges = false,
+  showTrend = false,
+  onToggleTrend,
+  swingMun,
+  swingRegion,
+  prevLabel = null,
 }: {
   regions: RegionResult[];
   municipalities?: MunicipalityRow[];
@@ -104,6 +109,12 @@ export default function SerbiaMap({
   onSelectRikOpstina?: (op: RikOpstina | null) => void;
   // Bedževi trke (SIGURNO/UMERENO/NEIZVESNO) imaju smisla samo dok izbori traju
   showRaceBadges?: boolean;
+  // Trend: strelice promene pobednika vs prethodni izbori
+  showTrend?: boolean;
+  onToggleTrend?: () => void;
+  swingMun?: Map<number, SwingInfo>;
+  swingRegion?: Map<string, SwingInfo>;
+  prevLabel?: string | null;
 }) {
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const [hoveredOpstina, setHoveredOpstina] = useState<string | null>(null);
@@ -233,6 +244,43 @@ export default function SerbiaMap({
     );
   }
 
+  // Strelica trenda: gore/dole/ravno, u boji lidera, sa vrednošću promene (pp)
+  function trendArrow(
+    change: number,
+    color: string,
+    s: number,
+    title: string
+  ) {
+    const dir = change > 1 ? "up" : change < -1 ? "down" : "flat";
+    const label = `${change > 0 ? "+" : ""}${change.toFixed(1)}`;
+    return (
+      <g style={{ pointerEvents: "none" }}>
+        {dir === "flat" ? (
+          <rect x={-6 * s} y={-2 * s} width={12 * s} height={4 * s} rx={2 * s} fill={color} opacity={0.85} />
+        ) : (
+          <polygon
+            points={dir === "up" ? `0,${-7 * s} ${6 * s},${5 * s} ${-6 * s},${5 * s}` : `0,${7 * s} ${6 * s},${-5 * s} ${-6 * s},${-5 * s}`}
+            fill={color}
+            stroke="rgba(0,0,0,0.6)"
+            strokeWidth={1 * s}
+          />
+        )}
+        <text textAnchor="middle" y={16 * s} fontSize={10 * s} fontWeight={700} fill="#fff" className="tabular-nums">
+          {label}
+        </text>
+        <title>{title}</title>
+      </g>
+    );
+  }
+
+  function swingTitle(info: SwingInfo): string {
+    const base = prevLabel ? `Promena ${prevLabel}` : "Promena vs prethodni izbori";
+    if (info.change_pp == null) return base;
+    const sign = info.change_pp > 0 ? "+" : "";
+    const prev = info.prev_party ? ` (tad: ${info.prev_party} ${info.prev_pct?.toFixed(1)}%)` : "";
+    return `${base}: ${sign}${info.change_pp.toFixed(1)}pp${prev}`;
+  }
+
   // SVG sloj opština jednog RIK regiona (zumirani pogled)
   function renderRikRegion(rikKey: string) {
     const rd = RIK.regions[rikKey];
@@ -293,22 +341,38 @@ export default function SerbiaMap({
               });
             }}
           </Geographies>
-          {/* Cifre populacije (upisani birači) po regionu */}
+          {/* Cifre populacije (upisani birači; bez spiska: važeći glasovi, isprekidano) po regionu */}
           {showPopulation &&
             regions.map((r) => {
               const pos = REGION_LABEL_POS[r.region];
-              // 0 = nepoznato (2022/2000 nemaju biracki spisak) -> sakrij cifru
-              if (!pos || !r.registered_voters) return null;
-              const label = formatCompact(r.registered_voters);
+              const reg = r.registered_voters || 0;
+              const fallback = reg === 0 && (r.total_voted || 0) > 0;
+              const val = reg > 0 ? reg : r.total_voted || 0;
+              if (!pos || val <= 0) return null;
+              const label = formatCompact(val);
               const w = label.length * 6 + 14;
               return (
                 <Marker key={`pop-${r.region}`} coordinates={pos}>
                   <g style={{ pointerEvents: "none" }}>
-                    <rect x={-w / 2} y={-11} width={w} height={20} rx={10} fill="rgba(0,0,0,0.72)" stroke="rgba(255,255,255,0.25)" strokeWidth={1} />
+                    <rect x={-w / 2} y={-11} width={w} height={20} rx={10} fill="rgba(0,0,0,0.72)" stroke="rgba(255,255,255,0.25)" strokeWidth={1} strokeDasharray={fallback ? "3 2" : undefined} />
                     <text textAnchor="middle" y={4} fontSize={11} fontWeight={700} fill="#fff" className="tabular-nums">
                       {label}
                     </text>
-                    <title>{`${r.region}: ${r.registered_voters.toLocaleString("sr-RS")} upisanih`}</title>
+                    <title>{`${r.region}: ${val.toLocaleString("sr-RS")} ${reg > 0 ? "upisanih" : "važećih glasova (nema biračkog spiska)"}`}</title>
+                  </g>
+                </Marker>
+              );
+            })}
+          {/* Strelice trenda po regionu */}
+          {showTrend &&
+            regions.map((r) => {
+              const pos = REGION_LABEL_POS[r.region];
+              const info = swingRegion?.get(r.region);
+              if (!pos || !info || info.change_pp == null || !r.leader) return null;
+              return (
+                <Marker key={`tr-${r.region}`} coordinates={pos}>
+                  <g transform={`translate(0, ${showPopulation ? 24 : 0})`}>
+                    {trendArrow(info.change_pp, r.leader.color_hex || "#888", 1, swingTitle(info))}
                   </g>
                 </Marker>
               );
@@ -331,17 +395,30 @@ export default function SerbiaMap({
           {showPopulation &&
             SRBIJA.municipalities.map((op) => {
               const mun = munForRik(op.id, op.name);
-              const reg = mun?.registered_voters;
-              if (!reg) return null;
-              const label = formatCompact(reg);
+              const reg = mun?.registered_voters || 0;
+              const fallback = reg === 0 && (mun?.total_voted || 0) > 0;
+              const val = reg > 0 ? reg : mun?.total_voted || 0;
+              if (!val) return null;
+              const label = formatCompact(val);
               const w = label.length * 30 + 84;
               return (
                 <g key={`pop-${op.id}`} style={{ pointerEvents: "none" }}>
-                  <rect x={op.cx - w / 2} y={op.cy - 52} width={w} height={100} rx={50} fill="rgba(0,0,0,0.72)" stroke="rgba(255,255,255,0.25)" strokeWidth={4} />
+                  <rect x={op.cx - w / 2} y={op.cy - 52} width={w} height={100} rx={50} fill="rgba(0,0,0,0.72)" stroke="rgba(255,255,255,0.25)" strokeWidth={4} strokeDasharray={fallback ? "14 10" : undefined} />
                   <text textAnchor="middle" x={op.cx} y={op.cy + 18} fontSize={54} fontWeight={700} fill="#fff" className="tabular-nums">
                     {label}
                   </text>
-                  <title>{`${formatPlaceName(op.name)}: ${reg.toLocaleString("sr-RS")} upisanih`}</title>
+                  <title>{`${formatPlaceName(op.name)}: ${val.toLocaleString("sr-RS")} ${reg > 0 ? "upisanih" : "važećih glasova (nema biračkog spiska)"}`}</title>
+                </g>
+              );
+            })}
+          {showTrend &&
+            SRBIJA.municipalities.map((op) => {
+              const mun = munForRik(op.id, op.name);
+              const info = mun ? swingMun?.get(mun.id) : undefined;
+              if (!info || info.change_pp == null || !mun?.leader) return null;
+              return (
+                <g key={`tr-${op.id}`} transform={`translate(${op.cx}, ${op.cy + (showPopulation ? 150 : 60)})`}>
+                  {trendArrow(info.change_pp, mun.leader.color_hex || "#888", 4.2, swingTitle(info))}
                 </g>
               );
             })}
@@ -378,6 +455,17 @@ export default function SerbiaMap({
             }`}
           >
             Opštine
+          </button>
+          <button
+            onClick={() => onToggleTrend?.()}
+            title="Strelice promene pobednika u odnosu na prethodne izbore"
+            className={`rounded-full backdrop-blur px-3.5 py-1.5 text-xs font-medium border shadow-lg transition-colors ${
+              showTrend
+                ? "bg-white text-black border-white"
+                : "bg-black/70 text-white border-white/15 hover:bg-black/85"
+            }`}
+          >
+            Trend
           </button>
         </div>
       )}
