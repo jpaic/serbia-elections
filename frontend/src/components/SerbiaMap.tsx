@@ -354,13 +354,14 @@ export default function SerbiaMap({
               });
             }}
           </Geographies>
-          {/* Cifre populacije (upisani birači; bez spiska: važeći glasovi, isprekidano) po regionu */}
+          {/* Cifre populacije (upisani birači; bez spiska: zbir važećih glasova, isprekidano) po regionu */}
           {showPopulation &&
             regions.map((r) => {
               const pos = REGION_LABEL_POS[r.region];
               const reg = r.registered_voters || 0;
-              const fallback = reg === 0 && (r.total_voted || 0) > 0;
-              const val = reg > 0 ? reg : r.total_voted || 0;
+              const votesSum = (r.results ?? []).reduce((s, x) => s + (x.votes || 0), 0);
+              const fallback = reg === 0 && votesSum > 0;
+              const val = reg > 0 ? reg : votesSum;
               if (!pos || val <= 0) return null;
               const label = formatCompact(val);
               const w = label.length * 6 + 14;
@@ -409,8 +410,9 @@ export default function SerbiaMap({
             SRBIJA.municipalities.map((op) => {
               const mun = munForRik(op.id, op.name);
               const reg = mun?.registered_voters || 0;
-              const fallback = reg === 0 && (mun?.total_voted || 0) > 0;
-              const val = reg > 0 ? reg : mun?.total_voted || 0;
+              const votesSum = (mun?.results ?? []).reduce((s, x) => s + (x.votes || 0), 0);
+              const fallback = reg === 0 && votesSum > 0;
+              const val = reg > 0 ? reg : votesSum;
               if (!val) return null;
               const label = formatCompact(val);
               const w = label.length * 30 + 84;
