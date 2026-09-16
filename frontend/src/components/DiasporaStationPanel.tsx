@@ -45,7 +45,7 @@ export default function DiasporaStationPanel({
         <p className="text-xs text-white/40">Za ovo biračko mesto trenutno nema dostupnih rezultata.</p>
       )}
       {data && data.results.length > 0 && (
-        <ResultBars results={data.results} compact pastTense={pastTense} censusPct={censusPct} governingBallots={governingBallots} status={status} />
+        <ResultBars results={data.results} compact pastTense={pastTense} censusPct={censusPct} governingBallots={governingBallots} status={status} hideCensusText />
       )}
       {data && data.results.length === 0 && !error && (
         <p className="text-xs text-white/40">Za ovo biračko mesto trenutno nema dostupnih rezultata.</p>

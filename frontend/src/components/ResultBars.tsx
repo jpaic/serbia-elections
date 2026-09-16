@@ -10,6 +10,7 @@ export default function ResultBars({
   censusPct = 3,
   governingBallots = [],
   status = "live",
+  hideCensusText = false,
 }: {
   results: PartyResult[];
   compact?: boolean;
@@ -19,6 +20,8 @@ export default function ResultBars({
   governingBallots?: number[];
   // "Vodi" ima smisla samo dok izbori traju (live), ne za predstojeće
   status?: string;
+  // Na nižim nivoima (region/opština) cenzus formalno ne važi — samo "ostale"
+  hideCensusText?: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -65,10 +68,10 @@ export default function ResultBars({
                   i === 0 ? "text-white font-medium" : "text-white/70"
                 }`}
               >
-                {compact ? r.short_name || r.name : r.name}
                 {r.is_minority && (
-                  <span title="Manjinska lista — sniženi (prirodni) cenzus" className="text-amber-300/90 ml-1">*</span>
+                  <span title="Manjinska lista — sniženi (prirodni) cenzus" className="text-amber-300/90 mr-1">*</span>
                 )}
+                {compact ? r.short_name || r.name : r.name}
               </span>
               {badge && (
                 <span
@@ -109,10 +112,16 @@ export default function ResultBars({
       {below.length > 0 && (
         <button
           onClick={() => setExpanded((v) => !v)}
-          title={`Cenzus od ${censusPct}% važi na republičkom nivou`}
+          title={hideCensusText ? "Liste sa manjim rezultatom" : `Cenzus od ${censusPct}% važi na republičkom nivou`}
           className="self-start text-[11px] text-white/45 hover:text-white/80 transition-colors mt-0.5"
         >
-          {expanded ? "Sakrij ispod cenzusa" : `Prikaži i ispod cenzusa (${censusPct}%) · ${below.length}`}
+          {hideCensusText
+            ? expanded
+              ? "Sakrij ostale"
+              : `Prikaži ostale · ${below.length}`
+            : expanded
+            ? "Sakrij ispod cenzusa"
+            : `Prikaži i ispod cenzusa (${censusPct}%) · ${below.length}`}
         </button>
       )}
       {anyMinority && (

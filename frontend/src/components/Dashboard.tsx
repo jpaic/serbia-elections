@@ -538,7 +538,7 @@ export default function Dashboard({
                       </div>
                     )}
 
-                    <ResultBars results={selectedRegionData.results} pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} status={summary?.election.status ?? "live"} />
+                    <ResultBars results={selectedRegionData.results} pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} status={summary?.election.status ?? "live"} hideCensusText />
 
                     <div className="mt-4">
                       <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">
@@ -621,7 +621,7 @@ municipalityId={selectedMunicipalityId} pastTense={summary?.election.status === 
                           </div>
                         )}
                       </div>
-                      <ResultBars results={diasporaRegion.results} compact pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} status={summary?.election.status ?? "live"} />
+                      <ResultBars results={diasporaRegion.results} compact pastTense={summary?.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} status={summary?.election.status ?? "live"} hideCensusText />
                       <p className="text-[11px] text-white/30 mt-2">
                         81 biračko mesto u ambasadama i konzulatima širom sveta.
                       </p>

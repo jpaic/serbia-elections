@@ -39,7 +39,7 @@ export default function MunicipalityPanel({
               {data.municipality.registered_voters?.toLocaleString("sr-RS")} birača
             </span>
           </div>
-          <ResultBars results={data.results} pastTense={pastTense} censusPct={censusPct} governingBallots={governingBallots} status={status} />
+          <ResultBars results={data.results} pastTense={pastTense} censusPct={censusPct} governingBallots={governingBallots} status={status} hideCensusText />
         </>
       )}
     </div>
