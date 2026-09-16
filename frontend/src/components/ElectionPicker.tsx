@@ -112,7 +112,7 @@ export default function ElectionPicker({
                   </div>
                 </div>
                 <p className="text-[11px] text-white/30 mt-3 min-h-[16px]">
-                  {!hasData ? "Još nema unetih rezultata." : ""}
+                  {!hasData ? (e.status === "upcoming" ? "Izbori predstoje." : "Još nema unetih rezultata.") : ""}
                 </p>
               </button>
             );

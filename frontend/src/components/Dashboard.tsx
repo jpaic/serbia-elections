@@ -252,14 +252,16 @@ export default function Dashboard({
             className="appearance-none rounded-full bg-white/[0.06] border border-white/10 pl-4 pr-9 py-1.5 text-xs font-medium text-white outline-none cursor-pointer hover:border-white/25 focus:border-white/30 transition-colors disabled:opacity-50 disabled:cursor-wait"
           >
             {!elections && <option value="">Učitavanje…</option>}
-            {elections?.map((e) => (
-              <option key={e.id} value={e.id} className="bg-[#0e1117] text-white">
-                {e.slug === "demo" ? `Demo — ${e.name}` : e.name}
-                {(e.stations_with_results ?? 0) === 0 && (e.total_votes ?? 0) === 0
-                  ? " (nema podataka)"
-                  : ""}
-              </option>
-            ))}
+              {elections?.map((e) => (
+                <option key={e.id} value={e.id} className="bg-[#0e1117] text-white">
+                  {e.slug === "demo" ? `Demo — ${e.name}` : e.name}
+                  {(e.stations_with_results ?? 0) === 0 && (e.total_votes ?? 0) === 0
+                    ? e.status === "upcoming"
+                      ? " (predstoje)"
+                      : " (nema podataka)"
+                    : ""}
+                </option>
+              ))}
           </select>
           <svg
             className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/50"
@@ -303,6 +305,8 @@ export default function Dashboard({
             // Najvise glasova ne znaci vlast (npr. SRS 2007) — lista se ne ispisuje
             const govParties = GOVERNING_PARTIES[summary.election.slug ?? ""];
             const isGov = summary.election.status === "closed" && !!govParties;
+            // Predstojeći izbori: nema "Vodi" bedža — StatusBadge već kaže PREDSTOJI
+            if (summary.election.status === "upcoming") return null;
             if (!isGov) {
               return (
                 <div className="hidden sm:flex items-center gap-2 text-[11px] border-l border-white/10 pl-6 flex-1 min-w-0">
