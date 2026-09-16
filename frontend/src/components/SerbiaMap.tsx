@@ -256,13 +256,14 @@ export default function SerbiaMap({
     return (
       <g style={{ pointerEvents: "none" }}>
         {dir === "flat" ? (
-          <rect x={-6 * s} y={-2 * s} width={12 * s} height={4 * s} rx={2 * s} fill={color} opacity={0.85} />
+          <rect x={-6 * s} y={-2 * s} width={12 * s} height={4 * s} rx={2 * s} fill={color} opacity={0.9} stroke="#000" strokeWidth={1.2 * s} />
         ) : (
           <polygon
             points={dir === "up" ? `0,${-7 * s} ${6 * s},${5 * s} ${-6 * s},${5 * s}` : `0,${7 * s} ${6 * s},${-5 * s} ${-6 * s},${-5 * s}`}
             fill={color}
-            stroke="rgba(0,0,0,0.6)"
-            strokeWidth={1 * s}
+            stroke="#000"
+            strokeWidth={1.5 * s}
+            strokeLinejoin="round"
           />
         )}
         <text textAnchor="middle" y={16 * s} fontSize={10 * s} fontWeight={700} fill="#fff" className="tabular-nums">

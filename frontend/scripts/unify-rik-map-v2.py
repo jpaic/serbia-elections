@@ -146,14 +146,18 @@ def main():
         # geo u km-prostoru
         gx0, gx1 = lon0 * COS44, lon1 * COS44
         gy0, gy1 = lat0, lat1
-        # uniformna razmera (cuva oblik) + centriranje
-        s = min((gx1 - gx0) / (sx1 - sx0), (gy1 - gy0) / (sy1 - sy0))
-        ox = (gx0 + gx1) / 2 - s * (sx0 + sx1) / 2 * orient[rk][0]
-        oy = (gy0 + gy1) / 2 - s * (sy0 + sy1) / 2 * orient[rk][1]
+        # tacan bbox fit (odnosi stranica se poklapaju na <3%, bez praznina,
+        # ukupna povrsina ista kao pogled regiona)
+        ox, oy = orient[rk]
+        sx = (gx1 - gx0) / (sx1 - sx0) * ox
+        sy = (gy1 - gy0) / (sy1 - sy0) * oy
+        # ivice: svg-min -> geo-max po y (y raste nadole), min->min po x
+        tx = gx0 - sx * (sx0 if ox > 0 else sx1)
+        ty = gy1 - sy * (sy0 if oy < 0 else sy1)
 
-        def fn(x, y, s=s, ox=ox, oy=oy, o=orient[rk]):
-            return ((o[0] * s * x + ox - 13.4) * 1000.0,
-                    (46.6 - (o[1] * s * y + oy)) * 1000.0)
+        def fn(x, y, sx=sx, sy=sy, tx=tx, ty=ty):
+            return ((sx * x + tx - 13.4) * 1000.0,
+                    (46.6 - (sy * y + ty)) * 1000.0)
 
         for m in rv["municipalities"]:
             nd = transform_path(m["path"], fn)
