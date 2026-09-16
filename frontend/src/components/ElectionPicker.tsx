@@ -43,7 +43,7 @@ export default function ElectionPicker({
 }) {
   return (
     <main className="h-full w-full overflow-y-auto bg-[#0b0d12]">
-      <div className="min-h-full w-full max-w-5xl mx-auto flex flex-col items-center justify-center px-5 py-8">
+      <div className="min-h-full w-full max-w-6xl mx-auto flex flex-col items-center justify-center px-5 py-8">
       <img src="/logo.svg" alt="Serbia Election Dashboard" width={44} height={44} className="mb-3" />
       <p className="text-[11px] uppercase tracking-[0.2em] text-white/35 font-medium mb-2">
         Serbia Elections
@@ -63,7 +63,7 @@ export default function ElectionPicker({
       ) : elections.length === 0 ? (
         <p className="text-sm text-white/40">Trenutno nema dostupnih izbora.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
           {elections.map((e) => {
             const votes = e.total_votes ?? 0;
             const hasData = votes > 0;
@@ -87,10 +87,10 @@ export default function ElectionPicker({
                     <p className="text-[10px] uppercase tracking-wide text-white/35 leading-none mb-1">
                       Vlast
                     </p>
-                    <p className="text-sm font-semibold text-white tabular-nums flex items-center gap-1.5 flex-wrap">
+                    <p className="text-sm font-semibold text-white tabular-nums flex items-center gap-1.5 whitespace-nowrap">
                       {gov ? (
                         gov.map((p, i) => (
-                          <span key={p} className="inline-flex items-center gap-1">
+                          <span key={p} className="inline-flex items-center gap-1 shrink-0">
                             {i > 0 && <span className="text-white/30 font-normal">+</span>}
                             <span
                               className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
@@ -106,7 +106,7 @@ export default function ElectionPicker({
                   </div>
                   <div>
                     <p className="text-[10px] uppercase tracking-wide text-white/35 leading-none mb-1">
-                      Glasova
+                      Ukupno glasova
                     </p>
                     <p className="text-sm font-semibold text-white tabular-nums">
                       {hasData ? Number(votes).toLocaleString("sr-RS") : "—"}
