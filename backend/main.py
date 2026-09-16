@@ -128,6 +128,9 @@ def election_summary(election_id: int):
     total_stations = agg["total_stations"] or 0
     processed_stations = agg["processed_stations"] or 0
     total_votes = sum(p["votes"] for p in party_totals) or 0
+    # Zvanicni nacionalni zbir kad opstinski nivo nije potpun (2000: bez spiska)
+    nat_registered = election.get("registered_voters") or agg["total_registered"] or 0
+    nat_voted = election.get("total_voted") or agg["total_voted"] or 0
     if total_votes == 0:
         # Jos nema glasova — ne fabriciraj nule (panel prikazuje prijavljene liste)
         party_totals = []
@@ -150,10 +153,10 @@ def election_summary(election_id: int):
         "election": election,
         "processed_pct": processed_pct,
         "total_stations": total_stations,
-        "total_voted": agg["total_voted"] or 0,
-        "total_registered": agg["total_registered"] or 0,
+        "total_voted": nat_voted,
+        "total_registered": nat_registered,
         "parties": [{**p, "is_minority": bool(p["is_minority"])} for p in parties],
-        "turnout_pct": round(100 * (agg["total_voted"] or 0) / (agg["total_registered"] or 1), 2),
+        "turnout_pct": round(100 * nat_voted / (nat_registered or 1), 2),
         "results": [
             {**p, "pct": round(100 * p["votes"] / total_votes, 2) if total_votes else 0}
             for p in party_totals
