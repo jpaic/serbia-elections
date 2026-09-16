@@ -31,8 +31,9 @@ export default function DiasporaStationPanel({
     { refreshInterval: 30000 }
   );
 
+  const loading = (isLoading || !data) && !error;
   return (
-    <div className="rounded-xl bg-white/[0.04] border border-white/10 p-4 min-h-[360px]">
+    <div className={`rounded-xl bg-white/[0.04] border border-white/10 p-4${loading ? " min-h-[360px]" : ""}`}>
       <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-1">
         Biračko mesto
       </p>
@@ -40,7 +41,7 @@ export default function DiasporaStationPanel({
         {city} · {country}
       </p>
       <p className="text-xs text-white/50 mt-0.5 mb-3">{placeName}</p>
-      {(isLoading || !data) && !error && (
+      {loading && (
         <div className="flex flex-col gap-2.5 animate-pulse" aria-label="Učitavanje rezultata">
           <div className="flex items-center gap-2">
             <span className="w-4 h-4 rounded-full border-2 border-white/15 border-t-white/80 animate-spin" />

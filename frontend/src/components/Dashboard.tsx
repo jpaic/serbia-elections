@@ -222,7 +222,7 @@ export default function Dashboard({
   return (
     <main className="flex flex-col h-full w-full">
       {/* Top bar */}
-      <header className="flex flex-wrap items-center gap-x-3 gap-y-2 px-4 sm:px-5 py-3 border-b border-white/10 bg-[#0e1117] shrink-0">
+      <header className="flex items-center gap-4 px-5 py-3 border-b border-white/10 bg-[#0e1117] shrink-0">
         <button
           onClick={onBack}
           title="Nazad na izbor izbora"
@@ -232,8 +232,8 @@ export default function Dashboard({
             <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        <div className="min-w-0 flex-1 basis-40">
-          <h1 className="text-sm sm:text-[15px] font-semibold text-white truncate">
+        <div className="min-w-0">
+          <h1 className="text-[15px] font-semibold text-white truncate">
             {summary?.election.name
               ?? elections?.find((e) => e.id === activeId)?.name
               ?? "Izbori"}
@@ -258,7 +258,7 @@ export default function Dashboard({
         )}
 
         {/* Dataset selector */}
-        <div className="relative sm:ml-2 shrink-0 max-w-[46vw] sm:max-w-none">
+        <div className="relative ml-4 shrink-0">
           <select
             aria-label="Izbor dataseta"
             value={activeId ?? ""}
@@ -288,7 +288,7 @@ export default function Dashboard({
         </div>
 
         {/* View toggle */}
-        <div className="flex items-center rounded-full bg-white/[0.06] border border-white/10 p-1 sm:ml-2">
+        <div className="flex items-center rounded-full bg-white/[0.06] border border-white/10 p-1 ml-4">
           <button
             onClick={() => setViewMode("serbia")}
             className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${

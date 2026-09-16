@@ -25,9 +25,10 @@ export default function MunicipalityPanel({
     { refreshInterval: 30000 }
   );
 
+  const loading = (isLoading || !data) && !error;
   return (
-    <div className="rounded-xl bg-white/[0.04] border border-white/10 p-4 min-h-[460px]">
-      {(isLoading || !data) && !error && (
+    <div className={`rounded-xl bg-white/[0.04] border border-white/10 p-4${loading ? " min-h-[460px]" : ""}`}>
+      {loading && (
         <div className="flex flex-col gap-2.5 animate-pulse" aria-label="Učitavanje rezultata opštine">
           <div className="flex items-center gap-2">
             <span className="w-4 h-4 rounded-full border-2 border-white/15 border-t-white/80 animate-spin" />
