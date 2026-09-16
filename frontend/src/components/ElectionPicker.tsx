@@ -1,6 +1,7 @@
 "use client";
 
 import type { Election } from "@/lib/types";
+import { GOVERNING_LIST, PARTY_ABBR_COLORS } from "@/lib/governing";
 
 function StatusBadge({ status }: { status?: string }) {
   const map: Record<string, { label: string; className: string }> = {
@@ -62,10 +63,9 @@ export default function ElectionPicker({
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-3xl">
           {elections.map((e) => {
-            const stations = e.stations_with_results ?? 0;
             const votes = e.total_votes ?? 0;
-            const muns = e.municipalities_with_data ?? 0;
-            const hasData = stations > 0 || votes > 0;
+            const hasData = votes > 0;
+            const gov = e.slug ? GOVERNING_LIST[e.slug] ?? null : null;
             return (
               <button
                 key={e.id}
@@ -83,14 +83,23 @@ export default function ElectionPicker({
                 <div className="flex items-center gap-4 mt-auto pt-3 border-t border-white/10">
                   <div>
                     <p className="text-[10px] uppercase tracking-wide text-white/35 leading-none mb-1">
-                      {stations > 0 ? "Obrađeno mesta" : "Opština sa podacima"}
+                      Vlast
                     </p>
-                    <p className="text-sm font-semibold text-white tabular-nums">
-                      {stations > 0
-                        ? stations.toLocaleString("sr-RS")
-                        : muns > 0
-                        ? muns.toLocaleString("sr-RS")
-                        : "—"}
+                    <p className="text-sm font-semibold text-white tabular-nums flex items-center gap-1.5 flex-wrap">
+                      {gov ? (
+                        gov.map((p, i) => (
+                          <span key={p} className="inline-flex items-center gap-1">
+                            {i > 0 && <span className="text-white/30 font-normal">+</span>}
+                            <span
+                              className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
+                              style={{ background: PARTY_ABBR_COLORS[p] || "#888" }}
+                            />
+                            <span>{p}</span>
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-white/30">—</span>
+                      )}
                     </p>
                   </div>
                   <div>

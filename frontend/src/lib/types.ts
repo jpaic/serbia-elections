@@ -23,6 +23,14 @@ export interface PartyResult {
   pct: number;
 }
 
+export interface SummaryParty {
+  ballot_number: number | null;
+  name: string;
+  short_name: string;
+  color_hex: string | null;
+  is_minority: boolean;
+}
+
 export interface ElectionSummary {
   election: Election;
   processed_pct: number;
@@ -30,6 +38,7 @@ export interface ElectionSummary {
   total_stations: number;
   total_voted: number;
   total_registered: number;
+  parties: SummaryParty[];
   results: PartyResult[];
 }
 

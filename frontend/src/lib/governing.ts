@@ -28,6 +28,33 @@ export const GOVERNING_PARTIES: Record<string, string> = {
   "parlamentarni-2023": "SNS + SPS",
 };
 
+// Stranke na vlasti kao niz skracenica (za pil na naslovnoj), po slug-u
+export const GOVERNING_LIST: Record<string, string[]> = {
+  "parlamentarni-2000": ["DOS"],
+  "parlamentarni-2003": ["DSS", "G17 Plus", "SPO–NS"],
+  "parlamentarni-2007": ["DS", "DSS–NS", "G17 Plus"],
+  "parlamentarni-2008": ["DS", "SPS"],
+  "parlamentarni-2012": ["SNS", "SPS", "URS"],
+  "parlamentarni-2014": ["SNS", "SPS"],
+  "parlamentarni-2016": ["SNS", "SPS"],
+  "parlamentarni-2020": ["SNS", "SPS"],
+  "parlamentarni-2022": ["SNS", "SPS"],
+  "parlamentarni-2023": ["SNS", "SPS"],
+};
+
+// Boje stranaka za pilove (iste kao brend boje na mapi)
+export const PARTY_ABBR_COLORS: Record<string, string> = {
+  SNS: "#0E4DA4",
+  SPS: "#ED1C24",
+  DS: "#F2C200",
+  DSS: "#1F3A5F",
+  "DSS–NS": "#1F3A5F",
+  "G17 Plus": "#4A7FB5",
+  "SPO–NS": "#6FA8DC",
+  URS: "#E67E22",
+  DOS: "#F2C200",
+};
+
 // Stranke iza lista (slug -> redni broj -> kratke oznake), za legendu mandata
 export const LIST_PARTIES: Record<string, Record<number, string>> = {
   "parlamentarni-2000": { 1: "SRS", 2: "SPO", 3: "SPS", 4: "DOS", 5: "SSJ" },

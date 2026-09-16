@@ -135,12 +135,21 @@ def election_summary(election_id: int):
     else:
         processed_pct = round(100 * processed_stations / total_stations, 2) if total_stations else 0
 
+    parties = fetchall(
+        """
+        SELECT ballot_number, name, short_name, color_hex, is_minority
+        FROM parties WHERE election_id = :eid ORDER BY ballot_number NULLS LAST, id
+        """,
+        {"eid": election_id},
+    )
+
     return {
         "election": election,
         "processed_pct": processed_pct,
         "total_stations": total_stations,
         "total_voted": agg["total_voted"] or 0,
         "total_registered": agg["total_registered"] or 0,
+        "parties": [{**p, "is_minority": bool(p["is_minority"])} for p in parties],
         "turnout_pct": round(100 * (agg["total_voted"] or 0) / (agg["total_registered"] or 1), 2),
         "results": [
             {**p, "pct": round(100 * p["votes"] / total_votes, 2) if total_votes else 0}
@@ -433,10 +442,13 @@ def mandates(election_id: int, total_seats: int = 250, threshold_pct: float = 3.
     official_sum = sum(r["official_seats"] or 0 for r in rows)
     use_official = official_sum == total_seats
 
-    valid_votes = sum(r["votes"] for r in rows) or 1
+    valid_votes = sum(r["votes"] for r in rows) or 0
     seats: dict[int, int] = {}
     if use_official:
         seats = {r["id"]: (r["official_seats"] or 0) for r in rows}
+    elif valid_votes == 0:
+        # Jos nema glasova (npr. prijavljene liste pred izbore) — bez projekcije
+        seats = {r["id"]: 0 for r in rows}
     else:
         eligible = [r for r in rows
                     if r["is_minority"] or (100 * r["votes"] / valid_votes) >= threshold_pct]
@@ -452,7 +464,7 @@ def mandates(election_id: int, total_seats: int = 250, threshold_pct: float = 3.
             "id": r["id"], "name": r["name"], "short_name": r["short_name"],
             "color_hex": r["color_hex"], "ballot_number": r["ballot_number"],
             "is_minority": bool(r["is_minority"]), "votes": v,
-            "pct": round(100 * v / valid_votes, 2),
+            "pct": round(100 * v / valid_votes, 2) if valid_votes else 0,
             "seats": seats.get(r["id"], 0),
         })
     out.sort(key=lambda p: (-p["seats"], -p["votes"]))

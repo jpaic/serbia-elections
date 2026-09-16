@@ -300,34 +300,28 @@ export default function Dashboard({
           <Metric label="Obrađeno" value={summary ? `${summary.processed_pct.toFixed(1)}%` : "—"} />
           <Metric label="Izlaznost" value={summary ? `${summary.turnout_pct.toFixed(1)}%` : "—"} />
           {summary && viewMode === "serbia" && summary.results[0] && (() => {
+            // Najvise glasova ne znaci vlast (npr. SRS 2007) — lista se ne ispisuje
             const govParties = GOVERNING_PARTIES[summary.election.slug ?? ""];
             const isGov = summary.election.status === "closed" && !!govParties;
-            return (
-              <div className="hidden sm:flex items-center gap-2 text-[11px] border-l border-white/10 pl-6 flex-1 min-w-0">
-                <span
-                  title={summary.results[0].name}
-                  className="tabular-nums leading-snug line-clamp-2 text-white/35"
-                >
-                  {summary.results[0].name}
-                </span>
-                {isGov ? (
-                  <span className="tabular-nums leading-snug text-white/55 shrink-0">
-                    Vlast: <span className="text-white/85 font-medium">{govParties}</span>
-                  </span>
-                ) : (
+            if (!isGov) {
+              return (
+                <div className="hidden sm:flex items-center gap-2 text-[11px] border-l border-white/10 pl-6 flex-1 min-w-0">
                   <span
-                    className={`shrink-0 text-[10px] font-bold tracking-wide px-2 py-1 rounded-full border ${
-                      summary.election.status === "closed"
-                        ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
-                        : "bg-red-500/15 text-red-400 border-red-500/30"
-                    }`}
+                    className="shrink-0 text-[10px] font-bold tracking-wide px-2 py-1 rounded-full border bg-red-500/15 text-red-400 border-red-500/30"
                   >
                     {summary.election.status === "live" && (
                       <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 animate-pulse align-middle" />
                     )}
                     {leaderVerb(summary.election.status, true).toUpperCase()}
                   </span>
-                )}
+                </div>
+              );
+            }
+            return (
+              <div className="hidden sm:flex items-center gap-2 text-[11px] border-l border-white/10 pl-6 flex-1 min-w-0">
+                <span className="tabular-nums leading-snug text-white/55 shrink-0">
+                  Vlast: <span className="text-white/85 font-medium">{govParties}</span>
+                </span>
               </div>
             );
           })()}
@@ -414,7 +408,33 @@ export default function Dashboard({
                         />
                       </div>
                       <ResultBars results={summary.results} pastTense={summary.election.status === "closed"} censusPct={censusPct} governingBallots={govBallots} />
-                      {summary.results.length === 0 && (
+                      {summary.results.length === 0 && (summary.parties ?? []).length > 0 && (
+                        <div className="mt-1">
+                          <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-2">
+                            Prijavljene liste ({summary.parties.length})
+                          </p>
+                          <div className="flex flex-col gap-1.5">
+                            {summary.parties.map((p, i) => (
+                              <div key={`${p.ballot_number}-${i}`} className="flex items-center gap-2 min-w-0">
+                                <span className="text-[10px] text-white/30 tabular-nums w-4 shrink-0">
+                                  {p.ballot_number ?? "–"}
+                                </span>
+                                <span
+                                  className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
+                                  style={{ background: p.color_hex || "#888" }}
+                                />
+                                <span title={p.name} className="truncate text-xs text-white/70">
+                                  {p.short_name || p.name}
+                                </span>
+                                {p.is_minority && (
+                                  <span className="text-[10px] text-white/30 shrink-0">manjinska</span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {summary.results.length === 0 && (summary.parties ?? []).length === 0 && (
                         <p className="text-[11px] text-white/30 mt-2">
                           Nema podataka za ovaj dataset — biće popunjeno kad krene unos rezultata.
                         </p>
