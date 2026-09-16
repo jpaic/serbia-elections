@@ -62,16 +62,59 @@ export default function MandateChart({
   const gov = new Set(
     data.parties.filter((p) => governingBallots.includes(p.ballot_number ?? -1)).map((p) => p.id)
   );
-  const dots = positions.slice(0, flat.length).map((p, k) => {
+  const placed = positions.slice(0, flat.length);
+  const dots = placed.map((p, k) => {
     const party = flat[k];
     return {
       x: CX + p.R * Math.cos(p.angle),
       y: CY - p.R * Math.sin(p.angle),
+      angle: p.angle,
+      R: p.R,
       color: party.color_hex || "#888",
       name: `${party.short_name || party.name} · ${party.seats}`,
       governing: gov.has(party.id),
     };
   });
+
+  // Grupni okvir(i) oko vladajućih tačaka: prstenasti sektori po
+  // uglovno-susednim grupama (vlast ne mora biti u jednom komadu).
+  const pt = (a: number, r: number): [number, number] => [
+    CX + r * Math.cos(a),
+    CY - r * Math.sin(a),
+  ];
+  const sectorPath = (a0: number, a1: number, r0: number, r1: number) => {
+    const [x0o, y0o] = pt(a0, r1);
+    const [x1o, y1o] = pt(a1, r1);
+    const [x1i, y1i] = pt(a1, r0);
+    const [x0i, y0i] = pt(a0, r0);
+    const large = a1 - a0 > Math.PI ? 1 : 0;
+    return (
+      `M ${x0o.toFixed(1)} ${y0o.toFixed(1)} ` +
+      `A ${r1.toFixed(1)} ${r1.toFixed(1)} 0 ${large} 0 ${x1o.toFixed(1)} ${y1o.toFixed(1)} ` +
+      `L ${x1i.toFixed(1)} ${y1i.toFixed(1)} ` +
+      `A ${r0.toFixed(1)} ${r0.toFixed(1)} 0 ${large} 1 ${x0i.toFixed(1)} ${y0i.toFixed(1)} Z`
+    );
+  };
+  const govSectors = (() => {
+    const gd = dots.filter((d) => d.governing).sort((a, b) => a.angle - b.angle);
+    if (gd.length === 0) return [] as string[];
+    const GAP = 0.12;
+    const runs: typeof gd[] = [[gd[0]]];
+    for (const d of gd.slice(1)) {
+      const last = runs[runs.length - 1];
+      if (d.angle - last[last.length - 1].angle > GAP) runs.push([d]);
+      else last.push(d);
+    }
+    return runs.map((run) => {
+      const as = run.map((d) => d.angle);
+      const rs = run.map((d) => d.R);
+      const a0 = Math.max(0, Math.min(...as) - 0.05);
+      const a1 = Math.min(Math.PI, Math.max(...as) + 0.05);
+      const r0 = Math.max(16, Math.min(...rs) - 11);
+      const r1 = Math.max(...rs) + 11;
+      return sectorPath(a0, a1, r0, r1);
+    });
+  })();
 
   return (
     <div>
@@ -79,16 +122,19 @@ export default function MandateChart({
         Raspodela mandata · {data.total_seats}
       </p>
       <svg viewBox="0 0 400 252" className="w-full h-auto" role="img" aria-label="Polukružni prikaz mandata">
-        {dots.map((d, i) => (
-          <circle
-            key={i}
-            cx={d.x.toFixed(1)}
-            cy={d.y.toFixed(1)}
-            r={DOT_R}
-            fill={d.color}
-            stroke={d.governing ? "#f87171" : "none"}
-            strokeWidth={d.governing ? 1.4 : 0}
+        {govSectors.map((d, i) => (
+          <path
+            key={`gov-${i}`}
+            d={d}
+            fill="rgba(248,113,113,0.07)"
+            stroke="#f87171"
+            strokeWidth={1.6}
           >
+            <title>Vladajuća koalicija</title>
+          </path>
+        ))}
+        {dots.map((d, i) => (
+          <circle key={i} cx={d.x.toFixed(1)} cy={d.y.toFixed(1)} r={DOT_R} fill={d.color}>
             <title>{d.name}{d.governing ? " (vlast)" : ""}</title>
           </circle>
         ))}

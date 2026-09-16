@@ -115,11 +115,11 @@ def election_summary(election_id: int):
 
     party_totals = fetchall(
         """
-        SELECT p.id, p.name, p.short_name, p.color_hex, COALESCE(SUM(mr.votes), 0) AS votes
+        SELECT p.id, p.name, p.short_name, p.color_hex, p.ballot_number, COALESCE(SUM(mr.votes), 0) AS votes
         FROM parties p
         LEFT JOIN municipality_results mr ON mr.party_id = p.id AND mr.election_id = :eid
         WHERE p.election_id = :eid
-        GROUP BY p.id, p.name, p.short_name, p.color_hex
+        GROUP BY p.id, p.name, p.short_name, p.color_hex, p.ballot_number
         ORDER BY votes DESC
         """,
         {"eid": election_id},
@@ -168,7 +168,7 @@ def municipalities_results(election_id: int):
 
     party_rows = fetchall(
         """
-        SELECT mr.municipality_id, p.id, p.name, p.short_name, p.color_hex, mr.votes
+        SELECT mr.municipality_id, p.id, p.name, p.short_name, p.color_hex, p.ballot_number, mr.votes
         FROM municipality_results mr
         JOIN parties p ON p.id = mr.party_id
         WHERE mr.election_id = :eid
@@ -231,12 +231,12 @@ def regions_results(election_id: int):
 
     party_rows = fetchall(
         """
-        SELECT m.region AS region, p.id, p.name, p.short_name, p.color_hex, SUM(mr.votes) AS votes
+        SELECT m.region AS region, p.id, p.name, p.short_name, p.color_hex, p.ballot_number, SUM(mr.votes) AS votes
         FROM municipality_results mr
         JOIN parties p ON p.id = mr.party_id
         JOIN municipalities m ON m.id = mr.municipality_id
         WHERE mr.election_id = :eid
-        GROUP BY m.region, p.id, p.name, p.short_name, p.color_hex
+        GROUP BY m.region, p.id, p.name, p.short_name, p.color_hex, p.ballot_number
         ORDER BY m.region, votes DESC
         """,
         {"eid": election_id},
@@ -286,7 +286,7 @@ def municipality_detail(election_id: int, municipality_id: int):
 
     results = fetchall(
         """
-        SELECT p.name, p.short_name, p.color_hex, mr.votes
+        SELECT p.name, p.short_name, p.color_hex, p.ballot_number, mr.votes
         FROM municipality_results mr
         JOIN parties p ON p.id = mr.party_id
         WHERE mr.election_id = :eid AND mr.municipality_id = :mid
@@ -314,7 +314,7 @@ def _station_detail(election_id: int, station_id: int):
     # keš iz baze
     cached = fetchall(
         """
-        SELECT p.name, p.short_name, p.color_hex, r.votes, r.is_processed
+        SELECT p.name, p.short_name, p.color_hex, p.ballot_number, r.votes, r.is_processed
         FROM results r
         JOIN parties p ON p.id = r.party_id
         WHERE r.election_id = :eid AND r.polling_station_id = :sid
@@ -382,7 +382,7 @@ def _station_detail(election_id: int, station_id: int):
 
     results = fetchall(
         """
-        SELECT p.name, p.short_name, p.color_hex, r.votes, r.is_processed
+        SELECT p.name, p.short_name, p.color_hex, p.ballot_number, r.votes, r.is_processed
         FROM results r
         JOIN parties p ON p.id = r.party_id
         WHERE r.election_id = :eid AND r.polling_station_id = :sid

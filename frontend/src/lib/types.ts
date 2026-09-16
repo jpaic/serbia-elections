@@ -17,6 +17,7 @@ export interface PartyResult {
   name: string;
   short_name: string;
   color_hex: string;
+  ballot_number?: number | null;
   votes: number;
   pct: number;
 }

@@ -8,12 +8,14 @@ export default function ResultBars({
   compact = false,
   pastTense = false,
   censusPct = 3,
+  governingBallots = [],
 }: {
   results: PartyResult[];
   compact?: boolean;
-  // Za završene izbore bedž glasi "Pobedio" umesto "Vodi"
+  // Za završene izbore bedž glasi "Vlast" (vladajuća koalicija) umesto "Vodi"
   pastTense?: boolean;
   censusPct?: number;
+  governingBallots?: number[];
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -25,11 +27,17 @@ export default function ResultBars({
   const above = results.filter((r) => r.pct >= censusPct);
   const below = results.filter((r) => r.pct < censusPct);
   const visible = expanded || above.length === 0 ? results : above;
+  const isGov = (r: PartyResult) =>
+    r.ballot_number != null && governingBallots.includes(r.ballot_number);
+  const anyGov = results.some(isGov);
 
   return (
     <div className="flex flex-col gap-2.5">
       {visible.map((r) => {
         const i = results.indexOf(r);
+        const gov = isGov(r);
+        // Pobednik po glasovima nije nužno vlast — bedž nosi vladajuća koalicija
+        const badge = !pastTense && i === 0 ? "Vodi" : pastTense && gov ? "Vlast" : pastTense && !anyGov && i === 0 ? "Pobedio" : null;
         return (
         <div key={r.short_name}>
           <div className="flex items-center justify-between mb-1">
@@ -46,9 +54,13 @@ export default function ResultBars({
               >
                 {compact ? r.short_name || r.name : r.name}
               </span>
-              {i === 0 && (
-                <span className="text-[10px] uppercase tracking-wide text-emerald-400/90 font-semibold shrink-0">
-                  {pastTense ? "Pobedio" : "Vodi"}
+              {badge && (
+                <span
+                  className={`text-[10px] uppercase tracking-wide font-semibold shrink-0 ${
+                    badge === "Vlast" ? "text-red-400/90" : "text-emerald-400/90"
+                  }`}
+                >
+                  {badge}
                 </span>
               )}
             </div>
