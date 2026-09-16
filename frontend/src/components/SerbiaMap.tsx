@@ -440,11 +440,11 @@ export default function SerbiaMap({
 
       {/* Toglovi dole levo: populacija + sve opštine */}
       {!isLocked && (
-        <div className="absolute bottom-3 left-3 flex items-center gap-2">
+        <div className="absolute bottom-3 left-3 flex flex-wrap items-center gap-1.5 sm:gap-2 max-w-[70vw]">
           <button
             onClick={() => setShowPopulation((v) => !v)}
             title="Prikaži broj upisanih birača po regionu"
-            className={`rounded-full backdrop-blur px-3.5 py-1.5 text-xs font-medium border shadow-lg transition-colors ${
+            className={`rounded-full backdrop-blur px-3 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-medium border shadow-lg transition-colors ${
               showPopulation
                 ? "bg-white text-black border-white"
                 : "bg-black/70 text-white border-white/15 hover:bg-black/85"
@@ -455,7 +455,7 @@ export default function SerbiaMap({
           <button
             onClick={() => setShowAllOpstine((v) => !v)}
             title="Prikaži sve opštine svih regiona odjednom"
-            className={`rounded-full backdrop-blur px-3.5 py-1.5 text-xs font-medium border shadow-lg transition-colors ${
+            className={`rounded-full backdrop-blur px-3 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-medium border shadow-lg transition-colors ${
               showAllOpstine
                 ? "bg-white text-black border-white"
                 : "bg-black/70 text-white border-white/15 hover:bg-black/85"
@@ -466,7 +466,7 @@ export default function SerbiaMap({
           <button
             onClick={() => onToggleTrend?.()}
             title="Strelice promene pobednika u odnosu na prethodne izbore"
-            className={`rounded-full backdrop-blur px-3.5 py-1.5 text-xs font-medium border shadow-lg transition-colors ${
+            className={`rounded-full backdrop-blur px-3 sm:px-3.5 py-1.5 text-[11px] sm:text-xs font-medium border shadow-lg transition-colors ${
               showTrend
                 ? "bg-white text-black border-white"
                 : "bg-black/70 text-white border-white/15 hover:bg-black/85"

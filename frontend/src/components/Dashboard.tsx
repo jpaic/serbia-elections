@@ -215,7 +215,7 @@ export default function Dashboard({
   return (
     <main className="flex flex-col h-full w-full">
       {/* Top bar */}
-      <header className="flex items-center gap-4 px-5 py-3 border-b border-white/10 bg-[#0e1117] shrink-0">
+      <header className="flex flex-wrap items-center gap-x-3 gap-y-2 px-4 sm:px-5 py-3 border-b border-white/10 bg-[#0e1117] shrink-0">
         <button
           onClick={onBack}
           title="Nazad na izbor izbora"
@@ -225,13 +225,13 @@ export default function Dashboard({
             <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        <div className="min-w-0">
-          <h1 className="text-[15px] font-semibold text-white truncate">
+        <div className="min-w-0 flex-1 basis-40">
+          <h1 className="text-sm sm:text-[15px] font-semibold text-white truncate">
             {summary?.election.name
               ?? elections?.find((e) => e.id === activeId)?.name
               ?? "Izbori"}
           </h1>
-          <p className="text-[11px] text-white/40">
+          <p className="text-[11px] text-white/40 truncate">
             {!summary
               ? "Učitavanje…"
               : viewMode === "diaspora"
@@ -251,13 +251,13 @@ export default function Dashboard({
         )}
 
         {/* Dataset selector */}
-        <div className="relative ml-4 shrink-0">
+        <div className="relative sm:ml-2 shrink-0 max-w-[46vw] sm:max-w-none">
           <select
             aria-label="Izbor dataseta"
             value={activeId ?? ""}
             disabled={!elections || elections.length === 0}
             onChange={(e) => pickElection(Number(e.target.value))}
-            className="appearance-none rounded-full bg-white/[0.06] border border-white/10 pl-4 pr-9 py-1.5 text-xs font-medium text-white outline-none cursor-pointer hover:border-white/25 focus:border-white/30 transition-colors disabled:opacity-50 disabled:cursor-wait"
+            className="appearance-none max-w-full rounded-full bg-white/[0.06] border border-white/10 pl-4 pr-9 py-1.5 text-xs font-medium text-white outline-none cursor-pointer hover:border-white/25 focus:border-white/30 transition-colors disabled:opacity-50 disabled:cursor-wait"
           >
             {!elections && <option value="">Učitavanje…</option>}
               {elections?.map((e) => (
@@ -281,7 +281,7 @@ export default function Dashboard({
         </div>
 
         {/* View toggle */}
-        <div className="flex items-center rounded-full bg-white/[0.06] border border-white/10 p-1 ml-4">
+        <div className="flex items-center rounded-full bg-white/[0.06] border border-white/10 p-1 sm:ml-2">
           <button
             onClick={() => setViewMode("serbia")}
             className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
@@ -306,7 +306,7 @@ export default function Dashboard({
           </button>
         </div>
 
-        <div className="flex items-center gap-6 ml-auto">
+        <div className="hidden min-[420px]:flex items-center gap-4 sm:gap-6 ml-auto">
           <Metric label="Obrađeno" value={summary ? `${summary.processed_pct.toFixed(1)}%` : "—"} />
           <Metric label="Izlaznost" value={summary ? `${summary.turnout_pct.toFixed(1)}%` : "—"} />
           {summary && viewMode === "serbia" && summary.results[0] && (() => {
@@ -347,9 +347,9 @@ export default function Dashboard({
         </div>
       )}
 
-      <div className="flex flex-1 min-h-0">
+      <div className="flex flex-1 min-h-0 flex-col lg:flex-row overflow-y-auto lg:overflow-hidden">
         {/* Map */}
-        <section className="relative flex-1 min-w-0 bg-[#0b0d12]">
+        <section className="relative w-full h-[52vh] shrink-0 lg:h-auto lg:flex-1 lg:min-w-0 bg-[#0b0d12]">
           {isLoadingData && (
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-[#0b0d12]/85 backdrop-blur-sm">
               <span className="w-8 h-8 rounded-full border-2 border-white/15 border-t-white/80 animate-spin" />
@@ -394,8 +394,8 @@ export default function Dashboard({
         </section>
 
         {/* Sidebar */}
-        <aside className="w-[380px] shrink-0 border-l border-white/10 bg-[#0e1117] flex flex-col min-h-0">
-          <div className="flex-1 overflow-y-auto hide-scrollbar px-5 py-5 flex flex-col gap-5">
+        <aside className="w-full lg:w-[380px] shrink-0 border-t lg:border-t-0 lg:border-l border-white/10 bg-[#0e1117] flex flex-col lg:min-h-0">
+          <div className="px-4 sm:px-5 py-5 flex flex-col gap-5 lg:flex-1 lg:min-h-0 lg:overflow-y-auto hide-scrollbar">
             {viewMode === "serbia" ? (
               <>
                 {/* Nacionalni pregled — samo dok nije izabran region */}
