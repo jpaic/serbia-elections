@@ -78,6 +78,8 @@ def main():
     cur = c.cursor()
     cur.execute("SELECT id FROM elections WHERE slug='parlamentarni-2026'")
     eid = cur.fetchone()[0]
+    cur.execute("SELECT COALESCE(MAX(ballot_number), 0) FROM parties WHERE election_id=%s", (eid,))
+    next_bn = cur.fetchone()[0] + 1
     for i, (num, name) in enumerate(lists, start=1):
         color, minor = PALETTE[(i - 1) % len(PALETTE)], False
         for kw, col, mn in COLOR_RULES:
@@ -93,8 +95,9 @@ def main():
         else:
             cur.execute("INSERT INTO parties (election_id, name, short_name, ballot_number, color_hex, is_minority)"
                         " VALUES (%s,%s,%s,%s,%s,%s)",
-                        (eid, name, short_name(name), i, color, minor))
-            print(f"  + {name[:60]} {color} min={minor}")
+                        (eid, name, short_name(name), next_bn, color, minor))
+            print(f"  + bn={next_bn} {name[:60]} {color} min={minor}")
+            next_bn += 1
     cur.execute("SELECT ballot_number, short_name, color_hex, is_minority FROM parties WHERE election_id=%s ORDER BY ballot_number", (eid,))
     print("--- stanje 2026 ---")
     for r in cur.fetchall():

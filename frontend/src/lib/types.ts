@@ -19,6 +19,7 @@ export interface PartyResult {
   short_name: string;
   color_hex: string;
   ballot_number?: number | null;
+  is_minority?: boolean | null;
   votes: number;
   pct: number;
 }
