@@ -72,6 +72,7 @@ def list_elections():
     return fetchall(
         """
         SELECT e.id, e.slug, e.name, e.election_type, e.election_date, e.status,
+               e.prime_minister, e.pm_party,
                COALESCE(s.proc, 0) AS stations_with_results,
                COALESCE(v.votes, 0) AS total_votes,
                COALESCE(m.muns, 0) AS municipalities_with_data
