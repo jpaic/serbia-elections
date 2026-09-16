@@ -122,7 +122,7 @@ export default function Dashboard({
     { refreshInterval: REFRESH_MS }
   );
 
-  const { data: swing } = useSWR(
+  const { data: swing, isLoading: swingLoading } = useSWR(
     activeId && showTrend ? ["swing", activeId] : null,
     () => api.swing(activeId!),
     { refreshInterval: REFRESH_MS }
@@ -361,6 +361,7 @@ export default function Dashboard({
                 showRaceBadges={summary?.election.status !== "closed"}
                 showTrend={showTrend}
                 onToggleTrend={() => setShowTrend((v) => !v)}
+                swingLoading={showTrend && swingLoading && !swing}
                 swingMun={swingMun}
                 swingRegion={swingRegion}
                 prevLabel={swing?.prev_election ? `vs ${swing.prev_election.name.replace("Parlamentarni izbori ", "")}` : null}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 import type { Feature, Geometry } from "geojson";
 import {
@@ -98,6 +98,7 @@ export default function SerbiaMap({
   swingMun,
   swingRegion,
   prevLabel = null,
+  swingLoading = false,
 }: {
   regions: RegionResult[];
   municipalities?: MunicipalityRow[];
@@ -115,6 +116,7 @@ export default function SerbiaMap({
   swingMun?: Map<number, SwingInfo>;
   swingRegion?: Map<string, SwingInfo>;
   prevLabel?: string | null;
+  swingLoading?: boolean;
 }) {
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const [hoveredOpstina, setHoveredOpstina] = useState<string | null>(null);
@@ -244,7 +246,7 @@ export default function SerbiaMap({
     );
   }
 
-  // Strelica trenda: gore/dole/ravno, u boji lidera, sa vrednošću promene (pp)
+  // Strelice trenda (CNN stil): gore/dole/ravno, u boji lidera, sa vrednošću promene (pp)
   function trendArrow(
     change: number,
     color: string,
@@ -253,20 +255,30 @@ export default function SerbiaMap({
   ) {
     const dir = change > 1 ? "up" : change < -1 ? "down" : "flat";
     const label = `${change > 0 ? "+" : ""}${change.toFixed(1)}`;
+    const d =
+      dir === "up"
+        ? `M0 ${7 * s} L0 ${-4 * s} M${-4.5 * s} ${0.5 * s} L0 ${-7 * s} L${4.5 * s} ${0.5 * s}`
+        : dir === "down"
+        ? `M0 ${-7 * s} L0 ${4 * s} M${-4.5 * s} ${-0.5 * s} L0 ${7 * s} L${4.5 * s} ${-0.5 * s}`
+        : `M${-6 * s} 0 L${6 * s} 0`;
+    const w = (dir === "flat" ? 2.2 : 2.6) * s;
+    const fg = dir === "flat" ? "#cbd5e1" : color;
+    const textStyle: CSSProperties = { paintOrder: "stroke" };
     return (
       <g style={{ pointerEvents: "none" }}>
-        {dir === "flat" ? (
-          <rect x={-6 * s} y={-2 * s} width={12 * s} height={4 * s} rx={2 * s} fill={color} opacity={0.9} stroke="#000" strokeWidth={1.2 * s} />
-        ) : (
-          <polygon
-            points={dir === "up" ? `0,${-7 * s} ${6 * s},${5 * s} ${-6 * s},${5 * s}` : `0,${7 * s} ${6 * s},${-5 * s} ${-6 * s},${-5 * s}`}
-            fill={color}
-            stroke="#000"
-            strokeWidth={1.5 * s}
-            strokeLinejoin="round"
-          />
-        )}
-        <text textAnchor="middle" y={16 * s} fontSize={10 * s} fontWeight={700} fill="#fff" className="tabular-nums">
+        <path d={d} stroke="#000" strokeWidth={w + 1.8 * s} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={d} stroke={fg} strokeWidth={w} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        <text
+          textAnchor="middle"
+          y={18 * s}
+          fontSize={10 * s}
+          fontWeight={800}
+          fill="#fff"
+          className="tabular-nums"
+          stroke="#000"
+          strokeWidth={2 * s}
+          style={textStyle}
+        >
           {label}
         </text>
         <title>{title}</title>
@@ -468,6 +480,12 @@ export default function SerbiaMap({
           >
             Trend
           </button>
+          {showTrend && swingLoading && (
+            <span className="rounded-full bg-black/70 backdrop-blur border border-white/15 px-3 py-1.5 text-xs text-white/70 flex items-center gap-2 shadow-lg">
+              <span className="w-3 h-3 rounded-full border-2 border-white/20 border-t-white/80 animate-spin" />
+              Trend…
+            </span>
+          )}
         </div>
       )}
 
