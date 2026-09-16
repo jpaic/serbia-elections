@@ -227,20 +227,28 @@ export default function Dashboard({
         </button>
         <div className="min-w-0">
           <h1 className="text-[15px] font-semibold text-white truncate">
-            {summary?.election.name || "Izbori"}
+            {summary?.election.name
+              ?? elections?.find((e) => e.id === activeId)?.name
+              ?? "Izbori"}
           </h1>
           <p className="text-[11px] text-white/40">
-            {viewMode === "diaspora"
+            {!summary
+              ? "Učitavanje…"
+              : viewMode === "diaspora"
               ? "Dijaspora · 81 biračko mesto u 35 država"
               : selectedRegion
               ? selectedRegion
-              : summary?.election.status === "closed"
+              : summary.election.status === "closed"
               ? "Konačni rezultati · klik na okrug za detalje"
               : "Rezultati uživo · klik na okrug za detalje"}
           </p>
         </div>
 
-        <StatusBadge status={summary?.election.status} />
+        {summary ? (
+          <StatusBadge status={summary.election.status} />
+        ) : (
+          <span className="shrink-0 w-16 h-5 rounded-full bg-white/10 animate-pulse" />
+        )}
 
         {/* Dataset selector */}
         <div className="relative ml-4 shrink-0">
@@ -604,7 +612,13 @@ municipalityId={selectedMunicipalityId} pastTense={summary?.election.status === 
                 {/* Dijaspora side panel */}
                 <div>
                   <p className="text-[11px] uppercase tracking-wide text-white/35 font-medium mb-3">Inostranstvo</p>
-                  {diasporaRegion ? (
+                  {!regions ? (
+                    <div className="flex flex-col gap-2.5 animate-pulse">
+                      <div className="h-16 rounded-xl bg-white/[0.04] border border-white/10" />
+                      <div className="h-3 rounded bg-white/10 w-2/3" />
+                      <div className="h-1.5 rounded-full bg-white/10" />
+                    </div>
+                  ) : diasporaRegion ? (
                     <>
                       <div className="rounded-xl bg-gradient-to-br from-blue-600/20 to-indigo-600/20 border border-blue-500/20 p-4 mb-4">
                         <p className="text-xs text-white/60 mb-1">Ukupno dijaspora</p>

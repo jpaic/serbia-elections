@@ -104,7 +104,7 @@ export default function ElectionPicker({
                       )}
                     </p>
                   </div>
-                  <div>
+                  <div className="border-l border-white/10 pl-4">
                     <p className="text-[10px] uppercase tracking-wide text-white/35 leading-none mb-1">
                       Ukupno glasova
                     </p>
