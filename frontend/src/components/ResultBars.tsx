@@ -27,7 +27,7 @@ export default function ResultBars({
   }
 
   const leaderPct = results[0]?.pct ?? 0;
-  // Manjinske liste nemaju cenzus (prirodni prag) — uvek vidljive, sa zvezdicom
+  // Manjinske liste imaju snizeni (prirodni) prag — uvek vidljive, sa zvezdicom
   const above = results.filter((r) => r.pct >= censusPct || r.is_minority);
   const below = results.filter((r) => r.pct < censusPct && !r.is_minority);
   const visible = expanded || above.length === 0 ? results : above;
@@ -67,7 +67,7 @@ export default function ResultBars({
               >
                 {compact ? r.short_name || r.name : r.name}
                 {r.is_minority && (
-                  <span title="Manjinska lista — bez cenzusa" className="text-amber-300/90 ml-1">★</span>
+                  <span title="Manjinska lista — sniženi (prirodni) cenzus" className="text-amber-300/90 ml-1">★</span>
                 )}
               </span>
               {badge && (
@@ -117,7 +117,7 @@ export default function ResultBars({
       )}
       {anyMinority && (
         <p className="text-[11px] text-white/30 mt-0.5">
-          <span className="text-amber-300/90">★</span> Manjinske liste — bez cenzusa (prirodni prag), dobijaju mandate
+          <span className="text-amber-300/90">★</span> Manjinske liste — sniženi (prirodni) cenzus umesto {censusPct}%, dobijaju mandate
         </p>
       )}
     </div>

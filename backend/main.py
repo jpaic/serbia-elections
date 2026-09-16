@@ -409,7 +409,7 @@ def _station_detail(election_id: int, station_id: int):
 
 @app.get("/elections/{election_id}/mandates")
 def mandates(election_id: int, total_seats: int = 250, threshold_pct: float = 3.0):
-    """D'Hondtova raspodela mandata. Manjinske liste (is_minority) bez cenzusa."""
+    """D'Hondtova raspodela mandata. Manjinske liste (is_minority) sa snizenim (prirodnim) pragom."""
     election = fetchone("SELECT * FROM elections WHERE id = :id", {"id": election_id})
     if not election:
         raise HTTPException(404, "Izbori nisu pronađeni")
