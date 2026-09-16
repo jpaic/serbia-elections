@@ -164,6 +164,21 @@ def election_summary(election_id: int):
     }
 
 
+# Opstine formirane posle nekih ciklusa: za stare izbore nemaju svoje podatke
+# (tada se glasalo u sastavu maticne opstine) — prikazuju se maticni rezultati
+# uz oznaku, bez dupliranja u agregatima. Kljuc: rzs_code deteta.
+PARENT_MUNICIPALITY: dict[str, str] = {
+    "71293": "70157",  # Surcin -> Zemun
+    "71331": "00003",  # Medijana -> Nis
+    "71323": "00003",  # Palilula (Nis) -> Nis
+    "71307": "00003",  # Pantelej -> Nis
+    "71315": "00003",  # Crveni krst -> Nis
+    "71366": "71145",  # Sevojno -> Uzice
+    "71340": "70947",  # Kostolac -> Pozarevac
+    "71358": "70432",  # Vranjska Banja -> Vranje
+}
+
+
 @app.get("/elections/{election_id}/municipalities")
 def municipalities_results(election_id: int):
     stations = fetchall(
@@ -195,11 +210,12 @@ def municipalities_results(election_id: int):
     by_mun: dict[int, list[dict]] = {}
     for row in party_rows:
         by_mun.setdefault(row["municipality_id"], []).append(row)
-
-    out = []
+    by_code: dict[str, dict] = {}
     for s in stations:
-        mid = s["id"]
-        parties = by_mun.get(mid, [])
+        if s.get("rzs_code"):
+            by_code[str(s["rzs_code"])] = s
+
+    def build_row(s, parties):
         total_votes = sum(p["votes"] for p in parties) or 0
         results = [
             {k: v for k, v in p.items() if k != "municipality_id"} | {"pct": round(100 * p["votes"] / total_votes, 2) if total_votes else 0}
@@ -210,14 +226,28 @@ def municipalities_results(election_id: int):
         margin = (leader["pct"] - runner_up["pct"]) if (leader and runner_up) else (leader["pct"] if leader else 0)
         total_stations = s["total_stations"] or 0
         processed_stations = s["processed_stations"] or 0
-        out.append({
+        return {
             **s,
             "processed_pct": round(100 * processed_stations / total_stations, 2) if total_stations else 0,
             "turnout_pct": round(100 * (s["total_voted"] or 0) / (s["registered_voters"] or 1), 2),
             "leader": leader,
             "margin_pct": round(margin, 2),
             "results": results,
-        })
+        }
+
+    out = []
+    for s in stations:
+        mid = s["id"]
+        parties = by_mun.get(mid, [])
+        parent_name = None
+        if not parties and s.get("rzs_code") and str(s["rzs_code"]) in PARENT_MUNICIPALITY:
+            parent = by_code.get(PARENT_MUNICIPALITY[str(s["rzs_code"])])
+            if parent is not None and by_mun.get(parent["id"]):
+                parties = by_mun[parent["id"]]
+                parent_name = parent["name"]
+        row = build_row(s, parties)
+        row["parent_name"] = parent_name
+        out.append(row)
     return out
 
 
@@ -309,10 +339,30 @@ def municipality_detail(election_id: int, municipality_id: int):
         """,
         {"eid": election_id, "mid": municipality_id},
     )
+    parent_name = None
+    if not results and municipality.get("rzs_code") and str(municipality["rzs_code"]) in PARENT_MUNICIPALITY:
+        parent = fetchone(
+            "SELECT * FROM municipalities WHERE rzs_code = :c",
+            {"c": PARENT_MUNICIPALITY[str(municipality["rzs_code"])]},
+        )
+        if parent:
+            results = fetchall(
+                """
+                SELECT p.name, p.short_name, p.color_hex, p.ballot_number, COALESCE(p.is_minority, false) AS is_minority, mr.votes
+                FROM municipality_results mr
+                JOIN parties p ON p.id = mr.party_id
+                WHERE mr.election_id = :eid AND mr.municipality_id = :mid
+                ORDER BY mr.votes DESC
+                """,
+                {"eid": election_id, "mid": parent["id"]},
+            )
+            if results:
+                parent_name = parent["name"]
     total_votes = sum(r["votes"] for r in results) or 1
 
     return {
         "municipality": municipality,
+        "parent_name": parent_name,
         "results": [{**r, "pct": round(100 * r["votes"] / total_votes, 2)} for r in results],
     }
 

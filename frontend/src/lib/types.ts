@@ -57,6 +57,7 @@ export interface MunicipalityRow {
   leader: PartyResult | null;
   margin_pct: number;
   results: PartyResult[];
+  parent_name?: string | null;
 }
 
 export interface MandateParty extends PartyResult {
@@ -121,6 +122,7 @@ export interface MunicipalityDetail {
     population: number;
     registered_voters: number;
   };
+  parent_name?: string | null;
   results: PartyResult[];
 }
 
