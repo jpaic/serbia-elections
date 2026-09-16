@@ -9,6 +9,18 @@ export function isZavodiRegion(name: string | null | undefined): boolean {
   );
 }
 
+// Kompaktan broj za cifre na mapi: 1600000 -> "1,6M", 45000 -> "45 hilj."
+export function formatCompact(n: number | null | undefined): string {
+  if (n == null) return "—";
+  if (n >= 1_000_000) {
+    return `${(n / 1_000_000).toLocaleString("sr-RS", { maximumFractionDigits: 1 })}M`;
+  }
+  if (n >= 1_000) {
+    return `${Math.round(n / 1_000).toLocaleString("sr-RS")} hilj.`;
+  }
+  return n.toLocaleString("sr-RS");
+}
+
 // Glagol pobednika: sadašnje vreme dok traju, prošlo za završene izbore
 export function leaderVerb(status?: string, capitalized = false): string {
   const past = status === "closed";

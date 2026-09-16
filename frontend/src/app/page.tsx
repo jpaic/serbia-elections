@@ -5,7 +5,7 @@ import useSWR from "swr";
 import { api } from "@/lib/api";
 import SerbiaMap from "@/components/SerbiaMap";
 import MandateChart from "@/components/MandateChart";
-import { GOVERNING_BALLOTS } from "@/lib/governing";
+import { GOVERNING_BALLOTS, GOVERNING_PARTIES, LIST_PARTIES } from "@/lib/governing";
 import DiasporaStationPanel from "@/components/DiasporaStationPanel";
 import ElectionPicker from "@/components/ElectionPicker";
 import WorldMap from "@/components/WorldMap";
@@ -276,28 +276,39 @@ export default function Dashboard() {
         <div className="flex items-center gap-6 ml-auto">
           <Metric label="Obrađeno" value={summary ? `${summary.processed_pct.toFixed(1)}%` : "—"} />
           <Metric label="Izlaznost" value={summary ? `${summary.turnout_pct.toFixed(1)}%` : "—"} />
-          {summary && viewMode === "serbia" && summary.results[0] && (
-            <div className="hidden sm:flex items-center gap-2 text-[11px] border-l border-white/10 pl-6 flex-1 min-w-0">
-              <span
-                title={summary.results[0].name}
-                className="tabular-nums leading-snug line-clamp-2 text-white/35"
-              >
-                {summary.results[0].name}
-              </span>
-              <span
-                className={`shrink-0 text-[10px] font-bold tracking-wide px-2 py-1 rounded-full border ${
-                  summary.election.status === "closed"
-                    ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
-                    : "bg-red-500/15 text-red-400 border-red-500/30"
-                }`}
-              >
-                {summary.election.status === "live" && (
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 animate-pulse align-middle" />
+          {summary && viewMode === "serbia" && summary.results[0] && (() => {
+            const govParties = GOVERNING_PARTIES[summary.election.slug ?? ""];
+            const isGov = summary.election.status === "closed" && !!govParties;
+            return (
+              <div className="hidden sm:flex items-center gap-2 text-[11px] border-l border-white/10 pl-6 flex-1 min-w-0">
+                <span
+                  title={summary.results[0].name}
+                  className="tabular-nums leading-snug line-clamp-2 text-white/35"
+                >
+                  {summary.results[0].name}
+                </span>
+                {isGov && (
+                  <span className="tabular-nums leading-snug text-white/55 shrink-0 hidden lg:inline">
+                    Vlast: {govParties}
+                  </span>
                 )}
-                {leaderVerb(summary.election.status, true).toUpperCase()}
-              </span>
-            </div>
-          )}
+                <span
+                  className={`shrink-0 text-[10px] font-bold tracking-wide px-2 py-1 rounded-full border ${
+                    isGov
+                      ? "bg-red-500/15 text-red-400 border-red-500/30"
+                      : summary.election.status === "closed"
+                      ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+                      : "bg-red-500/15 text-red-400 border-red-500/30"
+                  }`}
+                >
+                  {summary.election.status === "live" && (
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 animate-pulse align-middle" />
+                  )}
+                  {isGov ? "VLAST" : leaderVerb(summary.election.status, true).toUpperCase()}
+                </span>
+              </div>
+            );
+          })()}
         </div>
       </header>
 
@@ -393,6 +404,7 @@ export default function Dashboard() {
                             governingBallots={GOVERNING_BALLOTS[summary.election.slug ?? ""] ?? []}
                             primeMinister={summary.election.prime_minister}
                             primeMinisterParty={summary.election.pm_party}
+                            partyLabels={LIST_PARTIES[summary.election.slug ?? ""] ?? {}}
                           />
                         </div>
                       )}

@@ -16,11 +16,13 @@ export default function MandateChart({
   governingBallots = [],
   primeMinister = null,
   primeMinisterParty = null,
+  partyLabels = {},
 }: {
   electionId: number;
   governingBallots?: number[];
   primeMinister?: string | null;
   primeMinisterParty?: string | null;
+  partyLabels?: Record<number, string>;
 }) {
   const { data, error, isLoading } = useSWR(
     ["mandates", electionId],
@@ -170,6 +172,9 @@ export default function MandateChart({
               }`}
             >
               {p.short_name || p.name}
+              {partyLabels[p.ballot_number ?? -1] && (
+                <span className="text-white/35"> · {partyLabels[p.ballot_number ?? -1]}</span>
+              )}
             </span>
             <span className="ml-auto text-xs font-semibold text-white tabular-nums shrink-0">
               {p.seats}
