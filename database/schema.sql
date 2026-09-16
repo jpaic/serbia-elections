@@ -12,6 +12,7 @@ CREATE TABLE elections (
     rik_round INTEGER UNIQUE,                  -- RIK election_round id (npr. 341140, 680072)
     prime_minister VARCHAR(150),                 -- predsednik Vlade formirane posle izbora
     pm_party VARCHAR(100),                       -- stranka premijera (kratka oznaka)
+    prime_ministers JSONB,                       -- lanac premijera: [{name, party, period}] (npr. Vucevic -> Macut)
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 

@@ -13,6 +13,7 @@ import {
 import type { MunicipalityRow, RegionResult } from "@/lib/types";
 import { formatCompact, formatPlaceName } from "@/lib/display";
 import rikOpstine from "../../public/data/rik-opstine.json";
+import rikSrbija from "../../public/data/rik-srbija.json";
 
 const GEO_REGIONI = "/data/serbia-regioni.geojson";
 
@@ -44,6 +45,9 @@ type RikRegionData = {
   municipalities: { id: string; name: string; path: string }[];
 };
 const RIK = rikOpstine as { regions: Record<string, RikRegionData> };
+
+type UnifiedMun = { id: string; name: string; region: string; cx: number; cy: number; d: string };
+const SRBIJA = rikSrbija as { width: number; height: number; municipalities: UnifiedMun[] };
 
 type RSMFeature = Feature<Geometry> & { rsmKey: string; svgPath: string };
 function nameOf(f: RSMFeature): string {
@@ -174,7 +178,62 @@ export default function SerbiaMap({
     onSelectRegion(n);
   }
 
-  // SVG sloj opština jednog RIK regiona (isti za zumirani region i za "sve opštine" pogled)
+  // Jedna opština kao SVG path (boja po lideru, klik kao na RIK mapi)
+  function renderOpstina(op: { id: string; name: string }, d: string, strokeScale = 1) {
+    const mun = munForRik(op.id, op.name);
+    const isSelMun = selectedMunicipalityId != null && mun?.id === selectedMunicipalityId;
+    const isSelRik = selectedRikOpstina?.id === op.id;
+    const isSel = isSelMun || isSelRik;
+    const isHov = hoveredOpstina === op.id;
+    const fill = (() => {
+      if (!mun?.leader) return "#161a23";
+      const t = getTier(mun.margin_pct, true);
+      if (t === "tossup") return tossupFill(mun.leader.color_hex);
+      return tieredLeaderFill(mun.leader.color_hex, mun.margin_pct);
+    })();
+    return (
+      <path
+        key={op.id}
+        d={d}
+        fill={fill}
+        stroke={isSel ? "#ffffff" : isHov ? "#ffffff" : "#dbe2ee"}
+        strokeWidth={(isSel ? 2 : isHov ? 1.5 : 1) * strokeScale}
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        shapeRendering="geometricPrecision"
+        opacity={1}
+        style={{ cursor: "pointer", outline: "none" }}
+        onMouseEnter={() => setHoveredOpstina(op.id)}
+        onMouseLeave={() => setHoveredOpstina(null)}
+        onClick={() => {
+          if (mun) {
+            onSelectRikOpstina?.(null);
+            onSelectMunicipality?.(mun.id === selectedMunicipalityId ? null : mun.id);
+          } else {
+            onSelectMunicipality?.(null);
+            onSelectRikOpstina?.(isSelRik ? null : { id: op.id, name: op.name });
+          }
+        }}
+      >
+        <title>{formatPlaceName(op.name)}</title>
+      </path>
+    );
+  }
+
+  function tossupDefs() {
+    return (
+      <defs>
+        {tossupColors.map((c) => (
+          <pattern key={c} id={stripePatternId(c) ?? undefined} width={8} height={8} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width={8} height={8} fill="#161a23" />
+            <rect width={4} height={8} fill={c} opacity={0.55} />
+          </pattern>
+        ))}
+      </defs>
+    );
+  }
+
+  // SVG sloj opština jednog RIK regiona (zumirani pogled)
   function renderRikRegion(rikKey: string) {
     const rd = RIK.regions[rikKey];
     if (!rd) return null;
@@ -184,54 +243,8 @@ export default function SerbiaMap({
         className="w-full h-full"
         style={{ background: "#0b0d12" }}
       >
-        <defs>
-          {tossupColors.map((c) => (
-            <pattern key={c} id={stripePatternId(c) ?? undefined} width={8} height={8} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-              <rect width={8} height={8} fill="#161a23" />
-              <rect width={4} height={8} fill={c} opacity={0.55} />
-            </pattern>
-          ))}
-        </defs>
-        {rd.municipalities.map((op) => {
-          const mun = munForRik(op.id, op.name);
-          const isSelMun = selectedMunicipalityId != null && mun?.id === selectedMunicipalityId;
-          const isSelRik = selectedRikOpstina?.id === op.id;
-          const isSel = isSelMun || isSelRik;
-          const isHov = hoveredOpstina === op.id;
-          const fill = (() => {
-            if (!mun?.leader) return "#161a23";
-            const t = getTier(mun.margin_pct, true);
-            if (t === "tossup") return tossupFill(mun.leader.color_hex);
-            return tieredLeaderFill(mun.leader.color_hex, mun.margin_pct);
-          })();
-          return (
-            <path
-              key={op.id}
-              d={op.path}
-              fill={fill}
-              stroke={isSel ? "#ffffff" : isHov ? "#ffffff" : "#dbe2ee"}
-              strokeWidth={isSel ? 2 : isHov ? 1.5 : 1}
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              shapeRendering="geometricPrecision"
-              opacity={1}
-              style={{ cursor: "pointer", outline: "none" }}
-              onMouseEnter={() => setHoveredOpstina(op.id)}
-              onMouseLeave={() => setHoveredOpstina(null)}
-              onClick={() => {
-                if (mun) {
-                  onSelectRikOpstina?.(null);
-                  onSelectMunicipality?.(mun.id === selectedMunicipalityId ? null : mun.id);
-                } else {
-                  onSelectMunicipality?.(null);
-                  onSelectRikOpstina?.(isSelRik ? null : { id: op.id, name: op.name });
-                }
-              }}
-            >
-              <title>{formatPlaceName(op.name)}</title>
-            </path>
-          );
-        })}
+        {tossupDefs()}
+        {rd.municipalities.map((op) => renderOpstina(op, op.path))}
       </svg>
     );
   }
@@ -284,7 +297,8 @@ export default function SerbiaMap({
           {showPopulation &&
             regions.map((r) => {
               const pos = REGION_LABEL_POS[r.region];
-              if (!pos || r.registered_voters == null) return null;
+              // 0 = nepoznato (2022/2000 nemaju biracki spisak) -> sakrij cifru
+              if (!pos || !r.registered_voters) return null;
               const label = formatCompact(r.registered_voters);
               const w = label.length * 6 + 14;
               return (
@@ -305,39 +319,33 @@ export default function SerbiaMap({
       {/* Zumirano: RIK-ove prave opštine tog regiona (SVG paths, kao RIK) */}
       {isLocked && selectedRegion && rikRegion && renderRikRegion(REGION_TO_RS[selectedRegion] ?? "")}
 
-      {/* Sve opštine: svih 5 regiona odjednom, bez ulaska klikom */}
+      {/* Sve opštine: cela Srbija ujedinjeno, razbijeno na opštine */}
       {!isLocked && showAllOpstine && (
-        <div className="absolute inset-0 overflow-y-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2">
-            {Object.entries(REGION_TO_RS).map(([regionName, rikKey]) => {
-              const rd = RIK.regions[rikKey];
-              if (!rd) return null;
-              const data = regionByName.get(regionName);
+        <svg
+          viewBox={`0 0 ${SRBIJA.width} ${SRBIJA.height}`}
+          className="w-full h-full"
+          style={{ background: "#0b0d12" }}
+        >
+          {tossupDefs()}
+          {SRBIJA.municipalities.map((op) => renderOpstina(op, op.d, 4))}
+          {showPopulation &&
+            SRBIJA.municipalities.map((op) => {
+              const mun = munForRik(op.id, op.name);
+              const reg = mun?.registered_voters;
+              if (!reg) return null;
+              const label = formatCompact(reg);
+              const w = label.length * 30 + 84;
               return (
-                <div key={rikKey} className="rounded-xl overflow-hidden border border-white/10 bg-[#0b0d12]">
-                  <button
-                    onClick={() => onSelectRegion(regionName)}
-                    className="w-full flex items-center gap-2 px-3 py-1.5 hover:bg-white/5 transition-colors"
-                  >
-                    {data?.leader && (
-                      <span
-                        className="inline-block w-2.5 h-2.5 rounded-full shrink-0"
-                        style={{ background: data.leader.color_hex || "#888" }}
-                      />
-                    )}
-                    <span className="text-[11px] font-medium text-white/80 truncate">
-                      {regionName}
-                    </span>
-                    <span className="text-[10px] text-white/35 ml-auto shrink-0 tabular-nums">
-                      {rd.municipalities.length} opština
-                    </span>
-                  </button>
-                  <div className="h-44 sm:h-52">{renderRikRegion(rikKey)}</div>
-                </div>
+                <g key={`pop-${op.id}`} style={{ pointerEvents: "none" }}>
+                  <rect x={op.cx - w / 2} y={op.cy - 52} width={w} height={100} rx={50} fill="rgba(0,0,0,0.72)" stroke="rgba(255,255,255,0.25)" strokeWidth={4} />
+                  <text textAnchor="middle" x={op.cx} y={op.cy + 18} fontSize={54} fontWeight={700} fill="#fff" className="tabular-nums">
+                    {label}
+                  </text>
+                  <title>{`${formatPlaceName(op.name)}: ${reg.toLocaleString("sr-RS")} upisanih`}</title>
+                </g>
               );
             })}
-          </div>
-        </div>
+        </svg>
       )}
 
       {isLocked && (
@@ -418,23 +426,26 @@ export default function SerbiaMap({
         </div>
       )}
 
-      {isLocked && hoveredOpstina && rikRegion && (() => {
-        const op = rikRegion.municipalities.find((x) => x.id === hoveredOpstina);
-        if (!op) return null;
-        const mun = munForRik(op.id, op.name);
-        return (
-          <div className="pointer-events-none absolute bottom-3 left-3 rounded-xl bg-black/80 backdrop-blur border border-white/10 px-3 py-2 shadow-xl max-w-[280px]">
-            <p className="text-xs font-semibold text-white">{formatPlaceName(op.name)}</p>
-            {mun?.leader ? (
-              <p className="text-[11px] text-white/60 tabular-nums mt-0.5">
-                {mun.leader.short_name} {mun.leader.pct.toFixed(1)}% · +{mun.margin_pct.toFixed(1)}pp · {mun.processed_pct.toFixed(0)}% obrađeno
-              </p>
-            ) : (
-              <p className="text-[11px] text-white/40 mt-0.5">Nema rezultata u bazi — klik za detalje</p>
-            )}
-          </div>
-        );
-      })()}
+      {(isLocked ? (rikRegion ? rikRegion.municipalities : []) : showAllOpstine ? SRBIJA.municipalities : [])
+        .filter((x) => x.id === hoveredOpstina)
+        .map((op) => {
+          const mun = munForRik(op.id, op.name);
+          return (
+            <div
+              key={`hov-${op.id}`}
+              className="pointer-events-none absolute bottom-3 left-3 rounded-xl bg-black/80 backdrop-blur border border-white/10 px-3 py-2 shadow-xl max-w-[280px]"
+            >
+              <p className="text-xs font-semibold text-white">{formatPlaceName(op.name)}</p>
+              {mun?.leader ? (
+                <p className="text-[11px] text-white/60 tabular-nums mt-0.5">
+                  {mun.leader.short_name} {mun.leader.pct.toFixed(1)}% · +{mun.margin_pct.toFixed(1)}pp · {mun.processed_pct.toFixed(0)}% obrađeno
+                </p>
+              ) : (
+                <p className="text-[11px] text-white/40 mt-0.5">Nema rezultata u bazi — klik za detalje</p>
+              )}
+            </div>
+          );
+        })}
     </div>
   );
 }

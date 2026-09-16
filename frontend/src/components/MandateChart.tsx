@@ -11,17 +11,21 @@ const CX = 200;
 const CY = 200;
 const DOT_R = 4.5;
 
+export type PrimeMinister = { name: string; party?: string | null; period?: string | null };
+
 export default function MandateChart({
   electionId,
   governingBallots = [],
   primeMinister = null,
   primeMinisterParty = null,
+  primeMinisters = null,
   partyLabels = {},
 }: {
   electionId: number;
   governingBallots?: number[];
   primeMinister?: string | null;
   primeMinisterParty?: string | null;
+  primeMinisters?: PrimeMinister[] | null;
   partyLabels?: Record<number, string>;
 }) {
   const { data, error, isLoading } = useSWR(
@@ -148,11 +152,24 @@ export default function MandateChart({
           MANDATA · VEĆINA {Math.floor(data.total_seats / 2) + 1}
         </text>
       </svg>
-      {primeMinister && (
-        <p className="text-[11px] text-white/45 mt-2">
-          Vlada: <span className="text-white/80 font-medium">{primeMinister}</span>
-          {primeMinisterParty && <span className="text-white/35"> ({primeMinisterParty})</span>}
+      {primeMinisters && primeMinisters.length > 0 ? (
+        <p className="text-[11px] text-white/45 mt-2 leading-relaxed">
+          Premijer{primeMinisters.length > 1 ? "i" : ""}:{" "}
+          {primeMinisters.map((pm, i) => (
+            <span key={pm.name}>
+              {i > 0 && <span className="text-white/30"> → </span>}
+              <span className="text-white/80 font-medium">{pm.name}</span>
+              {pm.period && <span className="text-white/35 tabular-nums"> ({pm.period})</span>}
+            </span>
+          ))}
         </p>
+      ) : (
+        primeMinister && (
+          <p className="text-[11px] text-white/45 mt-2">
+            Premijer: <span className="text-white/80 font-medium">{primeMinister}</span>
+            {primeMinisterParty && <span className="text-white/35"> ({primeMinisterParty})</span>}
+          </p>
+        )
       )}
       <div className="flex flex-col gap-1.5 mt-2">
         {ordered.map((p) => (
@@ -165,17 +182,21 @@ export default function MandateChart({
                 outlineOffset: 1,
               }}
             />
-            <span
-              title={p.name}
-              className={`truncate text-xs text-white/70 ${
-                gov.has(p.id) ? "underline decoration-red-400/80 underline-offset-[3px]" : ""
-              }`}
-            >
-              {p.short_name || p.name}
+            <div className="flex flex-col min-w-0 leading-tight">
+              <span
+                title={p.name}
+                className={`truncate text-xs text-white/70 ${
+                  gov.has(p.id) ? "underline decoration-red-400/80 underline-offset-[3px]" : ""
+                }`}
+              >
+                {p.short_name || p.name}
+              </span>
               {partyLabels[p.ballot_number ?? -1] && (
-                <span className="text-white/35"> · {partyLabels[p.ballot_number ?? -1]}</span>
+                <span className="truncate text-[10px] text-white/35">
+                  {partyLabels[p.ballot_number ?? -1]}
+                </span>
               )}
-            </span>
+            </div>
             <span className="ml-auto text-xs font-semibold text-white tabular-nums shrink-0">
               {p.seats}
             </span>

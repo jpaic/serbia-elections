@@ -10,6 +10,7 @@ export interface Election {
   status: "upcoming" | "live" | "closed";
   prime_minister?: string | null;
   pm_party?: string | null;
+  prime_ministers?: { name: string; party?: string | null; period?: string | null }[] | null;
 }
 
 export interface PartyResult {

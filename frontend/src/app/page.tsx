@@ -287,25 +287,24 @@ export default function Dashboard() {
                 >
                   {summary.results[0].name}
                 </span>
-                {isGov && (
-                  <span className="tabular-nums leading-snug text-white/55 shrink-0 hidden lg:inline">
-                    Vlast: {govParties}
+                {isGov ? (
+                  <span className="tabular-nums leading-snug text-white/55 shrink-0">
+                    Vlast: <span className="text-white/85 font-medium">{govParties}</span>
+                  </span>
+                ) : (
+                  <span
+                    className={`shrink-0 text-[10px] font-bold tracking-wide px-2 py-1 rounded-full border ${
+                      summary.election.status === "closed"
+                        ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+                        : "bg-red-500/15 text-red-400 border-red-500/30"
+                    }`}
+                  >
+                    {summary.election.status === "live" && (
+                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 animate-pulse align-middle" />
+                    )}
+                    {leaderVerb(summary.election.status, true).toUpperCase()}
                   </span>
                 )}
-                <span
-                  className={`shrink-0 text-[10px] font-bold tracking-wide px-2 py-1 rounded-full border ${
-                    isGov
-                      ? "bg-red-500/15 text-red-400 border-red-500/30"
-                      : summary.election.status === "closed"
-                      ? "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
-                      : "bg-red-500/15 text-red-400 border-red-500/30"
-                  }`}
-                >
-                  {summary.election.status === "live" && (
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 mr-1.5 animate-pulse align-middle" />
-                  )}
-                  {isGov ? "VLAST" : leaderVerb(summary.election.status, true).toUpperCase()}
-                </span>
               </div>
             );
           })()}
@@ -404,6 +403,7 @@ export default function Dashboard() {
                             governingBallots={GOVERNING_BALLOTS[summary.election.slug ?? ""] ?? []}
                             primeMinister={summary.election.prime_minister}
                             primeMinisterParty={summary.election.pm_party}
+                            primeMinisters={summary.election.prime_ministers}
                             partyLabels={LIST_PARTIES[summary.election.slug ?? ""] ?? {}}
                           />
                         </div>
