@@ -128,6 +128,9 @@ def election_summary(election_id: int):
     total_stations = agg["total_stations"] or 0
     processed_stations = agg["processed_stations"] or 0
     total_votes = sum(p["votes"] for p in party_totals) or 0
+    if total_votes == 0:
+        # Jos nema glasova — ne fabriciraj nule (panel prikazuje prijavljene liste)
+        party_totals = []
     # Izbori bez stanicnog nivoa (2022, 2000) imaju konacne opstinske podatke:
     # obradjenost je 100%, a izlaznost je nepoznata bez birackog spiska.
     if total_stations == 0 and total_votes > 0:
