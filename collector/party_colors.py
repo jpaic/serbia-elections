@@ -133,6 +133,14 @@ COLORS = {
     ("parlamentarni-2023", 16): "#4682B4",  # Ruska stranka
     ("parlamentarni-2023", 17): "#8E44AD",  # LDP
     ("parlamentarni-2023", 18): "#D92626",  # ADA
+    # ---- 2026 (privremeni redosled po datumu proglašenja RIK, do žreba) ----
+    ("parlamentarni-2026", 1): "#0E4DA4",  # SNS / Vučić
+    ("parlamentarni-2026", 2): "#ED1C24",  # SPS / Dačić
+    ("parlamentarni-2026", 3): "#800020",  # Studentska lista
+    ("parlamentarni-2026", 4): "#F26522",  # Ljajić (SDP)
+    ("parlamentarni-2026", 5): "#00A651",  # SVM / Pásztor
+    ("parlamentarni-2026", 6): "#006B3F",  # SPP / Zukorlić
+    ("parlamentarni-2026", 7): "#4682B4",  # Ruska stranka – BRIKS
 }
 
 if __name__ == "__main__":

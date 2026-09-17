@@ -17,7 +17,7 @@ PALETTE = ["#e63946", "#457b9d", "#7c3aed", "#78716c", "#f59e0b", "#0ea5e9",
            "#22c55e", "#a855f7", "#14b8a6", "#94a3b8", "#3b82d6", "#f97316",
            "#84cc16", "#eab308", "#64748b", "#ef4444", "#8b5cf6", "#06b6d4"]
 
-# kljucna rec -> (boja, manjina)
+# kljucna rec -> (boja, manjina) — redosled osetljiv, prva pogodjena pobeđuje
 COLOR_RULES = [
     ("ВУЧИЋ", "#0E4DA4", False),
     ("VUČIĆ", "#0E4DA4", False),
@@ -30,6 +30,9 @@ COLOR_RULES = [
     ("LJAJIĆ", "#F26522", True),
     ("СТУДЕНТ", "#800020", False),
     ("STUDENT", "#800020", False),
+    ("ЗУКОРЛИ", "#006B3F", True),
+    ("ZUKORLI", "#006B3F", True),
+    ("СПП", "#006B3F", True),
     ("ШАПИЋ", "#4A90D9", False),
     ("ŠAPIĆ", "#4A90D9", False),
     ("ШЕШЕЉ", "#0B2A5B", False),
@@ -45,6 +48,7 @@ COLOR_RULES = [
     ("MORAMO", "#1B8C4A", False),
     ("ДОСТА ЈЕ БИЛО", "#F26522", False),
     ("РУСКА", "#4682B4", True),
+    ("БРИКС", "#4682B4", True),
     ("NARODNA", "#1B75BC", False),
     ("НАРОДНА СТРАНКА", "#1B75BC", False),
 ]
@@ -67,11 +71,22 @@ def main():
         if "ПРОГЛАШЕЊУ" in dn:
             name = norm(dn.replace("РЕШЕЊЕ О ПРОГЛАШЕЊУ ИЗБОРНЕ ЛИСТЕ", ""))
             num = int(re.sub(r"\D", "", x.get("number", "0")) or 0)
-            lists.append((num, name))
+            try:
+                dt = int(str(x.get("datetime", "0")).strip())
+            except ValueError:
+                dt = 0
+            lists.append((dt, num, name))
+    # hronološki po datumu proglašenja (datetime), pa po broju dokumenta kao tie-breaker
+    # ovo čuva redosled 1..5 (Vučić→Mađar) i dodaje 2 nove na kraj (Zukorlić, Ruska)
+    # naspram sortiranja samo po 'number' koje bi sada invertovalo redosled zbog RIK paginacije
     lists.sort()
     print(f"proglasenih lista: {len(lists)}")
-    for num, name in lists:
-        print(f"  [{num}] {name[:80]}")
+    for dt, num, name in lists:
+        # izbegni cp1252 gresku u Windows konzoli
+        try:
+            print(f"  [{num}] dt={dt} {name[:80]}")
+        except UnicodeEncodeError:
+            print(f"  [{num}] dt={dt} {name[:80].encode('ascii','replace').decode()}")
 
     c = psycopg2.connect(os.environ["DATABASE_URL"])
     c.autocommit = True
@@ -80,7 +95,7 @@ def main():
     eid = cur.fetchone()[0]
     cur.execute("SELECT COALESCE(MAX(ballot_number), 0) FROM parties WHERE election_id=%s", (eid,))
     next_bn = cur.fetchone()[0] + 1
-    for i, (num, name) in enumerate(lists, start=1):
+    for i, (dt, num, name) in enumerate(lists, start=1):
         color, minor = PALETTE[(i - 1) % len(PALETTE)], False
         for kw, col, mn in COLOR_RULES:
             if kw in name:
@@ -91,17 +106,26 @@ def main():
         if ex:
             cur.execute("UPDATE parties SET color_hex=%s, is_minority=%s, short_name=%s WHERE id=%s",
                         (color, minor, short_name(name), ex[0]))
-            print(f"  upd {name[:60]} {color} min={minor}")
+            try:
+                print(f"  upd {name[:60]} {color} min={minor}")
+            except UnicodeEncodeError:
+                print(f"  upd {name[:60].encode('ascii','replace').decode()} {color} min={minor}")
         else:
             cur.execute("INSERT INTO parties (election_id, name, short_name, ballot_number, color_hex, is_minority)"
                         " VALUES (%s,%s,%s,%s,%s,%s)",
                         (eid, name, short_name(name), next_bn, color, minor))
-            print(f"  + bn={next_bn} {name[:60]} {color} min={minor}")
+            try:
+                print(f"  + bn={next_bn} {name[:60]} {color} min={minor}")
+            except UnicodeEncodeError:
+                print(f"  + bn={next_bn} {name[:60].encode('ascii','replace').decode()} {color} min={minor}")
             next_bn += 1
     cur.execute("SELECT ballot_number, short_name, color_hex, is_minority FROM parties WHERE election_id=%s ORDER BY ballot_number", (eid,))
     print("--- stanje 2026 ---")
     for r in cur.fetchall():
-        print(" ", r)
+        try:
+            print(" ", r)
+        except UnicodeEncodeError:
+            print(" ", str(r).encode('ascii','replace').decode())
 
 
 if __name__ == "__main__":
