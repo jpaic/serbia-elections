@@ -1,13 +1,2352 @@
 [
   {
     "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/647/zapisnik 1.sednice LIK.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ГРАДСКЕ ОПШТИНСКЕ ВОЖДОВАЦ",
+    "municipality_display_name": "Вождовац",
+    "datetime": "1789823098",
+    "candidates": "0",
+    "number": "1.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија градске општине Вождовац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/638/SCAN0112.PDF\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЖАБАРИ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Жабари",
+    "datetime": "1789822386",
+    "candidates": "0",
+    "number": "2.",
+    "document_bearer": "Изборна комисија општине Жабари"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/635/SCAN0111.PDF\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 2. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ЖАБАРИ",
+    "municipality_display_name": "Жабари",
+    "datetime": "1789821503",
+    "candidates": "0",
+    "number": "3.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Жабари"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/632/Odluka o određivanju biračkih mesta Novi Pazar.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА НОВОГ ПАЗАРА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Нови Пазар",
+    "datetime": "1789821385",
+    "candidates": "0",
+    "number": "4.",
+    "document_bearer": "Изборна комисија града Новог Пазара"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/623/Zapisnik sa 6. sednice Izborne komisije opštine Ivanjica.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 6. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ИВАЊИЦА",
+    "municipality_display_name": "Ивањица",
+    "datetime": "1789821048",
+    "candidates": "0",
+    "number": "5.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Ивањица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/617/бирачка места.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БАЈИНА БАШТА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Бајина Башта",
+    "datetime": "1789820041",
+    "candidates": "0",
+    "number": "6.",
+    "document_bearer": "Општинска изборна комисија општине Бајина Башта"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/602/ЗАПИСНИК СА 1. СЕДНИЦЕ ОИК ОПШТИНЕ СЕЧАЊ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ СЕЧАЊ",
+    "municipality_display_name": "Сечањ",
+    "datetime": "1789819401",
+    "candidates": "0",
+    "number": "7.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Сечањ"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/596/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ТЕМЕРИН ЗА ГЛАСАЊЕ НА .pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ТЕМЕРИН ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026",
+    "municipality_display_name": "Темерин",
+    "datetime": "1789812782",
+    "candidates": "0",
+    "number": "8.",
+    "document_bearer": "Општинска изборна комисија општине Темерин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/593/ЗАПИСНИК СА 4. СЕДНИЦЕ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 4. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ТЕМЕРИН",
+    "municipality_display_name": "Темерин",
+    "datetime": "1789812720",
+    "candidates": "0",
+    "number": "9.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Темерин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/587/ЗАПИСНИК СА 5. СЕДНИЦЕ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 5. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ТЕМЕРИН",
+    "municipality_display_name": "Темерин",
+    "datetime": "1789811155",
+    "candidates": "0",
+    "number": "10.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Темерин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/584/Odluka o odredjivanju birackih mesta na teritoriji GNS - Parlamentarni izbori 2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА НОВОГ САДА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Нови Сад",
+    "datetime": "1789811042",
+    "candidates": "0",
+    "number": "11.",
+    "document_bearer": "Градска изборна комисија града Новог Сада"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/581/Zapisnik 59. sednica OIK Beocin.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 59. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ БЕОЧИН",
+    "municipality_display_name": "Беочин",
+    "datetime": "1789810934",
+    "candidates": "0",
+    "number": "12.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Беочин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/575/odluka BM Subotica.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА СУБОТИЦЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Суботица",
+    "datetime": "1789809602",
+    "candidates": "0",
+    "number": "13.",
+    "document_bearer": "Изборна комисија града Суботице"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/566/Записник са 2. седнице ИК 17.09.2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 2. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ БАЧКИ ПЕТРОВАЦ",
+    "municipality_display_name": "Бачки Петровац",
+    "datetime": "1789809369",
+    "candidates": "0",
+    "number": "14.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Бачки Петровац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/563/Записник са 1. седнице ИК 27.06.2025.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ БАЧКИ ПЕТРОВАЦ",
+    "municipality_display_name": "Бачки Петровац",
+    "datetime": "1789809323",
+    "candidates": "0",
+    "number": "15.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Бачки Петровац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/560/Odluka o bir mestima.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ РАКОВИЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Раковица",
+    "datetime": "1789808609",
+    "candidates": "0",
+    "number": "16.",
+    "document_bearer": "Изборна комисија градске општине Раковица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/557/Zapisnik sa 3ce sednice.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 3. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ОДРЖАНЕ 16.09.2026 ГОДИНЕ",
+    "municipality_display_name": "Раковица",
+    "datetime": "1789808553",
+    "candidates": "0",
+    "number": "17.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија градске општине Раковица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/554/Resenje dodela mandata zanka njaradi.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ДОДЕЛИ ОДБОРНИЧКОГ МАНДАТА",
+    "municipality_display_name": "Раковица",
+    "datetime": "1789808472",
+    "candidates": "0",
+    "number": "18.",
+    "decision_type": "РЕШЕЊЕ",
+    "document_bearer": "Изборна комисија градске општине Раковица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/472/6. IZBOR NARODA - MIROSLAV ALEKSIC - za sajt.docx\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "9. ИЗБОРНА ЛИСТА - ИЗБОР НАРОДА - МИРОСЛАВ МИКИ АЛЕКСИЋ - МИЛОШ ПАРАНДИЛОВИЋ - АЛЕКСАНДАР ЈОВАНОВИЋ ЋУТА (НАРОДНИ ПОКРЕТ СРБИЈЕ, НОВО ЛИЦЕ СРБИЈЕ, ПОКРЕТ ЕКОЛОШКИ УСТАНАК)",
+    "municipality_display_name": "РИК",
+    "datetime": "1789761571",
+    "candidates": "100",
+    "number": "19.",
+    "document_bearer": "Републичка изборна комисија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/469/РЕШЕЊЕ О ПРОГЛАШЕЊУ ИЗБОРНЕ ЛИСТЕ ИЗБОР НАРОДА - МИРОСЛАВ АЛЕКСИЋ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ПРОГЛАШЕЊУ ИЗБОРНЕ ЛИСТЕ ИЗБОР НАРОДА - МИРОСЛАВ МИКИ АЛЕКСИЋ - МИЛОШ ПАРАНДИЛОВИЋ - АЛЕКСАНДАР ЈОВАНОВИЋ ЋУТА (НАРОДНИ ПОКРЕТ СРБИЈЕ, НОВО ЛИЦЕ СРБИЈЕ, ПОКРЕТ ЕКОЛОШКИ УСТАНАК)",
+    "municipality_display_name": "РИК",
+    "datetime": "1789761312",
+    "candidates": "0",
+    "number": "20.",
+    "decision_type": "РЕШЕЊЕ",
+    "document_bearer": "Републичка изборна комисија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/466/9. Autenticna desnica NADA - za sajt.docx\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "8.ИЗБОРНА ЛИСТА АУТЕНТИЧНА ДЕСНИЦА – ДР МИЛОШ ЈОВАНОВИЋ  (НОВИ ДСС – МОНАРХИСТИ – СРПСКА КОАЛИЦИЈА НАДА – НАЦИОНАЛНО ДЕМОКРАТСКА АЛТЕРНАТИВА – НОВА ДЕМОКРАТСКА СТРАНКА СРБИЈЕ – ПОКРЕТ ЗА КРАЉЕВИНУ СРБИЈУ) – ОДВАЖНО СРПСКИ!",
+    "municipality_display_name": "РИК",
+    "datetime": "1789761249",
+    "candidates": "250",
+    "number": "21.",
+    "document_bearer": "Републичка изборна комисија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/463/РЕШЕЊЕ О ПРОГЛАШЕЊУ ИЗБОРНЕ ЛИСТЕ АУТЕНТИЧНА ДЕСНИЦА - др МИЛОШ ЈОВАНОВИЋ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ПРОГЛАШЕЊУ ИЗБОРНЕ ЛИСТЕ – ДР МИЛОШ ЈОВАНОВИЋ  (НОВИ ДСС – МОНАРХИСТИ – СРПСКА КОАЛИЦИЈА НАДА – НАЦИОНАЛНО ДЕМОКРАТСКА АЛТЕРНАТИВА – НОВА ДЕМОКРАТСКА СТРАНКА СРБИЈЕ – ПОКРЕТ ЗА КРАЉЕВИНУ СРБИЈУ) – ОДВАЖНО СРПСКИ!",
+    "municipality_display_name": "РИК",
+    "datetime": "1789761181",
+    "candidates": "0",
+    "number": "22.",
+    "decision_type": "РЕШЕЊЕ",
+    "document_bearer": "Републичка изборна комисија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/457/odluka o birackum mestima 1 vozdovac.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ ВОЖДОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Вождовац",
+    "datetime": "1789758806",
+    "candidates": "0",
+    "number": "23.",
+    "document_bearer": "Изборна комисија градске општине Вождовац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/451/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЋИЋЕВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЋИЋЕВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Ћићевац",
+    "datetime": "1789758665",
+    "candidates": "0",
+    "number": "24.",
+    "document_bearer": "Општинска изборна комисија општине Ћићевац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/448/Odluka o određivanju biračkih mesta na teritoriji opštine Žitorađa.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЖИТОРАЂА  ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Житорађа",
+    "datetime": "1789758653",
+    "candidates": "0",
+    "number": "25.",
+    "document_bearer": "Изборна комисија општине Житорађа"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/439/Уб Oдлука смањенpdf.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ УБ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Уб",
+    "datetime": "1789758491",
+    "candidates": "0",
+    "number": "26.",
+    "document_bearer": "Општинска изборна комисија општине Уб"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/436/Odluka o BM Opština Mali Zvornik.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ МАЛИ ЗВОРНИК ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Мали Зворник",
+    "datetime": "1789758382",
+    "candidates": "0",
+    "number": "27.",
+    "document_bearer": "Општинска изборна комисија општине Мали Зворник"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/433/Odluka o odredjivanju biračkih mesta na taeritoriji opštine Bosilegrad.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БОСИЛЕГРАД ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Босилеград",
+    "datetime": "1789758336",
+    "candidates": "0",
+    "number": "28.",
+    "document_bearer": "Општинска изборна комисија општине Босилеград"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/430/Zapisnik sa I sednice OIK opštine Bosilegrad.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ БОСИЛЕГРАД",
+    "municipality_display_name": "Босилеград",
+    "datetime": "1789758249",
+    "candidates": "0",
+    "number": "29.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Босилеград"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/427/Zapisnik sa 87 sednice OIK.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 87. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ КЊАЖЕВАЦ",
+    "municipality_display_name": "Књажевац",
+    "datetime": "1789756449",
+    "candidates": "0",
+    "number": "30.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Књажевац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/421/Odluka o odredjivanju birackih mesta.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ КЊАЖЕВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Књажевац",
+    "datetime": "1789756332",
+    "candidates": "0",
+    "number": "31.",
+    "document_bearer": "Општинска изборна комисија општине Књажевац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/415/Одлука о одређивању бирачких места натериторији општине Рековац.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ РЕКОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Рековац",
+    "datetime": "1789756128",
+    "candidates": "0",
+    "number": "32.",
+    "document_bearer": "Општинска изборна комисија општине Рековац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/406/Записник  1. Onпштинске изборне комисије општине Рековац.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ РЕКОВАЦ",
+    "municipality_display_name": "Рековац",
+    "datetime": "1789756038",
+    "candidates": "0",
+    "number": "33.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Рековац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/403/Одлука о одређивању бирачких места Димитровград.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ДИМИТРОВГРАД ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Димитровград",
+    "datetime": "1789755943",
+    "candidates": "0",
+    "number": "34.",
+    "document_bearer": "Општинска изборна комисија општине Димитровград"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/397/Записник 3. седнице ОИК.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 3. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ БАЧКА ПАЛАНКА",
+    "municipality_display_name": "Бачка Паланка",
+    "datetime": "1789755886",
+    "candidates": "0",
+    "number": "35.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Бачка Паланка"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/391/Одлука о одређивању бирачких места на територији општине Кучево.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ КУЧЕВО ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Кучево",
+    "datetime": "1789755713",
+    "candidates": "0",
+    "number": "36.",
+    "document_bearer": "Општинска изборна комисија општине Кучево"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/388/Одлука о одређивању бирачких места на територији општине Мајданпек .pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ МАЈДАНПЕК ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ",
+    "municipality_display_name": "Мајданпек",
+    "datetime": "1789755707",
+    "candidates": "0",
+    "number": "37.",
+    "document_bearer": "Изборна комисија општине Мајданпек"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/385/Записник са 1. седнице ОИК.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ У КУЧЕВУ",
+    "municipality_display_name": "Кучево",
+    "datetime": "1789755666",
+    "candidates": "0",
+    "number": "38.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Кучево"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/379/Записник са XXXIX седнице Изборне комисије општине Мајданпек.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 39. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ МАЈДАНПЕК",
+    "municipality_display_name": "Мајданпек",
+    "datetime": "1789755615",
+    "candidates": "0",
+    "number": "39.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Мајданпек"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/373/Одлука о одређивању бирачких места на територији општине Сврљиг.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ СВРЉИГ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Сврљиг",
+    "datetime": "1789754963",
+    "candidates": "0",
+    "number": "40.",
+    "document_bearer": "Општинска изборна комисија општине Сврљиг"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/370/Одлука о стављању ван снаге Одлуке о одређивању бирачких места на територији општине Сврљиг.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О СТАВЉАЊУ ВАН СНАГЕ ОДЛУКЕ О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ СВРЉИГ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Сврљиг",
+    "datetime": "1789754868",
+    "candidates": "0",
+    "number": "41.",
+    "decision_type": "ОДЛУКА",
+    "document_bearer": "Општинска изборна комисија општине Сврљиг"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/364/Записник са 5. седнице Општинске изборне комисије општине Сврљиг.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 5. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ СВРЉИГ",
+    "municipality_display_name": "Сврљиг",
+    "datetime": "1789754592",
+    "candidates": "0",
+    "number": "42.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Сврљиг"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/361/ОДЛУКА О УТВРЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ КОЦЕЉЕВА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА ..pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ КОЦЕЉЕВА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Коцељева",
+    "datetime": "1789754519",
+    "candidates": "0",
+    "number": "43.",
+    "document_bearer": "Изборна комисија општине Коцељева"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/358/записник 1 седница.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ КОЦЕЉЕВА",
+    "municipality_display_name": "Коцељева",
+    "datetime": "1789754450",
+    "candidates": "0",
+    "number": "44.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Коцељева"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/346/записник 1. седнице.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ГРАДА ПОЖАРЕВЦА",
+    "municipality_display_name": "Пожаревац",
+    "datetime": "1789753861",
+    "candidates": "0",
+    "number": "45.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Градска изборна комисија града Пожаревца"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/343/одлука бм.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ПОЖАРЕВЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Пожаревац",
+    "datetime": "1789753824",
+    "candidates": "0",
+    "number": "46.",
+    "document_bearer": "Градска изборна комисија града Пожаревца"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/337/odluka.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ИМЕНОВАЊУ ЧЛАНА И ЗАМЕНИКА ЧЛАНА ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ КОВИН У ПРОШИРЕНОМ САСТАВУ",
+    "municipality_display_name": "Ковин",
+    "datetime": "1789753684",
+    "candidates": "0",
+    "number": "47.",
+    "document_bearer": "Изборна комисија општине Ковин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/334/Odluka o odredjivanju bm teritorija opstine Kursumlija 2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ КУРШУМЛИЈА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Куршумлија",
+    "datetime": "1789753645",
+    "candidates": "0",
+    "number": "48.",
+    "document_bearer": "Општинска изборна комисија општине Куршумлија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/331/Zapisnik OIK Kursumlija 18.9.2026..pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ КУРШУМЛИЈА",
+    "municipality_display_name": "Куршумлија",
+    "datetime": "1789753548",
+    "candidates": "0",
+    "number": "49.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Куршумлија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/322/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ШИД ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ШИД ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Шид",
+    "datetime": "1789753301",
+    "candidates": "0",
+    "number": "50.",
+    "document_bearer": "Општинска изборна комисија општине Шид"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/316/Одлука о одређивању бирачких места на територији општине Косјерић.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ КОСЈЕРИЋ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Косјерић",
+    "datetime": "1789753182",
+    "candidates": "0",
+    "number": "51.",
+    "document_bearer": "Општинска изборна комисија општине Косјерић"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/313/Записник са 1. седнице.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ КОСЈЕРИЋ",
+    "municipality_display_name": "Косјерић",
+    "datetime": "1789753132",
+    "candidates": "0",
+    "number": "52.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Косјерић"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/310/Уб Записник са 1. седнице ОИК.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК  1. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ",
+    "municipality_display_name": "Уб",
+    "datetime": "1789753112",
+    "candidates": "0",
+    "number": "53.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Уб"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/298/Odluka o odredjivanju birackih mesta.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ПРЕШЕВО ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Прешево",
+    "datetime": "1789752867",
+    "candidates": "0",
+    "number": "54.",
+    "document_bearer": "Општинска изборна комисија општине Прешево"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/295/resenje o imenovanju clana i zamenika clana Izborne komisije GO Savski venac u prosirenom sastavu.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ИМЕНОВАЊУ ЧЛАНА И ЗАМЕНИКА ЧЛАНА ИЗБОРНЕ КОМИСИЈЕ ГО САВСКИ ВЕНАЦ У ПРОШИРЕНОМ САСТАВУ",
+    "municipality_display_name": "Савски венац",
+    "datetime": "1789752858",
+    "candidates": "0",
+    "number": "55.",
+    "decision_type": "РЕШЕЊЕ",
+    "document_bearer": "Изборна комисија градске општине Савски венац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/289/odluka o odredjivanju birackih mesta.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ САВСКИ ВЕНАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ.",
+    "municipality_display_name": "Савски венац",
+    "datetime": "1789752696",
+    "candidates": "0",
+    "number": "56.",
+    "document_bearer": "Изборна комисија градске општине Савски венац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/286/Одлука о одређивању бирачких места за град Крушевац.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА КРУШЕВЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Крушевац",
+    "datetime": "1789752596",
+    "candidates": "0",
+    "number": "57.",
+    "document_bearer": "Градска изборна комисија града Крушевца"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/283/Zapisnik sa 4. sednice OIK Bečej.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 4. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ БЕЧЕЈ",
+    "municipality_display_name": "Бечеј",
+    "datetime": "1789752593",
+    "candidates": "0",
+    "number": "58.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Бечеј"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/280/Odluka o određivanju biračkih mesta na teritoriji opštine Bečej.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БЕЧЕЈ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Бечеј",
+    "datetime": "1789752462",
+    "candidates": "0",
+    "number": "59.",
+    "document_bearer": "Општинска изборна комисија општине Бечеј"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/277/BM-1 odluka.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ЧАЧКА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Чачак",
+    "datetime": "1789752200",
+    "candidates": "0",
+    "number": "60.",
+    "document_bearer": "Изборна комисија града Чачка"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/274/Zapisnik sa 10. sednice Izborne komisije GO Stari grad.PDF\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 10. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ГРАДСКЕ ОПШТИНЕ СТАРИ ГРАД ОДРЖАНЕ 18. 9. 2026. ГОДИНЕ",
+    "municipality_display_name": "Стари град",
+    "datetime": "1789752196",
+    "candidates": "0",
+    "number": "61.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија градске општине Стари град"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/271/Zapisnik sa 9. sednice IK.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 9. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ГРАДСКЕ ОПШТИНЕ СТАРИ ГРАД ОДРЖАНЕ 16. 9. 2026. ГОДИНЕ ",
+    "municipality_display_name": "Стари град",
+    "datetime": "1789752163",
+    "candidates": "0",
+    "number": "62.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија градске општине Стари град"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/259/Одлука  о одређивању бирачких места на теритирији општине Велика Плана.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ВЕЛИКА ПЛАНА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Велика Плана",
+    "datetime": "1789751990",
+    "candidates": "0",
+    "number": "63.",
+    "document_bearer": "Општинска изборна комисија општине Велика Плана"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/256/Записник са 4. седнице.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 4. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ВЕЛИКА ПЛАНА",
+    "municipality_display_name": "Велика Плана",
+    "datetime": "1789751941",
+    "candidates": "0",
+    "number": "64.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Велика Плана"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/253/Одлука о одређивању бирачких места.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БАЧКА ПАЛАНКА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Бачка Паланка",
+    "datetime": "1789751926",
+    "candidates": "0",
+    "number": "65.",
+    "document_bearer": "Општинска изборна комисија општине Бачка Паланка"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/250/Записник 2. седнице ОИК.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 2. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ БАЧКА ПАЛАНКА ОДРЖАНЕ ДАНА 6. МАРАТА 2026 ГОДИНЕ",
+    "municipality_display_name": "Бачка Паланка",
+    "datetime": "1789751883",
+    "candidates": "0",
+    "number": "66.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Бачка Паланка"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/244/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ СЕЧАЊ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Сечањ",
+    "datetime": "1789751783",
+    "candidates": "0",
+    "number": "67.",
+    "document_bearer": "Општинска изборна комисија општине Сечањ"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/241/Odluka o odredjivanju birackih mesta GO Obrenovac.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ ОБРЕНОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Обреновац",
+    "datetime": "1789751774",
+    "candidates": "0",
+    "number": "68.",
+    "document_bearer": "Изборна комисија градске општине Обреновац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/238/Zapisnik sa 6. sednice Gradske izborne komisije grada Kragujevca.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 6. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ГРАДА КРАГУЈЕВЦА",
+    "municipality_display_name": "Крагујевац",
+    "datetime": "1789751750",
+    "candidates": "0",
+    "number": "69.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Градска изборна комисија града Крагујевца"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/232/Odluka o određivanju biračkih mesta na teritoriji grada Kragujevca za glasanje na izborima za narodne poslanike.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА КРАГУЈЕВЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Крагујевац",
+    "datetime": "1789751665",
+    "candidates": "0",
+    "number": "70.",
+    "document_bearer": "Градска изборна комисија града Крагујевца"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/229/Zapisnik sa 1. sednice IK GO Obrenovac.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК  1. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ",
+    "municipality_display_name": "Обреновац",
+    "datetime": "1789751655",
+    "candidates": "0",
+    "number": "71.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија градске општине Обреновац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/226/Odluku u određivanju biračkih mesta na teritoriji opštine Ivanjica.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ИВАЊИЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Ивањица",
+    "datetime": "1789751630",
+    "candidates": "0",
+    "number": "72.",
+    "document_bearer": "Општинска изборна комисија општине Ивањица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/217/Одлука о одређивању БМ на територији општине Лајковац.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЛАЈКОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Лајковац",
+    "datetime": "1789750944",
+    "candidates": "0",
+    "number": "73.",
+    "document_bearer": "Општинска изборна комисија општине Лајковац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/211/Записник са седнице ОИК општине Лајковац.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 16. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ЛАЈКОВАЦ",
+    "municipality_display_name": "Лајковац",
+    "datetime": "1789750875",
+    "candidates": "0",
+    "number": "74.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Лајковац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/208/запсиник 3.rtf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 3. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ СОКОБАЊА",
+    "municipality_display_name": "Сокобања",
+    "datetime": "1789750804",
+    "candidates": "0",
+    "number": "75.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Сокобања"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/205/запсиник 2.rtf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 2. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ СОКОБАЊА",
+    "municipality_display_name": "Сокобања",
+    "datetime": "1789750739",
+    "candidates": "0",
+    "number": "76.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Сокобања"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/202/zapsianik Izborna komisija 30.04.2025..pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА СЕДНИЦЕ ОИК ОПШТИНЕ ЋУПРИЈА",
+    "municipality_display_name": "Ћуприја",
+    "datetime": "1789750688",
+    "candidates": "0",
+    "number": "77.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Ћуприја"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/196/Записник ОИК-а друга седница пећ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ДРУГЕ СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ПЕЋИНЦИ",
+    "municipality_display_name": "Пећинци",
+    "datetime": "1789750658",
+    "candidates": "0",
+    "number": "78.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Пећинци"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/193/Одлука о одређивању бирачких места.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ПЕЋИНЦИ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Пећинци",
+    "datetime": "1789750615",
+    "candidates": "0",
+    "number": "79.",
+    "document_bearer": "Општинска изборна комисија општине Пећинци"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/190/odluka o birackum mestima 1.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ ВОЖДОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Вождовац",
+    "datetime": "1789750567",
+    "candidates": "0",
+    "number": "80.",
+    "document_bearer": "Изборна комисија градске општине Вождовац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/187/Zapisnik 3. sednicе Opstinske izborne komisije opstine Senta.doc\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ТРЕЋЕ СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ СЕНТА",
+    "municipality_display_name": "Сента",
+    "datetime": "1789750526",
+    "candidates": "0",
+    "number": "81.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Сента"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/184/Одлука о одређивању бирачких места.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЋУПРИЈА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Ћуприја",
+    "datetime": "1789750523",
+    "candidates": "0",
+    "number": "82.",
+    "document_bearer": "Изборна комисија општине Ћуприја"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/169/Одлука о одређивању бирачких места за територију општине Сокобања_potpisano.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ СОКОБАЊА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Сокобања",
+    "datetime": "1789750274",
+    "candidates": "0",
+    "number": "83.",
+    "document_bearer": "Изборна комисија општине Сокобања"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/166/Записник 2. седница ОИК Чока.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 2. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ЧОКА",
+    "municipality_display_name": "Чока",
+    "datetime": "1789750235",
+    "candidates": "0",
+    "number": "84.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Чока"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/163/ЗАПИСНИК О РАДУ 4. СЕДНИЦЕ ОИК МАЛО ЦРНИЋЕ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК О РАДУ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ МАЛО ЦРНИЋЕ",
+    "municipality_display_name": "Мало Црниће",
+    "datetime": "1789750177",
+    "candidates": "0",
+    "number": "85.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Мало Црниће"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/157/Одлука о бирачким местима - ОИК Рача.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ РАЧА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Рача",
+    "datetime": "1789749963",
+    "candidates": "0",
+    "number": "86.",
+    "document_bearer": "Општинска изборна комисија општине Рача"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/154/Записник са 4. седнице ОИК-а.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 4. СЕДНИЦЕ ОИК ОПШТИНЕ РУМА",
+    "municipality_display_name": "Рума",
+    "datetime": "1789749959",
+    "candidates": "0",
+    "number": "87.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Рума"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/148/Записник са 2. седнице - ОИК Рача.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 2. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ РАЧА",
+    "municipality_display_name": "Рача",
+    "datetime": "1789749887",
+    "candidates": "0",
+    "number": "88.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Рача"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/145/Записник са 1. седнице - ОИК Рача.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ РАЧА",
+    "municipality_display_name": "Рача",
+    "datetime": "1789749856",
+    "candidates": "0",
+    "number": "89.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Рача"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/139/Записник са 2.седнице ОИК.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ДРУГЕ СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ БЛАЦЕ",
+    "municipality_display_name": "Блаце",
+    "datetime": "1789749715",
+    "candidates": "0",
+    "number": "90.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Блаце"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/136/Записник са 1. седнице ОИК.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ПРВЕ СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ БЛАЦЕ",
+    "municipality_display_name": "Блаце",
+    "datetime": "1789749666",
+    "candidates": "0",
+    "number": "91.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Блаце"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/133/Odluka o određivanju biračkih mesta na teritoriji opštine Vlasotince.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ВЛАСОТИНЦЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Власотинце",
+    "datetime": "1789749623",
+    "candidates": "0",
+    "number": "92.",
+    "document_bearer": "Општинска изборна комисија општине Власотинце"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/127/Odluka o radnom vremenu.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О РАДНОМ ВРЕМЕНУ, ДЕЖУРСТВИМА И НАЧИНУ ПРИЈЕМА ПИСМЕНА",
+    "municipality_display_name": "Нови Пазар",
+    "datetime": "1789749555",
+    "candidates": "0",
+    "number": "93.",
+    "decision_type": "ОДЛУКА",
+    "document_bearer": "Изборна комисија града Новог Пазара"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/124/Одлука о одређивању бирачких места на територији општине Блаце.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БЛАЦЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Блаце",
+    "datetime": "1789749502",
+    "candidates": "0",
+    "number": "94.",
+    "document_bearer": "Општинска изборна комисија општине Блаце"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/118/Одлука о одређивању бирачких места на територији општине .pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЛАПОВО ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ.",
+    "municipality_display_name": "Лапово",
+    "datetime": "1789749191",
+    "candidates": "0",
+    "number": "95.",
+    "document_bearer": "Општинска изборна комисија општине Лапово"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/112/Odluka o određivanju biračkih mesta na teritoriji grada Kragujevca za glasanje na izborima za narodne poslanike.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА КРАГУЈЕВЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026",
+    "municipality_display_name": "Крагујевац",
+    "datetime": "1789749014",
+    "candidates": "0",
+    "number": "96.",
+    "document_bearer": "Градска изборна комисија града Крагујевца"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/109/Odluka o određivanju BM.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ РАШКА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Рашка",
+    "datetime": "1789748812",
+    "candidates": "0",
+    "number": "97.",
+    "document_bearer": "Општинска изборна комисија општине Рашка"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/106/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ПОЖЕГА.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ПОЖЕГА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Пожега",
+    "datetime": "1789748674",
+    "candidates": "0",
+    "number": "98.",
+    "document_bearer": "Општинска изборна комисија општине Пожега"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/103/Записник са треће седнице ОИК 18 09 2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 3. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ПЛАНДИШТЕ",
+    "municipality_display_name": "Пландиште",
+    "datetime": "1789748499",
+    "candidates": "0",
+    "number": "99.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисије општине Пландиште"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/094/Одлука о одређивању бирачких места на територији општине Александровац.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ АЛЕКСАНДРОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Александровац",
+    "datetime": "1789748330",
+    "candidates": "0",
+    "number": "100.",
+    "document_bearer": "Општинска изборна комисија општине Александровац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/091/Zapisnik-IV-sednica.PDF\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК  5 СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ",
+    "municipality_display_name": "Лапово",
+    "datetime": "1789748286",
+    "candidates": "0",
+    "number": "101.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Лапово"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/088/Записник ОИК  18 9 2026.docx\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ АЛЕКСАНДРОВАЦ СА СЕДНИЦЕ ОДРЖАНЕ 18. СЕПТЕМБРА 2026. ГОДИНЕ",
+    "municipality_display_name": "Александровац",
+    "datetime": "1789748251",
+    "candidates": "0",
+    "number": "102.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Александровац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/076/Записник са 2.седнице ОИК Ириг, 18.9.2026..pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ДРУГЕ СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ИРИГ",
+    "municipality_display_name": "Ириг",
+    "datetime": "1789748000",
+    "candidates": "0",
+    "number": "103.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Ириг"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/073/Записник са треће седнице.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 3. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ВЛАДИЧИН ХАН",
+    "municipality_display_name": "Владичин Хан",
+    "datetime": "1789747937",
+    "candidates": "0",
+    "number": "104.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Владичин Хан"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/067/Записник са 3. седнице Изборне комисије општине Бабушница од 05.03.2026.године баб.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 3. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ БАБУШНИЦА",
+    "municipality_display_name": "Бабушница",
+    "datetime": "1789747817",
+    "candidates": "0",
+    "number": "105.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Бабушница"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/064/Записник са друге седнице.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 2. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ВЛАДИЧИН ХАН",
+    "municipality_display_name": "Владичин Хан",
+    "datetime": "1789747785",
+    "candidates": "0",
+    "number": "106.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Владичин Хан"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/061/Odluka o odredjivanju birackih mesta parlamentarni 2026 бабуш.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БАБУШНИЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Бабушница",
+    "datetime": "1789747722",
+    "candidates": "0",
+    "number": "107.",
+    "document_bearer": "Општинска изборна комисија општине Бабушница"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/055/odluka o odredjivanju birackih mesta.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ДОЉЕВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Дољевац",
+    "datetime": "1789747618",
+    "candidates": "0",
+    "number": "108.",
+    "document_bearer": "Изборна комисија општине Дољевац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/049/zapisnik sa 1.sednice oik дољевац.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ПРВЕ СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ДОЉЕВАЦ ОДРЖАНЕ ДАНА 18. СЕПТЕМБРА 2026. ГОДИНЕ",
+    "municipality_display_name": "Дољевац",
+    "datetime": "1789747507",
+    "candidates": "0",
+    "number": "109.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Дољевац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/046/zapisnik заје.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 89. СЕДНИЦЕ ГРАДСКЕ ИЗБОРНЕ КОМИСИЈЕ ГРАДА ЗАЈЕЧАРА",
+    "municipality_display_name": "Зајечар",
+    "datetime": "1789747381",
+    "candidates": "0",
+    "number": "110.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Градска изборна комисија града Зајечара"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/040/Odluka зајечар.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ЗАЈЕЧАРА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Зајечар",
+    "datetime": "1789747240",
+    "candidates": "0",
+    "number": "111.",
+    "document_bearer": "Градска изборна комисија града Зајечара"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/037/Zapisnik sa sednice izborne komisije.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ГРАДА НОВОГ ПАЗАРА ОДРЖАНЕ 17. СЕПТЕМБРА 2026. ГОДИНЕ",
+    "municipality_display_name": "Нови Пазар",
+    "datetime": "1789747157",
+    "candidates": "0",
+    "number": "112.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија града Новог Пазара"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/034/Odluka o odredjivanju BM za Varvarin.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ВАРВАРИН ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Варварин",
+    "datetime": "1789747037",
+    "candidates": "0",
+    "number": "113.",
+    "document_bearer": "Општинска изборна комисија општине Варварин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/019/Одлука о одређивању бирачких места на територији општине Медвеђа.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ МЕДВЕЂА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Медвеђа",
+    "datetime": "1789746882",
+    "candidates": "0",
+    "number": "114.",
+    "document_bearer": "Општинска изборна комисија општине Медвеђа"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/010/Odluka biracka mesta.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ НЕГОТИН ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Неготин",
+    "datetime": "1789746685",
+    "candidates": "0",
+    "number": "115.",
+    "document_bearer": "Изборна комисија општине Неготин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/682/007/zapisnik.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 4. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ГО СУРЧИН",
+    "municipality_display_name": "Сурчин",
+    "datetime": "1789746175",
+    "candidates": "0",
+    "number": "116.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија градске општине Сурчин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/995/Zapisnik-IV-sednica.PDF\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК  4. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ",
+    "municipality_display_name": "Сремска Митровица",
+    "datetime": "1789745907",
+    "candidates": "0",
+    "number": "117.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија града Сремска Митровица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/989/Одлука о одређивању бирачких места у општини Жабаљ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЖАБАЉ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Жабаљ",
+    "datetime": "1789745726",
+    "candidates": "0",
+    "number": "118.",
+    "document_bearer": "Општинска изборна комисија општине Жабаљ"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/986/4. Zapisnik 1.sednica.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ПРВЕ СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ СТАРА ПАЗОВА",
+    "municipality_display_name": "Стара Пазова",
+    "datetime": "1789745466",
+    "candidates": "0",
+    "number": "119.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Стара Пазова"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/980/Записник са 2 седнице Градске Изборне Комисије.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 2. СЕДНИЦЕ ГРАДСКЕ ИЗБОРНЕ КОМИСИЈЕ ГРАДА ПРОКУПЉА",
+    "municipality_display_name": "Прокупље",
+    "datetime": "1789745400",
+    "candidates": "0",
+    "number": "120.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Градска изборна комисија града Прокупља"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/977/1.Odluka o određivanju biračkih mesta.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ СТАРА ПАЗОВА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Стара Пазова",
+    "datetime": "1789745364",
+    "candidates": "0",
+    "number": "121.",
+    "document_bearer": "Општинска изборна комисија општине Стара Пазова"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/974/Одлука ГИК о одређивању бирачких места на територији Града Прокупља.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ПРОКУПЉА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Прокупље",
+    "datetime": "1789745337",
+    "candidates": "0",
+    "number": "122.",
+    "document_bearer": "Градска изборна комисија града Прокупља"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/962/VRSAC - BIRACKA MESTA 2026_0001.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ВРШЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Вршац",
+    "datetime": "1789744735",
+    "candidates": "0",
+    "number": "123.",
+    "document_bearer": "Градска изборна комисија града Вршца"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/959/Одлука о одређивању бирачких места на територији Општине Кула за гласање на изборима за народне посланике .pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ КУЛА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026 ГОДИНЕ",
+    "municipality_display_name": "Кула",
+    "datetime": "1789744570",
+    "candidates": "0",
+    "number": "124.",
+    "document_bearer": "Изборна комисија општине Кула"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/953/Zapisnik.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ПРВЕ СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ЧАЈЕТИНА",
+    "municipality_display_name": "Чајетина",
+    "datetime": "1789744197",
+    "candidates": "0",
+    "number": "125.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Чајетина"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/947/Одлука о одређивању бирачких места.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ  СРЕМСКИ КАРЛОВЦИ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Сремски Карловци",
+    "datetime": "1789744112",
+    "candidates": "0",
+    "number": "126.",
+    "document_bearer": "Општинска изборна комисија општине Сремски Карловци"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/941/Odluka o određivanju biračkih mesta na teritoriji OČ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЧАЈЕТИНА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Чајетина",
+    "datetime": "1789744060",
+    "candidates": "0",
+    "number": "127.",
+    "document_bearer": "Општинска изборна комисија општине Чајетина"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/938/Решење -  именовање у проширени састав ОИК - Студентска листа.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ИМЕНОВАЊУ ЧЛАНА И ЗАМЕНИКА ЧЛАНА ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ КОВАЧИЦА У ПРОШИРЕНОМ САСТАВУ НА ПРЕДЛОГ ГРУПЕ ГРАЂАНА: „СТУДЕНТСКА ЛИСТА – СТУДЕНТИ ПОБЕЂУЈУ“.",
+    "municipality_display_name": "Ковачица",
+    "datetime": "1789743968",
+    "candidates": "0",
+    "number": "128.",
+    "election_station_title": "1 - ОШ \"МОША ПИЈАДЕ\" ",
+    "election_board_decision": "Решење о именовању члана и заменика члана бирачког одбора у проширеном саставу",
+    "document_bearer": "Општинска изборна комисија општине Ковачица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/932/Решење - именовање у проширени састав ОИК - СНС.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ИМЕНОВАЊУ ЧЛАНА И ЗАМЕНИКА ЧЛАНА ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ КОВАЧИЦА У ПРОШИРЕНОМ САСТАВУ НА ПРЕДЛОГ СРПСКЕ НАПРЕДНЕ СТРАНКЕ",
+    "municipality_display_name": "Ковачица",
+    "datetime": "1789743897",
+    "candidates": "0",
+    "number": "129.",
+    "election_station_title": "1 - ОШ \"МОША ПИЈАДЕ\" ",
+    "election_board_decision": "Решење о именовању члана и заменика члана бирачког одбора у проширеном саставу",
+    "document_bearer": "Општинска изборна комисија општине Ковачица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/920/Одлука о одређивању бирачких места - општина Ковачица.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКУ О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ КОВАЧИЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Ковачица",
+    "datetime": "1789743791",
+    "candidates": "0",
+    "number": "130.",
+    "document_bearer": "Општинска изборна комисија општине Ковачица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/917/ODLUKA BIRAČKA MESTA VRBAS.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ  ВРБАС ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Врбас",
+    "datetime": "1789743766",
+    "candidates": "0",
+    "number": "131.",
+    "document_bearer": "Општинска изборна комисија општине Врбас"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/914/Одлука о одређивању бирачких места.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ВЕЛИКО ГРАДИШТЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Велико Градиште",
+    "datetime": "1789743758",
+    "candidates": "0",
+    "number": "132.",
+    "document_bearer": "Општинска изборна комисија општине Велико Градиште"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/911/Zapisnik sa 2 sednice OIK Kovačica.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 2. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ КОВАЧИЦА",
+    "municipality_display_name": "Ковачица",
+    "datetime": "1789743743",
+    "candidates": "0",
+    "number": "133.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Ковачица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/908/Записник са 5. седнице општинске изборне комисије Велико Градиште - 18.9.2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 5. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ВЕЛИКО ГРАДИШТЕ",
+    "municipality_display_name": "Велико Градиште",
+    "datetime": "1789743698",
+    "candidates": "0",
+    "number": "134.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Велико Градиште"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/905/Решење о додели мандата одборника Скупштине општине Велико Градиште - Зоран Сремчевић.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ДОДЕЛИ МАНДАТА ОДБОРНИКА СКУПШТИНЕ ОПШТИНЕ ВЕЛИКО ГРАДИШТЕ - ЗОРАН СРЕМЧЕВИЋ",
+    "municipality_display_name": "Велико Градиште",
+    "datetime": "1789743613",
+    "candidates": "0",
+    "number": "135.",
+    "decision_type": "РЕШЕЊЕ",
+    "document_bearer": "Општинска изборна комисија општине Велико Градиште"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/902/Resenje o imenovanju clana i zamenika IK 2026 prosireni.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ИМЕНОВАЊУ ЧЛАНА И ЗАМЕНИКА ЧЛАНА ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ СУРДУЛИЦА У ПРОШИРЕНОМ САСТАВУ",
+    "municipality_display_name": "Сурдулица",
+    "datetime": "1789743508",
+    "candidates": "0",
+    "number": "136.",
+    "election_station_title": "1 - КЛУБ ВЛАСИНСКЕ ХИДРОЕЛЕКТРАНЕ",
+    "election_board_decision": "Решење о именовању члана и заменика члана бирачког одбора у проширеном саставу",
+    "document_bearer": "Изборна комисија општине Сурдулица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/896/1 Odluka o određivanju biračkih mesta - Kikinda, 2026..pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ГРАДА КИКИНДЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Кикинда",
+    "datetime": "1789743351",
+    "candidates": "0",
+    "number": "137.",
+    "document_bearer": "Градска изборна комисија града Кикинде"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/890/Odluka o odredjivanju birackih mesta Surdulica 2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ СУРДУЛИЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Сурдулица",
+    "datetime": "1789743290",
+    "candidates": "0",
+    "number": "138.",
+    "document_bearer": "Изборна комисија општине Сурдулица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/884/Zapisnik 22 sednica 18.09.2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 22. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ СУРДУЛИЦА ",
+    "municipality_display_name": "Сурдулица",
+    "datetime": "1789743206",
+    "candidates": "0",
+    "number": "139.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Сурдулица"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/881/ИЗВОД ИЗ ЗАПИСНИКА СА 3.СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 3. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ПРИЈЕПОЉЕ",
+    "municipality_display_name": "Пријепоље",
+    "datetime": "1789743065",
+    "candidates": "0",
+    "number": "140.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Пријепоље"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/878/resenje o imenovanju clana i zamjenika clana izborne komisije-1.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ИМЕНОВАЊУ ЧЛАНОВА БИРАЧКОГ ОДБОРА У ПРОШИРЕНОМ САСТАВУ",
+    "municipality_display_name": "Тутин",
+    "datetime": "1789743036",
+    "candidates": "0",
+    "number": "141.",
+    "election_station_title": "1 - ЛОКАЛ ХАМЗАГИЋ РЕШАДА",
+    "election_board_decision": "Решење о именовању члана и заменика члана бирачког одбора у проширеном саставу",
+    "document_bearer": "Изборна комисија општине Тутин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/875/ИЗВОД ИЗ ЗАПИСНИКА СА 2.СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ПРИЈЕПОЉЕ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 2. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ПРИЈЕПОЉЕ",
+    "municipality_display_name": "Пријепоље",
+    "datetime": "1789743021",
+    "candidates": "0",
+    "number": "142.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Пријепоље"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/872/ИЗВОД ИЗ ЗАПИСНИКА СА 1.СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ПРИЈЕПОЉЕ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ПРИЈЕПОЉЕ",
+    "municipality_display_name": "Пријепоље",
+    "datetime": "1789742987",
+    "candidates": "0",
+    "number": "143.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Пријепоље"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/863/Одлука о одређивању бирачких места 2026..pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ГОЛУБАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Голубац",
+    "datetime": "1789742792",
+    "candidates": "0",
+    "number": "144.",
+    "document_bearer": "Општинска изборна комисија општине Голубац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/860/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ПРИЈЕПОЉЕ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ПРИЈЕПОЉЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Пријепоље",
+    "datetime": "1789742689",
+    "candidates": "0",
+    "number": "145.",
+    "document_bearer": "Општинска изборна комисија општине Пријепоље"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/857/Записник 5. седника ОИК.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ПЕТЕ СЕДНИЦЕ ",
+    "municipality_display_name": "Лебане",
+    "datetime": "1789742617",
+    "candidates": "0",
+    "number": "146.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Лебане"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/854/Resnje PS SNS OIK.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ИМЕНОВАЊУ ЧЛАНА И ЗАМЕНИКА ЧЛАНА ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ЛЕБАНЕ У ПРОШИРЕНОМ САСТАВУ",
+    "municipality_display_name": "Лебане",
+    "datetime": "1789742293",
+    "candidates": "0",
+    "number": "147.",
+    "election_station_title": "1 - ОПШТИНСКИ СУД",
+    "election_board_decision": "Решење о именовању члана и заменика члана бирачког одбора у проширеном саставу",
+    "document_bearer": "Општинска изборна комисија општине Лебане"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/851/Записник 1. седница ОИК Чока.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ЧОКА",
+    "municipality_display_name": "Чока",
+    "datetime": "1789742152",
+    "candidates": "0",
+    "number": "148.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Чока"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/845/Одлука о одређивању бирачких места на територији општине Чока.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЧОКА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Чока",
+    "datetime": "1789741929",
+    "candidates": "0",
+    "number": "149.",
+    "document_bearer": "Општинска изборна комисија општине Чока"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/842/Zapisnik sa 1. sednice OIK Bač.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ БАЧ",
+    "municipality_display_name": "Бач",
+    "datetime": "1789741621",
+    "candidates": "0",
+    "number": "150.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Бач"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/839/Записник 1. седнице Изборне комисије општине Љиг.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ЉИГ",
+    "municipality_display_name": "Љиг",
+    "datetime": "1789741607",
+    "candidates": "0",
+    "number": "151.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Љиг"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/836/Odluka o određivanju BM - opština Bač.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БАЧ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Бач",
+    "datetime": "1789741580",
+    "candidates": "0",
+    "number": "152.",
+    "document_bearer": "Општинска изборна комисија општине Бач"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/830/БАТОЧИНА ЗАПИСНИК СА 1 СЕДНИЦЕ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ БРАТОЧИНА ЗА ИЗБОРЕ ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Баточина",
+    "datetime": "1789741487",
+    "candidates": "0",
+    "number": "153.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Баточина"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/827/Одлука о одређивању бирачких места на територији општина Љиг.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЉИГ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Љиг",
+    "datetime": "1789741369",
+    "candidates": "0",
+    "number": "154.",
+    "document_bearer": "Изборна комисија општине Љиг"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/821/БАТОЧИНА - ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БАТОЧИНА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Баточина",
+    "datetime": "1789741268",
+    "candidates": "0",
+    "number": "155.",
+    "document_bearer": "Изборна комисија општине Баточина"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/818/Zakljucak GIK-a  sa 10. sednice  - Predlog referendumskog  pitanja.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАКЉУЧАК ГРАДСКЕ ИЗБОРНЕ КОМИСИЈЕ НОВОГ САДА СА 10. СЕДНИЦЕ ГИК",
+    "municipality_display_name": "Нови Сад",
+    "datetime": "1789741136",
+    "candidates": "0",
+    "number": "156.",
+    "decision_type": "ЗАКЉУЧАК",
+    "document_bearer": "Градска изборна комисија града Новог Сада"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/815/Zapisnik sa 9. sednice GIK-a.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ДЕВЕТЕ СЕДНИЦЕ  ГРАДСКЕ ИЗБОРНЕ КОМИСИЈЕ ГРАДА НОВОГ САДА",
+    "municipality_display_name": "Нови Сад",
+    "datetime": "1789741003",
+    "candidates": "0",
+    "number": "157.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Градска изборна комисија града Новог Сада"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/812/Odluka o odredjivanju birackih mesta.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БЕЛА ПАЛАНКА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Бела Паланка",
+    "datetime": "1789740771",
+    "candidates": "0",
+    "number": "158.",
+    "document_bearer": "Општинска изборна комисија општине Бела Паланка"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/806/Одлука о одређивању БМ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ИНЂИЈА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Инђија",
+    "datetime": "1789740413",
+    "candidates": "0",
+    "number": "159.",
+    "document_bearer": "Изборна комисија општине Инђија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/803/CamScanner 18.09.2026. 12.05.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА ЗА ОДРЕЂИВАЊЕ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БУЈАНОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Бујановац",
+    "datetime": "1789740172",
+    "candidates": "0",
+    "number": "160.",
+    "document_bearer": "Изборна комисија општине Бујановац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/797/img20260918_12143652.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 6. СЕДНИЦЕ ГРАДСКЕ ИЗБОРНЕ КОМИСИЈЕ ЛОЗНИЦЕ",
+    "municipality_display_name": "Лозница",
+    "datetime": "1789739974",
+    "candidates": "0",
+    "number": "161.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Градска изборна комисија Лознице"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/794/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ ГРОЦКА ЗА ГЛАСАЊЕ НА ИЗБОРИМА 25.ОКТОБАР 2026.ГОДИНЕ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ ГРОЦКА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ, РАСПИСАНИМ ЗА 25.ОКТОБАР 2026.ГОДИНЕ",
+    "municipality_display_name": "Гроцка",
+    "datetime": "1789739746",
+    "candidates": "0",
+    "number": "162.",
+    "document_bearer": "Изборна комисија градске општине Гроцка"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/788/img20260918_12184352.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ЛОЗНИЦЕ ТОПОЛА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Лозница",
+    "datetime": "1789739253",
+    "candidates": "0",
+    "number": "163.",
+    "document_bearer": "Градска изборна комисија Лознице"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/785/Odluka o odredjivanju birackih mesta.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ПИРОТА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Пирот",
+    "datetime": "1789739142",
+    "candidates": "0",
+    "number": "164.",
+    "document_bearer": "Градска изборна комисија града Пирота"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/755/Одлука о одређивању бирачких места на територији ГО Врачар за гласање на изборима за народне посланике 2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ ВРАЧАР ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Врачар",
+    "datetime": "1789738168",
+    "candidates": "0",
+    "number": "165.",
+    "document_bearer": "Изборна комисија градске општине Врачар"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/752/Одлука о одређивању бирачких места општина Љубовија.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЉУБОВИЈА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Љубовија",
+    "datetime": "1789737594",
+    "candidates": "0",
+    "number": "166.",
+    "document_bearer": "Општинска изборна комисија општине Љубовија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/731/БМ ОДЛУКА скен.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ ЗВЕЗДАРА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Звездара",
+    "datetime": "1789737435",
+    "candidates": "0",
+    "number": "167.",
+    "document_bearer": "Изборна комисија градске општине Звездара"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/716/Записник са друге седнице ОИК Алибунар.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ДРУГЕ СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ АЛИБУНАР",
+    "municipality_display_name": "Алибунар",
+    "datetime": "1789737292",
+    "candidates": "0",
+    "number": "168.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Алибунар"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/698/Одлука о одређивању бирачких места на територији општине Алибунар за изборе 25.10.2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ АЛИБУНАР ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Алибунар",
+    "datetime": "1789737197",
+    "candidates": "0",
+    "number": "169.",
+    "document_bearer": "Општинска изборна комисија општине Алибунар"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/686/Одлука о одређивању бирачких места црна трава.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЦРНА ТРАВА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Црна Трава",
+    "datetime": "1789737027",
+    "candidates": "0",
+    "number": "170.",
+    "document_bearer": "Изборна комисија општине Црна Трава"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/683/Записник 1. седница - 18.09.2026..docx\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ   ОПШТИНЕ ЦРНА ТРАВА ОДРЖАНЕ 18.09.2026. ГОДИНЕ",
+    "municipality_display_name": "Црна Трава",
+    "datetime": "1789736968",
+    "candidates": "0",
+    "number": "171.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Црна Трава"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/680/Одлуку о одређивању бирчких места на територију општине Гаџин Хан.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ГАЏИН ХАН ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Гаџин Хан",
+    "datetime": "1789736849",
+    "candidates": "0",
+    "number": "172.",
+    "document_bearer": "Изборна комисија општине Гаџин Хан"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/671/Одлука о одређивању бирачких места на територији општине Тител за гласање на изборима за народне посланикe.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ТИТЕЛ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКE НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Тител",
+    "datetime": "1789736502",
+    "candidates": "0",
+    "number": "173.",
+    "document_bearer": "Општинска изборна комисија општине Тител"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/668/Записник са 1. седнице Општинске изборне комисије општине Тител.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ТИТЕЛ",
+    "municipality_display_name": "Тител",
+    "datetime": "1789735824",
+    "candidates": "0",
+    "number": "174.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Тител"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/662/Записник са седнице ОИК Бела Црква 17 09 2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ БЕЛА ЦРКВА",
+    "municipality_display_name": "Бела Црква",
+    "datetime": "1789735497",
+    "candidates": "0",
+    "number": "175.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Бела Црква"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/656/Odluka_о_odredjivanju_birackih_mesta_na_teritoriji_opstine_Mali_Idjos.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ МАЛИ ИЂОШ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Мали Иђош",
+    "datetime": "1789735382",
+    "candidates": "0",
+    "number": "176.",
+    "document_bearer": "Изборна комисија општине Мали Иђош"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/641/Zapisnik_sa_3._sednice_Izborne_komisije_opstine_Mali_Idjos.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ТРЕЋЕ СЕДНИЦЕ  ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ МАЛИ ИЂОШ",
+    "municipality_display_name": "Мали Иђош",
+    "datetime": "1789735172",
+    "candidates": "0",
+    "number": "177.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Мали Иђош"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/629/Записник са треће седнице ИКОГМ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ТРЕЋЕ СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ГОРЊИ МИЛАНОВАЦ",
+    "municipality_display_name": "Горњи Милановац",
+    "datetime": "1789735025",
+    "candidates": "0",
+    "number": "178.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Горњи Милановац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/623/Записник са друге седнице ИКОГМ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ДРУГЕ СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ ГОРЊИ МИЛАНОВАЦ",
+    "municipality_display_name": "Горњи Милановац",
+    "datetime": "1789734956",
+    "candidates": "0",
+    "number": "179.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија општине Горњи Милановац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/575/Одлукa о одређивању бирачких места на територији града Лесковца.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ЛЕСКОВЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Лесковац",
+    "datetime": "1789732587",
+    "candidates": "0",
+    "number": "180.",
+    "document_bearer": "Градска изборна комисија града Лесковца"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/566/ZAPISNIK SA 2. SEDNICE IZBORNE KOMISIJE GO MLADENOVAC.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 2. СЕДНИЦЕ ИЗБОРНЕ КОМИСИЈЕ ГО МЛАДЕНОВАЦ",
+    "municipality_display_name": "Младеновац",
+    "datetime": "1789732224",
+    "candidates": "0",
+    "number": "181.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија градске општине Младеновац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/563/ZAPISNIK.PDF\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ДРУГЕ СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ПЛАНДИШТЕ",
+    "municipality_display_name": "Пландиште",
+    "datetime": "1789731886",
+    "candidates": "0",
+    "number": "182.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисије општине Пландиште"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/560/Одлука о одређивању бирачких места Димитровград.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ДИМИТРОВГРАД ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Димитровград",
+    "datetime": "1789730879",
+    "candidates": "0",
+    "number": "183.",
+    "document_bearer": "Општинска изборна комисија општине Димитровград"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/545/odluka biračka mesta.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ РАЖАЊ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Ражањ",
+    "datetime": "1789730259",
+    "candidates": "0",
+    "number": "184.",
+    "document_bearer": "Општинска изборна комисије општине Ражањ"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/542/zapisnik 4 sednice.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК 4. СЕДНИЦЕ",
+    "municipality_display_name": "Ражањ",
+    "datetime": "1789730208",
+    "candidates": "0",
+    "number": "185.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисије општине Ражањ"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/539/zapisnik 3. sednica.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК 3. СЕДНИЦЕ",
+    "municipality_display_name": "Ражањ",
+    "datetime": "1789730194",
+    "candidates": "0",
+    "number": "186.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисије општине Ражањ"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/533/Извод из записника.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК 4. СЕДНИЦЕ",
+    "municipality_display_name": "Параћин",
+    "datetime": "1789729882",
+    "candidates": "0",
+    "number": "187.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Параћин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/530/-846938388.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ СРБОБРАН ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Србобран",
+    "datetime": "1789728342",
+    "candidates": "0",
+    "number": "188.",
+    "document_bearer": "Општинска изборна комисија општине Србобран"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/527/ЗАПИСНИК СА 24. РЕДОВНЕ СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ СРБОБРАН.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 24. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ СРБОБРАН",
+    "municipality_display_name": "Србобран",
+    "datetime": "1789728304",
+    "candidates": "0",
+    "number": "189.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Србобран"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/521/IMG_0001.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК 1. СЕДНИЦЕ",
+    "municipality_display_name": "Владичин Хан",
+    "datetime": "1789727436",
+    "candidates": "0",
+    "number": "190.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Владичин Хан"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/518/IMG_0002.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ВЛАДИЧИН ХАН  ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Владичин Хан",
+    "datetime": "1789727417",
+    "candidates": "0",
+    "number": "191.",
+    "document_bearer": "Општинска изборна комисија општине Владичин Хан"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/515/Одлука о одређивању БМ 2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ВРАЊА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Врање",
+    "datetime": "1789727407",
+    "candidates": "0",
+    "number": "192.",
+    "document_bearer": "Градска изборна комисија града Врања"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/494/12.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ МЛАДЕНОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНЕ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Младеновац",
+    "datetime": "1789726757",
+    "candidates": "0",
+    "number": "193.",
+    "document_bearer": "Општинска изборна комисија градске општине Младеновац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/485/одука о одређивању бм го сопот.PDF\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ СОПОТ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Сопот",
+    "datetime": "1789726492",
+    "candidates": "0",
+    "number": "194.",
+    "document_bearer": "Изборна комисија градске општине Сопот"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/482/Одлука о одређивању БМ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ НОВИ КНЕЖЕВАЦ  ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Нови Кнежевац",
+    "datetime": "1789726478",
+    "candidates": "0",
+    "number": "195.",
+    "document_bearer": "Општинска изборна комисија општине Нови Кнежевац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/476/Записник са 1 седнице Градске Изборне Комисије.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА 1. СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ПРОКУПЉЕ",
+    "municipality_display_name": "Прокупље",
+    "datetime": "1789725228",
+    "candidates": "0",
+    "number": "196.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Градска изборна комисија града Прокупља"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/470/Zapisnik sa 7. sednice.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ИЗВОД ИЗ ЗАПИСНИКА СА 7. СЕДНИЦЕ ГРАДСКЕ ИЗБОРНЕ КОМИСИЈЕ СКУПШТИНЕ ГРАДА ЗРЕЊАНИНА",
+    "municipality_display_name": "Зрењанин",
+    "datetime": "1789724657",
+    "candidates": "0",
+    "number": "197.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Градска изборна комисија града Зрењанина"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/464/Odluka o odredjivanju birackih mesta.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ЗРЕЊАНИНА, ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Зрењанин",
+    "datetime": "1789723922",
+    "candidates": "0",
+    "number": "198.",
+    "document_bearer": "Градска изборна комисија града Зрењанина"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/461/Zapisnik sa 8. sednice.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ИЗВОД ИЗ ЗАПИСНИКА СА 8. СЕДНИЦЕ ГРАДСКЕ ИЗБОРНЕ КОМИСИЈЕ СКУПШТИНЕ ГРАДА ЗРЕЊАНИНА",
+    "municipality_display_name": "Зрењанин",
+    "datetime": "1789723795",
+    "candidates": "0",
+    "number": "199.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Градска изборна комисија града Зрењанина"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/458/Odluka biracka mesta 2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БЕОЧИН ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Беочин",
+    "datetime": "1789723092",
+    "candidates": "0",
+    "number": "200.",
+    "document_bearer": "Изборна комисија општине Беочин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/449/Одлука о одређивању БМ на територији општине Мерошина.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ МЕРОШИНА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Мерошина",
+    "datetime": "1789722700",
+    "candidates": "0",
+    "number": "201.",
+    "document_bearer": "Општинска изборна комисија општине Мерошина"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/446/Zapisnik sa prve sednice OIK TS 17 09 26.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ЗАПИСНИК СА ПРВЕ СЕДНИЦЕ ОПШТИНСКЕ ИЗБОРНЕ КОМИСИЈЕ ",
+    "municipality_display_name": "Трстеник",
+    "datetime": "1789722403",
+    "candidates": "0",
+    "number": "202.",
+    "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Трстеник"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/440/Odluka o odredjivanju birackih mesta 17 09 26.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ТРСТЕНИК ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Трстеник",
+    "datetime": "1789722178",
+    "candidates": "0",
+    "number": "203.",
+    "document_bearer": "Општинска изборна комисија општине Трстеник"
+  },
+  {
+    "extfiles_link": [
       "<div><a href=\"/extfile/sr/files/additionalDocuments/681/416/Zapisnik.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
     ],
     "document_name": "ЗАПИСНИК 1. СЕДНИЦЕ",
     "municipality_display_name": "Младеновац",
     "datetime": "1789682957",
     "candidates": "0",
-    "number": "1.",
+    "number": "204.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија градске општине Младеновац"
   },
@@ -19,7 +2358,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789682822",
     "candidates": "0",
-    "number": "2.",
+    "number": "205.",
     "decision_type": "ОДЛУКА",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -31,7 +2370,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789682588",
     "candidates": "0",
-    "number": "3.",
+    "number": "206.",
     "decision_type": "РЕШЕЊЕ",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -43,8 +2382,19 @@
     "municipality_display_name": "РИК",
     "datetime": "1789682421",
     "candidates": "0",
-    "number": "4.",
+    "number": "207.",
     "decision_type": "РЕШЕЊЕ",
+    "document_bearer": "Републичка изборна комисија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/404/8. RUSKA STRANKA - za sajt.docx\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "7. ИЗБОРНА ЛИСТА РУСКА СТРАНКА – СРБИЈА У БРИКСУ – СЛОБОДАН НИКОЛИЋ",
+    "municipality_display_name": "РИК",
+    "datetime": "1789682268",
+    "candidates": "25",
+    "number": "208.",
     "document_bearer": "Републичка изборна комисија"
   },
   {
@@ -55,7 +2405,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789682081",
     "candidates": "0",
-    "number": "5.",
+    "number": "209.",
     "decision_type": "РЕШЕЊЕ",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -67,8 +2417,19 @@
     "municipality_display_name": "РИК",
     "datetime": "1789681785",
     "candidates": "0",
-    "number": "6.",
+    "number": "210.",
     "decision_type": "РЕШЕЊЕ",
+    "document_bearer": "Републичка изборна комисија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/392/7. Usame Zukorlić (SPP) Pokret za ujedinjenje - za sajt.docx\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "6. ИЗБОРНА ЛИСТА USAME ZUKORLIĆ (SPP) POKRET ZA UJEDINJENJE / УСАМЕ ЗУКОРЛИЋ (СПП) ПОКРЕТ ЗА УЈЕДИЊЕЊЕ",
+    "municipality_display_name": "РИК",
+    "datetime": "1789681607",
+    "candidates": "181",
+    "number": "211.",
     "document_bearer": "Републичка изборна комисија"
   },
   {
@@ -79,9 +2440,31 @@
     "municipality_display_name": "Барајево",
     "datetime": "1789664774",
     "candidates": "0",
-    "number": "7.",
+    "number": "212.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија градске општине Барајево"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/365/Одлука о одређивању бирачких места на територији општине Пландиште.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ПЛАНДИШТЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Пландиште",
+    "datetime": "1789664277",
+    "candidates": "0",
+    "number": "213.",
+    "document_bearer": "Општинска изборна комисије општине Пландиште"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/359/Одлука БМ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ВРЊАЧКА БАЊА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Врњачка Бања",
+    "datetime": "1789664009",
+    "candidates": "0",
+    "number": "214.",
+    "document_bearer": "Општинска изборна комисија општине Врњачка Бања"
   },
   {
     "extfiles_link": [
@@ -91,7 +2474,7 @@
     "municipality_display_name": "Врњачка Бања",
     "datetime": "1789663931",
     "candidates": "0",
-    "number": "8.",
+    "number": "215.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Врњачка Бања"
   },
@@ -103,7 +2486,7 @@
     "municipality_display_name": "Сента",
     "datetime": "1789663570",
     "candidates": "0",
-    "number": "9.",
+    "number": "216.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Сента"
   },
@@ -115,8 +2498,19 @@
     "municipality_display_name": "Мало Црниће",
     "datetime": "1789663005",
     "candidates": "0",
-    "number": "10.",
+    "number": "217.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Мало Црниће"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/347/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ МАЛО ЦРНИЋЕ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ МАЛО ЦРНИЋЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Мало Црниће",
+    "datetime": "1789662855",
+    "candidates": "0",
+    "number": "218.",
     "document_bearer": "Општинска изборна комисија општине Мало Црниће"
   },
   {
@@ -127,9 +2521,31 @@
     "municipality_display_name": "Ниш",
     "datetime": "1789662773",
     "candidates": "0",
-    "number": "11.",
+    "number": "219.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Градска изборна комисија града Ниша"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/335/odluka o odredjivanju birackih mesta Grad Nis.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА НИША ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Ниш",
+    "datetime": "1789662370",
+    "candidates": "0",
+    "number": "220.",
+    "document_bearer": "Градска изборна комисија града Ниша"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/332/skenirana odluka o birackim mestima OIKA.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ АРИЉЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Ариље",
+    "datetime": "1789662363",
+    "candidates": "0",
+    "number": "221.",
+    "document_bearer": "Општинска изборна комисија општине Ариље"
   },
   {
     "extfiles_link": [
@@ -139,7 +2555,7 @@
     "municipality_display_name": "Ваљево",
     "datetime": "1789662263",
     "candidates": "0",
-    "number": "12.",
+    "number": "222.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Градска изборна комисија града Ваљева"
   },
@@ -151,9 +2567,77 @@
     "municipality_display_name": "Кладово",
     "datetime": "1789662191",
     "candidates": "0",
-    "number": "13.",
+    "number": "223.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Изборна комисија општине Кладово"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/323/Odluka.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ВАЉЕВА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Ваљево",
+    "datetime": "1789662167",
+    "candidates": "0",
+    "number": "224.",
+    "document_bearer": "Градска изборна комисија града Ваљева"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/320/Одлука о одређивању бирачких места на територији општине Кладово за гласање на изборима за народне посланике.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ КЛАДОВО ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ",
+    "municipality_display_name": "Кладово",
+    "datetime": "1789662137",
+    "candidates": "0",
+    "number": "225.",
+    "document_bearer": "Изборна комисија општине Кладово"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/317/2026-09-17_001.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ СЕНТА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА ИЗБОР НАРОДНИХ ПОСЛАНИКА НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Сента",
+    "datetime": "1789662063",
+    "candidates": "0",
+    "number": "226.",
+    "document_bearer": "Општинска изборна комисија општине Сента"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/314/Odluka o odredjivanju birackih mesta na teritoriji grada Jagodine.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ЈАГОДИНЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Јагодина",
+    "datetime": "1789661587",
+    "candidates": "0",
+    "number": "227.",
+    "document_bearer": "Градска изборна комисија града Јагодина"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/305/Resenje o imenovanju clana i zamenika clana PS.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ИМЕНОВАЊУ ЧЛАНА И ЗАМЕНИКА ЧЛАНА У ПРОШИРЕНИ САСТАВ ГРАДСКЕ ИЗБОРНЕ КОМИСИЈЕ ГРАДА ПИРОТА",
+    "municipality_display_name": "Пирот",
+    "datetime": "1789661159",
+    "candidates": "0",
+    "number": "228.",
+    "election_station_title": "1 - БИВША ПРОДАВНИЦА \"4 АСА\"",
+    "election_board_decision": "Решење о именовању члана и заменика члана бирачког одбора у проширеном саставу",
+    "document_bearer": "Градска изборна комисија града Пирота"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/302/Odluka o odredjivanju birackih mesta.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ПИРОТА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ",
+    "municipality_display_name": "Пирот",
+    "datetime": "1789661037",
+    "candidates": "0",
+    "number": "229.",
+    "document_bearer": "Градска изборна комисија града Пирота"
   },
   {
     "extfiles_link": [
@@ -163,9 +2647,20 @@
     "municipality_display_name": "Пећинци",
     "datetime": "1789661019",
     "candidates": "0",
-    "number": "14.",
+    "number": "230.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Пећинци"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/293/Odluka o određivanju biračkih mesta.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ АПАТИН, ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Апатин",
+    "datetime": "1789660925",
+    "candidates": "0",
+    "number": "231.",
+    "document_bearer": "Општинска изборна комисија општине Апатин"
   },
   {
     "extfiles_link": [
@@ -175,9 +2670,20 @@
     "municipality_display_name": "Апатин",
     "datetime": "1789660807",
     "candidates": "0",
-    "number": "15.",
+    "number": "232.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Апатин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/287/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЖИТИШТЕ НП.PDF\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЖИТИШТЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Житиште",
+    "datetime": "1789660630",
+    "candidates": "0",
+    "number": "233.",
+    "document_bearer": "Изборна комисија општине Житиште"
   },
   {
     "extfiles_link": [
@@ -187,9 +2693,20 @@
     "municipality_display_name": "Житиште",
     "datetime": "1789660521",
     "candidates": "0",
-    "number": "16.",
+    "number": "234.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Изборна комисија општине Житиште"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/281/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ОПОВО.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ОПОВО ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Опово",
+    "datetime": "1789660260",
+    "candidates": "0",
+    "number": "235.",
+    "document_bearer": "Општинска изборна комисија општине Опово"
   },
   {
     "extfiles_link": [
@@ -199,9 +2716,20 @@
     "municipality_display_name": "Нови Пазар",
     "datetime": "1789659956",
     "candidates": "0",
-    "number": "17.",
+    "number": "236.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Изборна комисија града Новог Пазара"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/269/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГО ЛАЗАРЕВАЦ.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ ЛАЗАРЕВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Лазаревац",
+    "datetime": "1789659491",
+    "candidates": "0",
+    "number": "237.",
+    "document_bearer": "Изборна комисија градске општине Лазаревац"
   },
   {
     "extfiles_link": [
@@ -211,7 +2739,7 @@
     "municipality_display_name": "Лазаревац",
     "datetime": "1789659319",
     "candidates": "0",
-    "number": "18.",
+    "number": "238.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Изборна комисија градске општине Лазаревац"
   },
@@ -223,8 +2751,19 @@
     "municipality_display_name": "Бојник",
     "datetime": "1789657261",
     "candidates": "0",
-    "number": "19.",
+    "number": "239.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Бојник"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/254/Одлука о одређивању БМ на територији општине Бојник.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БОЈНИК ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНЕ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Бојник",
+    "datetime": "1789657204",
+    "candidates": "0",
+    "number": "240.",
     "document_bearer": "Општинска изборна комисија општине Бојник"
   },
   {
@@ -235,9 +2774,31 @@
     "municipality_display_name": "Владимирци",
     "datetime": "1789654993",
     "candidates": "0",
-    "number": "20.",
+    "number": "241.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Владимирци"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/245/Одлука о одређивању МБ-2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ПАРАЋИН ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Параћин",
+    "datetime": "1789654849",
+    "candidates": "0",
+    "number": "242.",
+    "document_bearer": "Општинска изборна комисија општине Параћин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/236/Одлука о одређивању бирачких места.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ АЛЕКСИНАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Алексинац",
+    "datetime": "1789654176",
+    "candidates": "0",
+    "number": "243.",
+    "document_bearer": "Општинска изборна комисија општине Алексинац"
   },
   {
     "extfiles_link": [
@@ -247,7 +2808,7 @@
     "municipality_display_name": "Алексинац",
     "datetime": "1789654097",
     "candidates": "0",
-    "number": "21.",
+    "number": "244.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Алексинац"
   },
@@ -259,9 +2820,31 @@
     "municipality_display_name": "Алексинац",
     "datetime": "1789653901",
     "candidates": "0",
-    "number": "22.",
+    "number": "245.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Алексинац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/224/Одлука о бирачким местима на територији општине гм.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ГОРЊИ МИЛАНОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНЕ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Горњи Милановац",
+    "datetime": "1789653069",
+    "candidates": "0",
+    "number": "246.",
+    "document_bearer": "Изборна комисија општине Горњи Милановац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/218/Одлука о одређивању бирачких места жагубица.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЖАГУБИЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Жагубица",
+    "datetime": "1789651530",
+    "candidates": "0",
+    "number": "247.",
+    "document_bearer": "Општинска изборна комисија општине Жагубица"
   },
   {
     "extfiles_link": [
@@ -271,7 +2854,7 @@
     "municipality_display_name": "Жагубица",
     "datetime": "1789651259",
     "candidates": "0",
-    "number": "23.",
+    "number": "248.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Жагубица"
   },
@@ -283,9 +2866,31 @@
     "municipality_display_name": "Кнић",
     "datetime": "1789651094",
     "candidates": "0",
-    "number": "24.",
+    "number": "249.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Кнић"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/203/Одлука о бирачким местима.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ КНИЋ, ЗА СПРОВОЂЕЊЕ ИЗБОРА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РС, РАСПИСАНЕ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Кнић",
+    "datetime": "1789650890",
+    "candidates": "0",
+    "number": "250.",
+    "document_bearer": "Општинска изборна комисија општине Кнић"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/200/Одлука о бирачким местима на територији општине Аранђеловац.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ АРАНЂЕЛОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНЕ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Аранђеловац",
+    "datetime": "1789650627",
+    "candidates": "0",
+    "number": "251.",
+    "document_bearer": "Општинска изборна комисија општине Аранђеловац"
   },
   {
     "extfiles_link": [
@@ -295,7 +2900,7 @@
     "municipality_display_name": "Аранђеловац",
     "datetime": "1789650425",
     "candidates": "0",
-    "number": "25.",
+    "number": "252.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Аранђеловац"
   },
@@ -307,7 +2912,7 @@
     "municipality_display_name": "Сврљиг",
     "datetime": "1789649978",
     "candidates": "0",
-    "number": "26.",
+    "number": "253.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Сврљиг"
   },
@@ -319,8 +2924,19 @@
     "municipality_display_name": "Шабац",
     "datetime": "1789648592",
     "candidates": "0",
-    "number": "27.",
+    "number": "254.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Изборна комисија града Шапца"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/182/ODLUKA O ODREDJIVANJU BIRACKIH MESTA NA TERITORIJI GRADA SAPCA.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ШАПЦА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈА РАСПИСАНЕ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Шабац",
+    "datetime": "1789648358",
+    "candidates": "0",
+    "number": "255.",
     "document_bearer": "Изборна комисија града Шапца"
   },
   {
@@ -331,9 +2947,31 @@
     "municipality_display_name": "Трговиште",
     "datetime": "1789646870",
     "candidates": "0",
-    "number": "28.",
+    "number": "256.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Трговиште"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/173/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈЕ ОПШТИНЕ ТРГОВИШТЕ .pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈЕ ОПШТИНЕ ТРГОВИШТЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ , РАСПИСАНИМ ЗА ДАН 25.10.2026. ГОДИНЕ",
+    "municipality_display_name": "Трговиште",
+    "datetime": "1789646839",
+    "candidates": "0",
+    "number": "257.",
+    "document_bearer": "Општинска изборна комисија општине Трговиште"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/170/odluka o odredj bir mesta u opstini backa topola.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БАЧКА ТОПОЛА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНЕ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Бачка Топола",
+    "datetime": "1789646421",
+    "candidates": "0",
+    "number": "258.",
+    "document_bearer": "Општинска изборна комисија општине Бачка Топола"
   },
   {
     "extfiles_link": [
@@ -343,7 +2981,7 @@
     "municipality_display_name": "Рума",
     "datetime": "1789646365",
     "candidates": "0",
-    "number": "29.",
+    "number": "259.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Изборна комисија општине Рума"
   },
@@ -355,9 +2993,57 @@
     "municipality_display_name": "Рума",
     "datetime": "1789646212",
     "candidates": "0",
-    "number": "30.",
+    "number": "260.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Изборна комисија општине Рума"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/161/Решење о именовању члана и заменика члана у проширеном саставу Изборне комисије - СНС.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ИМЕНОВАЊУ ЧЛАНА И ЗАМЕНИКА ЧЛАНА У ПРОШИРЕНОМ САСТАВУ ИЗБОРНЕ КОМИСИЈЕ - СНС",
+    "municipality_display_name": "Рума",
+    "datetime": "1789646173",
+    "candidates": "0",
+    "number": "261.",
+    "election_station_title": "1 - ОШ \"ЗМАЈ ЈОВАН ЈОВАНОВИЋ\"",
+    "election_board_decision": "Решење о именовању члана и заменика члана бирачког одбора у проширеном саставу",
+    "document_bearer": "Изборна комисија општине Рума"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/158/Решење о именовању члана и заменика члана ИК у проширени састав - СНС.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ИМЕНОВАЊУ ЧЛАНА И ЗАМЕНИКА ЧЛАНА ИЗБОРНЕ КОМИСИЈЕ ОПШТИНЕ БАЧКИ ПЕТРОВАЦ У ПРОШИРЕНОМ САСТАВУ",
+    "municipality_display_name": "Бачки Петровац",
+    "datetime": "1789645548",
+    "candidates": "0",
+    "number": "262.",
+    "election_station_title": "1 - ПОСЛОВНИ И ИНОВАТИВНИ ЦЕНТАР",
+    "election_board_decision": "Решење о именовању члана и заменика члана бирачког одбора у проширеном саставу",
+    "document_bearer": "Изборна комисија општине Бачки Петровац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/155/Одлука о одређивању бирачких места - коначно.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "-\tОДЛУКУ О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ БАЧКИ ПЕТРОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Бачки Петровац",
+    "datetime": "1789645345",
+    "candidates": "0",
+    "number": "263.",
+    "document_bearer": "Изборна комисија општине Бачки Петровац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/152/Odluka o dređivanju BM na teritoriji opštine Despotovac.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ДЕСПОТОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНЕ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Деспотовац",
+    "datetime": "1789644789",
+    "candidates": "0",
+    "number": "264.",
+    "document_bearer": "Изборна комисија општине Деспотовац"
   },
   {
     "extfiles_link": [
@@ -367,8 +3053,19 @@
     "municipality_display_name": "Сврљиг",
     "datetime": "1789644560",
     "candidates": "0",
-    "number": "31.",
+    "number": "265.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија општине Сврљиг"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/146/Одлука о одређивању бирачких места на територији општине Сврљиг.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ СВРЉИГ",
+    "municipality_display_name": "Сврљиг",
+    "datetime": "1789644517",
+    "candidates": "0",
+    "number": "266.",
     "document_bearer": "Општинска изборна комисија општине Сврљиг"
   },
   {
@@ -379,7 +3076,7 @@
     "municipality_display_name": "Петровац на Млави",
     "datetime": "1789642740",
     "candidates": "0",
-    "number": "32.",
+    "number": "267.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Изборна комисија општине Петровац на Млави"
   },
@@ -391,8 +3088,19 @@
     "municipality_display_name": "Сурчин",
     "datetime": "1789639180",
     "candidates": "0",
-    "number": "33.",
+    "number": "268.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
+    "document_bearer": "Општинска изборна комисија градске општине Сурчин"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/131/Odluka.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ СУРЧИН ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Сурчин",
+    "datetime": "1789639046",
+    "candidates": "0",
+    "number": "269.",
     "document_bearer": "Општинска изборна комисија градске општине Сурчин"
   },
   {
@@ -403,9 +3111,31 @@
     "municipality_display_name": "Панчево",
     "datetime": "1789638680",
     "candidates": "0",
-    "number": "34.",
+    "number": "270.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Изборна комисија града Панчева"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/116/ODLUKA O ODREDJIVANJU BM 2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ РУМА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Рума",
+    "datetime": "1789638337",
+    "candidates": "0",
+    "number": "271.",
+    "document_bearer": "Изборна комисија општине Рума"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/113/Одлука о одређивању бм на територији општине Ириг за гласање на изборима .pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БМ НА ТЕРИТОРИЈИ ОПШТИНЕ ИРИГ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ",
+    "municipality_display_name": "Ириг",
+    "datetime": "1789637846",
+    "candidates": "0",
+    "number": "272.",
+    "document_bearer": "Општинска изборна комисија општине Ириг"
   },
   {
     "extfiles_link": [
@@ -415,9 +3145,53 @@
     "municipality_display_name": "Ириг",
     "datetime": "1789637698",
     "candidates": "0",
-    "number": "35.",
+    "number": "273.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Ириг"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/221/Odluka o odredjivanju birackih mesta za izbore za narodne poslanike 2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ СВИЛАЈНАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ.",
+    "municipality_display_name": "Свилајнац",
+    "datetime": "1789634700",
+    "candidates": "0",
+    "number": "274.",
+    "document_bearer": "Општинска изборна комисија општине Свилајнац"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/137/Одлука о одређивању бирачких места на територији општине Петровац на Млави.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ПЕТРОВАЦ НА МЛАВИ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Петровац на Млави",
+    "datetime": "1789631460",
+    "candidates": "0",
+    "number": "275.",
+    "document_bearer": "Изборна комисија општине Петровац на Млави"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/119/Одлука о одређивању бирачких места на територији града Панчева.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДА ПАНЧЕВА",
+    "municipality_display_name": "Панчево",
+    "datetime": "1789631280",
+    "candidates": "0",
+    "number": "276.",
+    "document_bearer": "Изборна комисија града Панчева"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/128/Odluka o odedjivanju BM Lebane 2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ЛЕБАНЕ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Лебане",
+    "datetime": "1789627980",
+    "candidates": "0",
+    "number": "277.",
+    "document_bearer": "Општинска изборна комисија општине Лебане"
   },
   {
     "extfiles_link": [
@@ -427,9 +3201,20 @@
     "municipality_display_name": "Лебане",
     "datetime": "1789627860",
     "candidates": "0",
-    "number": "36.",
+    "number": "278.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Лебане"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/437/Odluka o odredjivanju birackih mesta na teritoriji GO Mladenovac.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГРАДСКЕ ОПШТИНЕ МЛАДЕНОВАЦ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ НАРОДНЕ СКУПШТИНЕ РЕПУБЛИКЕ СРБИЈЕ, РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ ",
+    "municipality_display_name": "Младеновац",
+    "datetime": "1789627200",
+    "candidates": "0",
+    "number": "279.",
+    "document_bearer": "Општинска изборна комисија градске општине Младеновац"
   },
   {
     "extfiles_link": [
@@ -439,7 +3224,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789595748",
     "candidates": "0",
-    "number": "37.",
+    "number": "280.",
     "decision_type": "ОДЛУКА",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -451,7 +3236,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789559293",
     "candidates": "0",
-    "number": "38.",
+    "number": "281.",
     "decision_type": "ЗАКЉУЧАК",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -463,7 +3248,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789547163",
     "candidates": "0",
-    "number": "39.",
+    "number": "282.",
     "decision_type": "ОДЛУКА",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -475,7 +3260,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789505953",
     "candidates": "0",
-    "number": "40.",
+    "number": "283.",
     "decision_type": "РЕШЕЊЕ",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -487,8 +3272,19 @@
     "municipality_display_name": "РИК",
     "datetime": "1789505912",
     "candidates": "0",
-    "number": "41.",
+    "number": "284.",
     "decision_type": "РЕШЕЊЕ",
+    "document_bearer": "Републичка изборна комисија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/681/005/5. SVM - za sajt.docx\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "5. ИЗБОРНА ЛИСТА VAJDASÁGI MAGYAR SZÖVETSÉG – DR. PÁSZTOR BÁLINT – САВЕЗ ВОЈВОЂАНСКИХ МАЂАРА – ДР БАЛИНТ ПАСТОР",
+    "municipality_display_name": "РИК",
+    "datetime": "1789505726",
+    "candidates": "250",
+    "number": "285.",
     "document_bearer": "Републичка изборна комисија"
   },
   {
@@ -499,7 +3295,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789505386",
     "candidates": "0",
-    "number": "42.",
+    "number": "286.",
     "decision_type": "РЕШЕЊЕ",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -511,8 +3307,19 @@
     "municipality_display_name": "РИК",
     "datetime": "1789505017",
     "candidates": "0",
-    "number": "43.",
+    "number": "287.",
     "decision_type": "РЕШЕЊЕ",
+    "document_bearer": "Републичка изборна комисија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/680/993/4. ЛИСТА КАНДИДАТА- РАСИМ ЉАЈИЋ - Људски (СДП - ЦДП) - za sajt.docx\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "4. ИЗБОРНА ЛИСТА РАСИМ ЉАЈИЋ – ЉУДСКИ (СДП – ЦДП)",
+    "municipality_display_name": "РИК",
+    "datetime": "1789504984",
+    "candidates": "250",
+    "number": "288.",
     "document_bearer": "Републичка изборна комисија"
   },
   {
@@ -523,9 +3330,31 @@
     "municipality_display_name": "РИК",
     "datetime": "1789504682",
     "candidates": "0",
-    "number": "44.",
+    "number": "289.",
     "decision_type": "РЕШЕЊЕ",
     "document_bearer": "Републичка изборна комисија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/680/984/3. STUDENTSKA LISTA - STUDENTI POBEDJUJU - za sajt.docx\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "3. ИЗБОРНА ЛИСТА „СТУДЕНТСКА ЛИСТА - СТУДЕНТИ ПОБЕЂУЈУ”",
+    "municipality_display_name": "РИК",
+    "datetime": "1789504611",
+    "candidates": "250",
+    "number": "290.",
+    "document_bearer": "Републичка изборна комисија"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/680/906/-RES O ODREDJ BIR MESTA.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "РЕШЕЊЕ О ОДЕЂИБАЊУ БИРАЧКИХ МЕСТА ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ РОСЛАНИКЕ, РАСПИСАНИХ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Кањижа",
+    "datetime": "1789473671",
+    "candidates": "0",
+    "number": "291.",
+    "document_bearer": "Општинска изборна комисија општине Кањижа"
   },
   {
     "extfiles_link": [
@@ -535,7 +3364,7 @@
     "municipality_display_name": "Кањижа",
     "datetime": "1789473151",
     "candidates": "0",
-    "number": "45.",
+    "number": "292.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Кањижа"
   },
@@ -547,7 +3376,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789468373",
     "candidates": "0",
-    "number": "46.",
+    "number": "293.",
     "decision_type": "ОДЛУКА",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -559,7 +3388,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789468284",
     "candidates": "0",
-    "number": "47.",
+    "number": "294.",
     "decision_type": "ОДЛУКА",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -571,7 +3400,7 @@
     "municipality_display_name": "Пожаревац",
     "datetime": "1789464426",
     "candidates": "0",
-    "number": "48.",
+    "number": "295.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Градска изборна комисија града Пожаревца"
   },
@@ -583,7 +3412,7 @@
     "municipality_display_name": "Пожаревац",
     "datetime": "1789464377",
     "candidates": "0",
-    "number": "49.",
+    "number": "296.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Градска изборна комисија града Пожаревца"
   },
@@ -595,9 +3424,20 @@
     "municipality_display_name": "Алибунар",
     "datetime": "1789405206",
     "candidates": "0",
-    "number": "50.",
+    "number": "297.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Алибунар"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/680/858/2. SPS - IVICA DACIC FAKTOR STABILNOSTI - za sajt.docx\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "2. ИЗБОРНА ЛИСТА ИВИЦА ДАЧИЋ - ФАКТОР СТАБИЛНОСТИ! (СОЦИЈАЛИСТИЧКА ПАРТИЈА СРБИЈЕ, „ЈЕДИНСТВЕНА СРБИЈА”, СОЦИЈАЛДЕМОКРАТСКА ПАРТИЈА СРБИЈЕ,  „ЗЕЛЕНИ СРБИЈЕ”)",
+    "municipality_display_name": "РИК",
+    "datetime": "1789401656",
+    "candidates": "250",
+    "number": "298.",
+    "document_bearer": "Републичка изборна комисија"
   },
   {
     "extfiles_link": [
@@ -607,7 +3447,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789401586",
     "candidates": "0",
-    "number": "51.",
+    "number": "299.",
     "decision_type": "РЕШЕЊЕ",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -619,7 +3459,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789401158",
     "candidates": "0",
-    "number": "52.",
+    "number": "300.",
     "decision_type": "ОДЛУКА",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -631,7 +3471,7 @@
     "municipality_display_name": "Врњачка Бања",
     "datetime": "1789391249",
     "candidates": "0",
-    "number": "53.",
+    "number": "301.",
     "decision_type": "ОДЛУКА",
     "document_bearer": "Општинска изборна комисија општине Врњачка Бања"
   },
@@ -643,9 +3483,20 @@
     "municipality_display_name": "Врњачка Бања",
     "datetime": "1789391192",
     "candidates": "0",
-    "number": "54.",
+    "number": "302.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Општинска изборна комисија општине Врњачка Бања"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/680/828/ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГО БАРАЈЕВО.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ГО БАРАЈЕВО",
+    "municipality_display_name": "Барајево",
+    "datetime": "1789390612",
+    "candidates": "0",
+    "number": "303.",
+    "document_bearer": "Општинска изборна комисија градске општине Барајево"
   },
   {
     "extfiles_link": [
@@ -655,9 +3506,20 @@
     "municipality_display_name": "Барајево",
     "datetime": "1789389708",
     "candidates": "0",
-    "number": "55.",
+    "number": "304.",
     "decision_type": "ОДЛУКА",
     "document_bearer": "Општинска изборна комисија градске општине Барајево"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/680/822/Одлука о одређивању бирачких места избори 25.10.2026.pdf\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "ОДЛУКА О ОДРЕЂИВАЊУ БИРАЧКИХ МЕСТА НА ТЕРИТОРИЈИ ОПШТИНЕ ОЏАЦИ ЗА ГЛАСАЊЕ НА ИЗБОРИМА ЗА НАРОДНЕ ПОСЛАНИКЕ РАСПИСАНИМ ЗА 25. ОКТОБАР 2026. ГОДИНЕ",
+    "municipality_display_name": "Оџаци",
+    "datetime": "1789376666",
+    "candidates": "0",
+    "number": "305.",
+    "document_bearer": "Општинска изборна комисија општине Оџаци"
   },
   {
     "extfiles_link": [
@@ -667,9 +3529,20 @@
     "municipality_display_name": "Нови Сад",
     "datetime": "1789373732",
     "candidates": "0",
-    "number": "56.",
+    "number": "306.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Градска изборна комисија града Новог Сада"
+  },
+  {
+    "extfiles_link": [
+      "<div><a href=\"/extfile/sr/files/additionalDocuments/680/792/1. UJEDINJENA SRBIJA ALEKSANDAR VUCIC  - za sajt.docx\" target=\"_blank\"><span class=\"election-file active\"></span></a></div>"
+    ],
+    "document_name": "1. ИЗБОРНА ЛИСТА АЛЕКСАНДАР ВУЧИЋ – УЈЕДИЊЕНА СРБИЈА",
+    "municipality_display_name": "РИК",
+    "datetime": "1789308660",
+    "candidates": "250",
+    "number": "307.",
+    "document_bearer": "Републичка изборна комисија"
   },
   {
     "extfiles_link": [
@@ -679,9 +3552,22 @@
     "municipality_display_name": "РИК",
     "datetime": "1789308532",
     "candidates": "0",
-    "number": "57.",
+    "number": "308.",
     "decision_type": "РЕШЕЊЕ",
     "document_bearer": "Републичка изборна комисија"
+  },
+  {
+    "extfiles_link": "\n                <div class=\"center-additional-file\">\n                    <a href=\"/extfile/sr/files/additionalDocuments/680/777/ODLUKA POSMATRACI.pdf\" target=\"_blank\">\n                        <span class=\"election-file active\"></span>\n                    </a>\n                    <br>\n                    <span class=\"election-file-datetime\">12.09.2026 14:55:55</span>\n                </div>",
+    "document_name": "ОБРАСЦИ ЗА ПРИЈАВУ ДОМАЋИХ И СТРАНИХ ПОСМАТРАЧА",
+    "municipality_display_name": "РИК",
+    "datetime": 253402210800,
+    "candidates": "0",
+    "number": "309.",
+    "document_bearer": "РИК",
+    "additional-data-file_1": "\n            <div class=\"center-additional-file\">\n                <a href=\"/extfile/sr/files/additionalDocuments/680/777/1/1 - prijava domacih posmatraca.doc\" target=\"_blank\">\n                    <span class=\"election-file active\"></span>\n                </a>\n                <span class=\"election-file-datetime\">12.09.2026 14:55:55</span>\n            </div>",
+    "additional-data-file_2": "\n            <div class=\"center-additional-file\">\n                <a href=\"/extfile/sr/files/additionalDocuments/680/777/2/2 - spisak domacih posmatraca.doc\" target=\"_blank\">\n                    <span class=\"election-file active\"></span>\n                </a>\n                <span class=\"election-file-datetime\">12.09.2026 14:55:55</span>\n            </div>",
+    "additional-data-file_3": "\n            <div class=\"center-additional-file\">\n                <a href=\"/extfile/sr/files/additionalDocuments/680/777/3/3 - prijava stranih posmatraca.doc\" target=\"_blank\">\n                    <span class=\"election-file active\"></span>\n                </a>\n                <span class=\"election-file-datetime\">12.09.2026 14:55:55</span>\n            </div>",
+    "additional-data-file_4": "\n            <div class=\"center-additional-file\">\n                <a href=\"/extfile/sr/files/additionalDocuments/680/777/4/4 - spisak stranih posmatraca.doc\" target=\"_blank\">\n                    <span class=\"election-file active\"></span>\n                </a>\n                <span class=\"election-file-datetime\">12.09.2026 14:55:55</span>\n            </div>"
   },
   {
     "extfiles_link": [
@@ -691,7 +3577,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789148756",
     "candidates": "0",
-    "number": "58.",
+    "number": "310.",
     "decision_type": "ОДЛУКА",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -703,7 +3589,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789147267",
     "candidates": "0",
-    "number": "59.",
+    "number": "311.",
     "decision_type": "РОКОВНИК",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -715,7 +3601,7 @@
     "municipality_display_name": "РИК",
     "datetime": "1789147171",
     "candidates": "0",
-    "number": "60.",
+    "number": "312.",
     "decision_type": "ОДЛУКА",
     "document_bearer": "Републичка изборна комисија"
   },
@@ -727,9 +3613,22 @@
     "municipality_display_name": "РИК",
     "datetime": "1789146906",
     "candidates": "0",
-    "number": "61.",
+    "number": "313.",
     "decision_type": "ОДЛУКА",
     "document_bearer": "Републичка изборна комисија"
+  },
+  {
+    "extfiles_link": "\n                <div class=\"center-additional-file\">\n                    <a href=\"/extfile/sr/files/additionalDocuments/680/726/20260911153223.pdf\" target=\"_blank\">\n                        <span class=\"election-file active\"></span>\n                    </a>\n                    <br>\n                    <span class=\"election-file-datetime\">11.09.2026 16:38:05</span>\n                </div>",
+    "document_name": "ОБРАСЦИ ЗА ПОДНОШЕЊЕ ИЗБОРНИХ ЛИСТА",
+    "municipality_display_name": "РИК",
+    "datetime": 253402210800,
+    "candidates": "0",
+    "number": "314.",
+    "document_bearer": "РИК",
+    "additional-data-file_1": "\n            <div class=\"center-additional-file\">\n                <a href=\"/extfile/sr/files/additionalDocuments/680/726/1/NPRS-1 - izborna lista.docx\" target=\"_blank\">\n                    <span class=\"election-file active\"></span>\n                </a>\n                <span class=\"election-file-datetime\">11.09.2026 16:38:05</span>\n            </div>",
+    "additional-data-file_2": "\n            <div class=\"center-additional-file\">\n                <a href=\"/extfile/sr/files/additionalDocuments/680/726/2/NPRS-2 - saglasnost kandidata za narodnog poslanika.doc\" target=\"_blank\">\n                    <span class=\"election-file active\"></span>\n                </a>\n                <span class=\"election-file-datetime\">11.09.2026 16:38:05</span>\n            </div>",
+    "additional-data-file_3": "\n            <div class=\"center-additional-file\">\n                <a href=\"/extfile/sr/files/additionalDocuments/680/726/3/NPRS-3 - izjava biraca da podrzava izbornu listu.doc\" target=\"_blank\">\n                    <span class=\"election-file active\"></span>\n                </a>\n                <span class=\"election-file-datetime\">11.09.2026 16:38:05</span>\n            </div>",
+    "additional-data-file_4": "\n            <div class=\"center-additional-file\">\n                <a href=\"/extfile/sr/files/additionalDocuments/680/726/4/NPRS-4 - spisak biraca koji podrzavaju izbornu listu.xls\" target=\"_blank\">\n                    <span class=\"election-file active\"></span>\n                </a>\n                <span class=\"election-file-datetime\">11.09.2026 16:38:05</span>\n            </div>"
   },
   {
     "extfiles_link": [
@@ -739,7 +3638,7 @@
     "municipality_display_name": "Ниш",
     "datetime": "1789134557",
     "candidates": "0",
-    "number": "62.",
+    "number": "315.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Градска изборна комисија града Ниша"
   },
@@ -751,7 +3650,7 @@
     "municipality_display_name": "Лазаревац",
     "datetime": "1789041093",
     "candidates": "0",
-    "number": "63.",
+    "number": "316.",
     "decision_type": "ЗАПИСНИЦИ СА СЕДНИЦА",
     "document_bearer": "Изборна комисија градске општине Лазаревац"
   },
@@ -763,7 +3662,7 @@
     "municipality_display_name": "Лазаревац",
     "datetime": "1789041034",
     "candidates": "0",
-    "number": "64.",
+    "number": "317.",
     "decision_type": "ОДЛУКА",
     "document_bearer": "Изборна комисија градске општине Лазаревац"
   }

@@ -42,8 +42,13 @@ COLOR_RULES = [
     ("СДА", "#2E8B57", True),
     ("ЗАВЕТНИ", "#7B1E1E", False),
     ("ZAVETNI", "#7B1E1E", False),
+    ("АУТЕНТИЧНА", "#1F3A5F", False),
     ("НАДА", "#1F3A5F", False),
     ("NADA", "#1F3A5F", False),
+    ("АЛЕКСИЋ", "#2471A3", False),
+    ("ALEKSIĆ", "#2471A3", False),
+    ("ПАРАНДИЛОВИЋ", "#2471A3", False),
+    ("ЕКОЛОШКИ УСТАНАК", "#1B8C4A", False),
     ("МОРАМО", "#1B8C4A", False),
     ("MORAMO", "#1B8C4A", False),
     ("ДОСТА ЈЕ БИЛО", "#F26522", False),
@@ -63,13 +68,43 @@ def short_name(name):
     return s[:50] or name.strip()[:50]
 
 
+def _canonicalize_jovanovic(name, izborna_map):
+    # RIK proglašenje za NADA nema prefiks "АУТЕНТИЧНА ДЕСНИЦА", dok zvanična izborna lista (8.ИЗБОРНА ЛИСТА...) ima.
+    # Da ne dupliramo, mapiraj proglašeni oblik na zvanični.
+    if "ЈОВАНОВИЋ" in name and "НАДА" in name and "АУТЕНТИЧНА" not in name:
+        for iname in izborna_map.values():
+            if "ЈОВАНОВИЋ" in iname and "НАДА" in iname and "АУТЕНТИЧНА" in iname:
+                return iname
+        # fallback konstrukcija (isti kao RIK izborna lista 8.)
+        return "АУТЕНТИЧНА ДЕСНИЦА – ДР МИЛОШ ЈОВАНОВИЋ (НОВИ ДСС – МОНАРХИСТИ – СРПСКА КОАЛИЦИЈА НАДА – НАЦИОНАЛНО ДЕМОКРАТСКА АЛТЕРНАТИВА – НОВА ДЕМОКРАТСКА СТРАНКА СРБИЈЕ – ПОКРЕТ ЗА КРАЉЕВИНУ СРБИЈУ) – ОДВАЖНО СРПСКИ!"
+    return name
+
+
 def main():
     docs = json.load(open(os.path.join(RAW, "2026-dokumenti.json"), encoding="utf-8"))
+    # Zvanične izborne liste (sa rednim brojem glasačkog listića) — izvor za tačan naziv
+    izborna_by_ballot = {}
+    for x in docs:
+        dn = x.get("document_name", "")
+        if "ИЗБОРНА ЛИСТА" in dn:
+            m = re.match(r"^\s*(\d+)\s*\.\s*ИЗБОРНА ЛИСТА\s*(.*)", dn, re.IGNORECASE)
+            if m:
+                try:
+                    bn = int(m.group(1))
+                except ValueError:
+                    continue
+                name_raw = m.group(2).strip()
+                # ukloni vodeći "–"/"-" ako postoji, pa normalizuj
+                name_raw = re.sub(r"^[–—-]\s*", "", name_raw)
+                name = norm(name_raw)
+                if name:
+                    izborna_by_ballot[bn] = name
     lists = []
     for x in docs:
         dn = x.get("document_name", "")
         if "ПРОГЛАШЕЊУ" in dn:
             name = norm(dn.replace("РЕШЕЊЕ О ПРОГЛАШЕЊУ ИЗБОРНЕ ЛИСТЕ", ""))
+            name = _canonicalize_jovanovic(name, izborna_by_ballot)
             num = int(re.sub(r"\D", "", x.get("number", "0")) or 0)
             try:
                 dt = int(str(x.get("datetime", "0")).strip())
@@ -77,8 +112,8 @@ def main():
                 dt = 0
             lists.append((dt, num, name))
     # hronološki po datumu proglašenja (datetime), pa po broju dokumenta kao tie-breaker
-    # ovo čuva redosled 1..5 (Vučić→Mađar) i dodaje 2 nove na kraj (Zukorlić, Ruska)
-    # naspram sortiranja samo po 'number' koje bi sada invertovalo redosled zbog RIK paginacije
+    # ovo čuva redosled 1..7 (Vučić→Ruska) i dodaje nove na kraj (NADA-Jovanović, Narodni pokret-Aleksić)
+    # naspram sortiranja samo po 'number' koje bi invertovalo redosled zbog RIK paginacije (sada 32 strane, 317 dok.)
     lists.sort()
     print(f"proglasenih lista: {len(lists)}")
     for dt, num, name in lists:
