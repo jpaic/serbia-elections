@@ -143,6 +143,8 @@ COLORS = {
     ("parlamentarni-2026", 7): "#4682B4",  # Ruska stranka – BRIKS
     ("parlamentarni-2026", 8): "#1F3A5F",  # Autentična desnica / NADA / Jovanović (Novi DSS)
     ("parlamentarni-2026", 9): "#2471A3",  # NPS/NLS/Eko – Aleksić/Parandilović/Ćuta
+    ("parlamentarni-2026", 10): "#2E8B57",  # SDA Sandžaka (manjinska)
+    ("parlamentarni-2026", 11): "#2471A3",  # Evropska Srbija – Tepić/Ponoš (SPN/SRC/Solidarnost)
 }
 
 if __name__ == "__main__":

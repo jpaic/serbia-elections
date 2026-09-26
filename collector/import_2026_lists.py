@@ -40,6 +40,15 @@ COLOR_RULES = [
     ("ДВЕРИ", "#B02A30", False),
     ("DVERI", "#B02A30", False),
     ("СДА", "#2E8B57", True),
+    ("САНЏАК", "#2E8B57", True),
+    ("SANDŽAK", "#2E8B57", True),
+    ("ЕВРОПСКА СРБИЈА", "#2471A3", False),
+    ("МАРИНИКА", "#2471A3", False),
+    ("ТЕПИЋ", "#2471A3", False),
+    ("ПОНОШ", "#2471A3", False),
+    ("СРБИЈА ЦЕНТАР", "#2471A3", False),
+    ("SRCE", "#2471A3", False),
+    ("СОЛИДАРНОСТ", "#2471A3", False),
     ("ЗАВЕТНИ", "#7B1E1E", False),
     ("ZAVETNI", "#7B1E1E", False),
     ("АУТЕНТИЧНА", "#1F3A5F", False),
@@ -112,8 +121,8 @@ def main():
                 dt = 0
             lists.append((dt, num, name))
     # hronološki po datumu proglašenja (datetime), pa po broju dokumenta kao tie-breaker
-    # ovo čuva redosled 1..7 (Vučić→Ruska) i dodaje nove na kraj (NADA-Jovanović, Narodni pokret-Aleksić)
-    # naspram sortiranja samo po 'number' koje bi invertovalo redosled zbog RIK paginacije (sada 32 strane, 317 dok.)
+    # RIK sada vraća 4 procl (2 nove + 2 postojeće), a u bazi čuvamo sve 11 (7 istorijskih + 4 aktuelne)
+    # naspram sortiranja samo po 'number' koje bi invertovalo redosled zbog RIK paginacije (sada 66 strana, 400 dok.)
     lists.sort()
     print(f"proglasenih lista: {len(lists)}")
     for dt, num, name in lists:
