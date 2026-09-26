@@ -145,6 +145,8 @@ COLORS = {
     ("parlamentarni-2026", 9): "#2471A3",  # NPS/NLS/Eko – Aleksić/Parandilović/Ćuta
     ("parlamentarni-2026", 10): "#2E8B57",  # SDA Sandžaka (manjinska)
     ("parlamentarni-2026", 11): "#2471A3",  # Evropska Srbija – Tepić/Ponoš (SPN/SRC/Solidarnost)
+    ("parlamentarni-2026", 12): "#457B9D",  # Bogoljub Karić – Pokret Snaga Srbije
+    ("parlamentarni-2026", 13): "#8E44AD",  # Grupa građana Ћале / Petar Đurić
 }
 
 if __name__ == "__main__":
