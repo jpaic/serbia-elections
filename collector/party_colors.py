@@ -147,6 +147,9 @@ COLORS = {
     ("parlamentarni-2026", 11): "#2471A3",  # Evropska Srbija – Tepić/Ponoš (SPN/SRC/Solidarnost)
     ("parlamentarni-2026", 12): "#457B9D",  # Bogoljub Karić – Pokret Snaga Srbije
     ("parlamentarni-2026", 13): "#8E44AD",  # Grupa građana Ћале / Petar Đurić
+    ("parlamentarni-2026", 14): "#1B8C4A",  # Liberalno zelena stranka
+    ("parlamentarni-2026", 15): "#457B9D",  # Biraм Pravdu / Koalicija Snaga – Bulic
+    ("parlamentarni-2026", 16): "#4682B4",  # Stranka rusko srpskog jedinstva (manjinska)
 }
 
 if __name__ == "__main__":
