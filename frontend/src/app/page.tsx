@@ -9,6 +9,8 @@ export default function Landing() {
   const router = useRouter();
   const { data: elections, error, isLoading } = useSWR("elections", api.elections);
 
+  const upcomingElections = elections?.filter((e) => e.status === "upcoming") ?? [];
+
   return (
     <main className="flex flex-col h-full w-full">
       <ElectionPicker
@@ -18,6 +20,7 @@ export default function Landing() {
           const slug = elections?.find((e) => e.id === id)?.slug;
           if (slug) router.push(`/${slug}`);
         }}
+        upcomingElections={upcomingElections}
       />
     </main>
   );

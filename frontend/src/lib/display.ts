@@ -28,7 +28,20 @@ export function leaderVerb(status?: string, capitalized = false): string {
   return past ? "pobedio" : "vodi";
 }
 
-// "ПАЛИЛУЛА" -> "Палилула", "ПЕТРОВАЦ НА МЛАВИ" -> "Петровац на Млави"
+// Formatiranje datuma: "2026-10-25" -> "25. октобар 2026."
+export function formatDate(iso: string): string {
+  try {
+    return new Date(iso + "T00:00:00").toLocaleDateString("sr-RS", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  } catch {
+    return iso;
+  }
+}
+
+// "ПАЛИЛУЛА" -> "Палилула", "ПЕТРОВАЦ НА МЛАВИ"
 const SMALL_WORDS = new Set(["на", "у", "и", "са", "с", "из", "од", "до", "за", "по", "о", "а"]);
 export function formatPlaceName(name: string): string {
   const words = name.toLowerCase().split(/\s+/);

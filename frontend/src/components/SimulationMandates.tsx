@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { interpolateRgb } from "d3-interpolate";
 import { scaleLinear } from "d3-scale";
 
-type PartyData = {
+export type PartyData = {
   short_name: string;
   color_hex: string;
   pct: number;
