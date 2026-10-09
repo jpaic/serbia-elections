@@ -150,6 +150,10 @@ COLORS = {
     ("parlamentarni-2026", 14): "#1B8C4A",  # Liberalno zelena stranka
     ("parlamentarni-2026", 15): "#457B9D",  # Biraм Pravdu / Koalicija Snaga – Bulic
     ("parlamentarni-2026", 16): "#4682B4",  # Stranka rusko srpskog jedinstva (manjinska)
+    ("parlamentarni-2026", 17): "#8E44AD",  # Ћале ово је за тебе – Петар Ђурић
+    ("parlamentarni-2026", 18): "#4A7FB5",  # Владимир Гајић – Алтернатива за Србију
+    ("parlamentarni-2026", 19): "#2E8B57",  # „Албанска Коалиција“ (manjinska)
+    ("parlamentarni-2026", 20): "#8E44AD",  # Мајка Србија – Груда
 }
 
 if __name__ == "__main__":
