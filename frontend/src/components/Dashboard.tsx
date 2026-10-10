@@ -64,7 +64,7 @@ const OKRUG_TO_RIK: Record<string, string> = {
   "Kosovsko-pomoravski okrug": "Регион Косово и Метохија",
 };
 
-type ViewMode = "serbia" | "diaspora" | "simulation";
+type ViewMode = "serbia" | "diaspora";
 
 export default function Dashboard({
   electionId,
@@ -82,54 +82,9 @@ export default function Dashboard({
   const [selectedDiasporaStation, setSelectedDiasporaStation] = useState<number | null>(null);
   const [showTrend, setShowTrend] = useState(false);
 
-  // Simulation state
-  const [simulationProgress, setSimulationProgress] = useState(0);
-  const [simulationRunning, setSimulationRunning] = useState(false);
-  const [simulationSpeed, setSimulationSpeed] = useState(1);
-  const simulationIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const startSimulation = () => {
-    if (simulationRunning) return;
-    setSimulationRunning(true);
-    simulationIntervalRef.current = setInterval(() => {
-      setSimulationProgress((prev) => {
-        const next = prev + 0.001 * simulationSpeed;
-        if (next >= 1) {
-          if (simulationIntervalRef.current) {
-            clearInterval(simulationIntervalRef.current);
-            simulationIntervalRef.current = null;
-            setSimulationRunning(false);
-          }
-          return 1;
-        }
-        return next;
-      });
-    }, 50);
-  };
-
-  const pauseSimulation = () => {
-    if (simulationIntervalRef.current) {
-      clearInterval(simulationIntervalRef.current);
-      simulationIntervalRef.current = null;
-    }
-    setSimulationRunning(false);
-  };
-
-  const resetSimulation = () => {
-    pauseSimulation();
-    setSimulationProgress(0);
-  };
-
   const { data: elections, error: electionsError } = useSWR("elections", api.elections);
   // activeId se menja samo navigacijom ([slug] ruta); lokalna selekcija se resetuje
   const activeId = electionId;
-
-  // Reset simulacije pri promeni ciklusa
-  useEffect(() => {
-    pauseSimulation();
-    setSimulationProgress(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [electionId]);
 
   function resetSelection() {
     setSelectedRegion(null);
@@ -358,26 +313,6 @@ export default function Dashboard({
             Dijaspora
             <span className={`text-[10px] px-1 py-0.5 rounded font-bold ${viewMode === "diaspora" ? "bg-black/10" : "bg-white/10"}`}>81</span>
           </button>
-          <button
-            onClick={() => {
-              setViewMode("simulation");
-              setSelectedRegion(null);
-              setSelectedMunicipalityId(null);
-              setSelectedRikOpstina(null);
-              setSelectedDiasporaStation(null);
-            }}
-            className={`px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1.5 ${
-              viewMode === "simulation" ? "bg-white text-black" : "text-white/60 hover:text-white"
-            }`}
-          >
-            Simulacija
-            <span className={`text-[10px] px-1 py-0.5 rounded font-bold ${viewMode === "simulation" ? "bg-black/10" : "bg-white/10"}`}>
-              <svg className="w-3 h-3" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M8 2a6 6 0 100 12A6 6 0 008 2z" strokeOpacity="0.5" />
-                <path d="M8 2a6 6 0 016 6" strokeLinecap="round" />
-              </svg>
-            </span>
-          </button>
         </div>
 
         <div className="hidden min-[420px]:flex items-center gap-4 sm:gap-6 ml-auto">
@@ -456,21 +391,13 @@ export default function Dashboard({
             ) : (
               <div className="h-full flex items-center justify-center text-white/30 text-sm">Učitavanje mape…</div>
             )
-          ) : viewMode === "diaspora" ? (
+          ) : (
             <WorldMap
               diasporaRegion={diasporaRegion}
               selectedStationId={selectedDiasporaStation}
               onSelectStation={setSelectedDiasporaStation}
               electionStatus={summary?.election.status}
               electionId={activeId}
-            />
-          ) : (
-            <SimulationMap
-              regions={regions || []}
-              selectedRegion={selectedRegion}
-              onSelectRegion={(region: string) => setSelectedRegion(region)}
-              animationProgress={simulationProgress}
-              isRunning={simulationRunning}
             />
           )}
         </section>
@@ -775,69 +702,6 @@ municipalityId={selectedMunicipalityId} pastTense={summary?.election.status === 
                   <p className="text-[11px] leading-relaxed text-white/30">
                     Globalna mapa prikazuje sva 81 biračka mesta iz RIK-a za 2023 (region 101, opština 198). Svaka tačka je ambasada/konzulat. Boja prati nacionalnog lidera, a izbor na tačku otvara detalje.
                   </p>
-                </div>
-              </>
-            ) : viewMode === "simulation" ? (
-              <>
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-semibold text-white">Kontrole simulacije</h3>
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${simulationRunning ? "bg-emerald-500/20 text-emerald-400" : "bg-amber-500/20 text-amber-400"}`}>
-                      {simulationRunning ? "U TOKU" : "PAUZA"}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <button
-                      onClick={simulationRunning ? pauseSimulation : startSimulation}
-                      className="flex-1 px-3 py-2 rounded-lg bg-white/[0.06] border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-colors"
-                    >
-                      {simulationRunning ? "Pauziraj" : "Pokreni"}
-                    </button>
-                    <button
-                      onClick={resetSimulation}
-                      className="px-3 py-2 rounded-lg bg-white/[0.06] border border-white/10 text-white/60 text-xs font-medium hover:bg-white/10 hover:text-white transition-colors"
-                    >
-                      Reset
-                    </button>
-                  </div>
-                  <div className="mb-3">
-                    <label className="text-[10px] text-white/40 mb-1 block">Brzina: {simulationSpeed}x</label>
-                    <select
-                      value={simulationSpeed}
-                      onChange={(e) => setSimulationSpeed(Number(e.target.value))}
-                      className="w-full bg-white/[0.04] border border-white/10 rounded px-2 py-1.5 text-xs text-white outline-none"
-                    >
-                      <option value="0.5">0.5x</option>
-                      <option value="1">1x</option>
-                      <option value="2">2x</option>
-                      <option value="5">5x</option>
-                      <option value="10">10x</option>
-                    </select>
-                  </div>
-                  <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-red-500 via-amber-500 to-emerald-500 transition-all duration-300"
-                      style={{ width: `${simulationProgress * 100}%` }}
-                    />
-                  </div>
-                  <p className="text-right text-[10px] text-white/40 mt-1">
-                    {Math.round(simulationProgress * 100)}% gotovo
-                  </p>
-                </div>
-                <div className="border-t border-white/10 pt-4">
-                  <SimulationMandates
-                    parties={summary?.results.map((r: any) => ({
-                      short_name: r.short_name,
-                      color_hex: r.color_hex,
-                      pct: r.pct,
-                      seats: 0,
-                      is_governing: govBallots.includes(r.ballot_number),
-                    })) || []}
-                    totalSeats={250}
-                    threshold={censusPct}
-                    animationProgress={simulationProgress}
-                    isRunning={simulationRunning}
-                  />
                 </div>
               </>
             ) : (
