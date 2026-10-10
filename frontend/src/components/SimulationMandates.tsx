@@ -282,7 +282,7 @@ export default function SimulationMandates({
             fontWeight="700"
             fontFamily="monospace"
           >
-            {showMandates ? `${animatedData.reduce((s, p) => s + p.animatedSeats, 0)} / {totalSeats}` : `{Math.round(animatedData.reduce((s, p) => s + p.pct, 0))}%`}
+            {showMandates ? `${animatedData.reduce((s, p) => s + p.animatedSeats, 0)} / ${totalSeats}` : `${Math.round(animatedData.reduce((s, p) => s + p.pct, 0))}%`}
           </text>
         </svg>
       </div>

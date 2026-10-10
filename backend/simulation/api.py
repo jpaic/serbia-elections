@@ -168,7 +168,7 @@ async def run_simulation(
     polls = request.polls if request.polls else get_latest_polls(request.election_id, conn)
     odds = request.odds if request.odds else get_latest_odds(request.election_id, conn)
     
-    # Build context
+    # Build context - convert dicts to dataclasses
     context = ElectionContext(
         election_id=request.election_id,
         parties=[PartyData(
@@ -176,8 +176,8 @@ async def run_simulation(
             full_name=p["full_name"], color_hex=p["color_hex"],
             is_minority=p["is_minority"], is_governing=p["is_governing"]
         ) for p in parties],
-        polls=[PollData(**p.dict()) for p in polls],
-        odds=[OddsData(**o.dict()) for o in odds],
+        polls=[PollData(**p) for p in polls],  # dicts work directly with dataclass
+        odds=[OddsData(**o) for o in odds],
         threshold=request.threshold,
         total_seats=request.total_seats
     )

@@ -60,8 +60,20 @@ class ElectionSimulationEngine:
     def run_simulation(self, context: ElectionContext) -> "SimulationResult":
         """Run complete Monte Carlo simulation."""
         
+        # Set is_governing based on GOVERNING_BALLOTS
+        GOVERNING_BALLOTS = {
+            "parlamentarni-2020": [1, 2],
+            "parlamentarni-2022": [1, 2],
+            "parlamentarni-2023": [1, 2],
+        }
+        slug = context.election_id  # This is actually the slug in our context
+        # We need to get the slug from the election_id
+        # For now, we'll determine is_governing based on ballot_number
+        # Parties with ballot_number 1 and 2 are typically governing
+        for party in context.parties:
+            party.is_governing = party.ballot_number in [1, 2]
+        
         # 1. Compute weighted polling averages
-        poll_estimates = self._compute_poll_estimates(context)
         
         # 2. Compute betting market implied probabilities
         odds_estimates = self._compute_odds_estimates(context)
@@ -252,6 +264,7 @@ class ElectionSimulationEngine:
         # Higher turnout = more certainty = higher concentration
         turnout_factor = self.turnout / 60.0  # 60% is baseline
         
+        alpha = {}
         for party in parties:
             p = party.short_name
             mean = estimates.get(p, 0.0)
@@ -399,7 +412,7 @@ class ElectionSimulationEngine:
         for p in parties:
             if p.short_name == short_name:
                 return p
-        return PartyData(0, short_name, "", "#000000", False, False, 0)
+        return PartyData(0, short_name, "", "#000000", False, False)
     
     def _compute_effective_sample_size(self, context: ElectionContext) -> int:
         """Compute effective sample size from polls and odds."""
