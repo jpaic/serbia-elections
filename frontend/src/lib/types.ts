@@ -28,7 +28,6 @@ export interface PartyData {
   short_name: string;
   color_hex: string;
   pct: number;
-  votes_mean?: number;
   seats: number;
   is_governing: boolean;
   ballot_number: number | null;
@@ -36,6 +35,15 @@ export interface PartyData {
   animatedSeats?: number;
   animatedVotes?: number;
   animatedPct?: number;
+  // Backend seat projection fields
+  seats_mean?: number;
+  seats_ci_lower?: number;
+  seats_ci_upper?: number;
+  seats_distribution?: Record<number, number>;
+  threshold_cleared_prob?: number;
+  votes_mean?: number;
+  votes_ci_lower?: number;
+  votes_ci_upper?: number;
 }
 
 export interface SummaryParty {
