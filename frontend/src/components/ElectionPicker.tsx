@@ -68,13 +68,14 @@ export default function ElectionPicker({
       });
       if (res.parties) {
         // Transform PartyProjection to PartyData format for SimulationMandates
+        // API returns data at top level (p.short_name, p.color_hex, etc.), not nested under p.party
         const partyData = res.parties.map((p: any) => ({
-          short_name: p.party.short_name,
-          color_hex: p.party.color_hex,
-          pct: p.party.pct || p.vote_share_mean,
-          seats: p.party.seats || p.finalSeats || p.seats_mean || 0,
-          is_governing: p.party.is_governing,
-          animatedSeats: p.animatedSeats,
+          short_name: p.short_name,
+          color_hex: p.color_hex,
+          pct: p.vote_share_mean,
+          seats: p.seats_mean || 0,
+          is_governing: p.is_governing,
+          animatedSeats: 0,
         }));
         setSimData(partyData);
       }
