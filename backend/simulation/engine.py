@@ -442,6 +442,14 @@ class ElectionSimulationEngine:
         sns_seats = results['seats'][:, sns_idx]
         studentska_seats = results['seats'][:, studentska_idx]
         
+        # Deterministic projection from mean vote shares
+        mean_shares = np.mean(results['vote_shares'], axis=0)  # shape (n_parties,)
+        mean_votes = np.mean(results['votes'], axis=0)
+        is_minority = np.array([p.is_minority for p in context.parties])
+        minority_coeff = np.where(is_minority, self.minority_coeff, 1.0)
+        eligible_det = (mean_shares >= self.threshold) | is_minority
+        det_seats = self._dhondt_allocation(mean_votes, eligible_det, minority_coeff, self.total_seats)
+        
         return {
             "registered_voters": context.registered_voters,
             "turnout_mean": float(np.mean(results['turnout'])),
@@ -452,6 +460,8 @@ class ElectionSimulationEngine:
             "p_sns_sps_ge_126": float(np.mean(sns_seats + (results['seats'][:, sps_idx] if sps_idx >= 0 else 0) >= 126)),
             "p_studentska_largest": float(np.mean(results['seats'][:, studentska_idx] == results['seats'].max(axis=1))),
             "p_hung_parliament": float(np.mean(results['seats'].max(axis=1) < 126)),
+            "deterministic_seats": {party_order[i]: int(det_seats[i]) for i in range(len(party_order))},
+            "deterministic_eligible": {party_order[i]: bool(eligible_det[i]) for i in range(len(party_order))},
         }
     
     def _compute_coalition_probs(self, seats: np.ndarray, parties: List[PartyData]) -> Dict[str, float]:
