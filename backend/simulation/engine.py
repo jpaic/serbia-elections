@@ -353,7 +353,7 @@ class ElectionSimulationEngine:
             vote_share_std = seats_std / 250.0 * 100
             
             projections.append(PartyProjection(
-                party=self._get_party_by_short_name(party.short_name),
+                party=self._get_party_by_short_name(party.short_name, parties),
                 vote_share_mean=vote_share_mean,
                 vote_share_std=vote_share_std,
                 vote_share_ci_lower=max(0, vote_share_mean - 1.96 * vote_share_std),
@@ -371,9 +371,11 @@ class ElectionSimulationEngine:
     def _get_party_order(self, parties: List["PartyData"]) -> List[str]:
         return [p.short_name for p in parties]
     
-    def _get_party_by_short_name(self, short_name: str) -> "PartyData":
-        # This would need access to context - simplified for now
-        return PartyData(0, short_name, "", "#000000")
+    def _get_party_by_short_name(self, short_name: str, parties: List["PartyData"]) -> "PartyData":
+        for p in parties:
+            if p.short_name == short_name:
+                return p
+        return PartyData(0, short_name, "", "#000000", False, False)
     
     def _compute_coalition_probs(
         self, 
