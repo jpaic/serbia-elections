@@ -45,7 +45,7 @@ export const api = {
       polls: any[];
       odds: any[];
     }) =>
-      getJson<import("./types").SimulationResponse>(`/simulation/run`, {
+      getJson<import("./types").SimulationResponse>(`/api/simulation/run`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
