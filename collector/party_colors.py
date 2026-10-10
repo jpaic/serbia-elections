@@ -134,26 +134,24 @@ COLORS = {
     ("parlamentarni-2023", 17): "#8E44AD",  # LDP
     ("parlamentarni-2023", 18): "#D92626",  # ADA
     # ---- 2026 (privremeni redosled po datumu proglašenja RIK, do žreba) ----
-    ("parlamentarni-2026", 1): "#0E4DA4",  # SNS / Vučić
-    ("parlamentarni-2026", 2): "#ED1C24",  # SPS / Dačić
+("parlamentarni-2026", 1): "#0E4DA4",  # Vučić - Ujedinjena Srbija
+    ("parlamentarni-2026", 2): "#ED1C24",  # Dačić - Faktor stabilnosti
     ("parlamentarni-2026", 3): "#800020",  # Studentska lista
     ("parlamentarni-2026", 4): "#F26522",  # Ljajić (SDP)
     ("parlamentarni-2026", 5): "#00A651",  # SVM / Pásztor
-    ("parlamentarni-2026", 6): "#006B3F",  # SPP / Zukorlić
+    ("parlamentarni-2026", 6): "#006B3F",  # Zukorlić (SPP)
     ("parlamentarni-2026", 7): "#4682B4",  # Ruska stranka – BRIKS
-    ("parlamentarni-2026", 8): "#1F3A5F",  # Autentična desnica / NADA / Jovanović (Novi DSS)
-    ("parlamentarni-2026", 9): "#2471A3",  # NPS/NLS/Eko – Aleksić/Parandilović/Ćuta
-    ("parlamentarni-2026", 10): "#2E8B57",  # SDA Sandžaka (manjinska)
-    ("parlamentarni-2026", 11): "#2471A3",  # Evropska Srbija – Tepić/Ponoš (SPN/SRC/Solidarnost)
+    ("parlamentarni-2026", 8): "#1F3A5F",  # Autentična desnica / Jovanović
+    ("parlamentarni-2026", 9): "#2471A3",  # Izbor naroda - Aleksić/Parandilović/Ćuta
+    ("parlamentarni-2026", 10): "#2471A3",  # Evropska Srbija – Tepić/Ponoš
+    ("parlamentarni-2026", 11): "#2E8B57",  # SDA Sandžaka (manjinska)
     ("parlamentarni-2026", 12): "#457B9D",  # Bogoljub Karić – Pokret Snaga Srbije
     ("parlamentarni-2026", 13): "#8E44AD",  # Grupa građana Ћале / Petar Đurić
     ("parlamentarni-2026", 14): "#1B8C4A",  # Liberalno zelena stranka
-    ("parlamentarni-2026", 15): "#457B9D",  # Biraм Pravdu / Koalicija Snaga – Bulic
+    ("parlamentarni-2026", 15): "#457B9D",  # Biraм Pravdu / Koalicija Snaga – Bulić
     ("parlamentarni-2026", 16): "#4682B4",  # Stranka rusko srpskog jedinstva (manjinska)
-    ("parlamentarni-2026", 17): "#8E44AD",  # Ћале ово је за тебе – Петар Ђурић
-    ("parlamentarni-2026", 18): "#4A7FB5",  # Владимир Гајић – Алтернатива за Србију
-    ("parlamentarni-2026", 19): "#2E8B57",  # „Албанска Коалиција“ (manjinska)
-    ("parlamentarni-2026", 20): "#8E44AD",  # Мајка Србија – Груда
+    ("parlamentarni-2026", 17): "#8E44AD",  # Ћале ово је за тебе – Petar Đurić
+    ("parlamentarni-2026", 18): "#4A7FB5",  # Vladimir Gajić – Alternativa za Srbiju
 }
 
 if __name__ == "__main__":
