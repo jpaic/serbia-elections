@@ -63,7 +63,7 @@ export default function ElectionPicker({
   const [nationalData, setNationalData] = useState<SimulationResponse['metadata']['national'] | null>(null);
   const [simLoading, setSimLoading] = useState(false);
   const [simError, setSimError] = useState<string | null>(null);
-  const animationRef = useRef<number | null>(null);
+  const animationRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
   const upcoming = upcomingElections?.filter((e) => e.status === "upcoming") ?? [];
@@ -144,10 +144,9 @@ export default function ElectionPicker({
       setSimData([...newData]); // trigger render
     }
 
-    animationRef.current = requestAnimationFrame(() => {
-      const delay = 100 / simMode.speed;
-      setTimeout(() => animateCounting(), delay);
-    });
+    // Schedule next frame
+    const delay = 100 / simMode.speed;
+    animationRef.current = setTimeout(animateCounting, delay);
   }, [simMode.stepIndex, simMode.speed]);
 
   const startAnimation = useCallback(() => {
@@ -158,7 +157,7 @@ export default function ElectionPicker({
 
   const pauseAnimation = useCallback(() => {
     if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
+      clearTimeout(animationRef.current);
       animationRef.current = null;
     }
     setSimMode(s => ({ ...s, running: false }));
@@ -195,7 +194,7 @@ export default function ElectionPicker({
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      if (animationRef.current) clearTimeout(animationRef.current);
       if (abortRef.current) abortRef.current.abort();
     };
   }, []);
