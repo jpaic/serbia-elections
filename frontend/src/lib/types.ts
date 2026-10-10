@@ -24,6 +24,15 @@ export interface PartyResult {
   pct: number;
 }
 
+export interface PartyData {
+  short_name: string;
+  color_hex: string;
+  pct: number;
+  seats: number;
+  is_governing: boolean;
+  animatedSeats?: number;
+}
+
 export interface SummaryParty {
   ballot_number: number | null;
   name: string;
@@ -137,4 +146,30 @@ export interface RegionResult {
   leader: PartyResult | null;
   margin_pct: number;
   results: PartyResult[];
+}
+
+export interface PartyProjection {
+  party: PartyData;
+  vote_share_mean: number;
+  vote_share_std: number;
+  vote_share_ci_lower: number;
+  vote_share_ci_upper: number;
+  seats_mean: number;
+  seats_std: number;
+  seats_ci_lower: number;
+  seats_ci_upper: number;
+  seats_distribution: Record<number, number>;
+  threshold_cleared_prob: number;
+}
+
+export interface SimulationResponse {
+  election_id: number;
+  simulation_date: string;
+  n_simulations: number;
+  parties: PartyProjection[];
+  coalition_probs: Record<string, number>;
+  majority_prob: number;
+  threshold: number;
+  total_seats: number;
+  metadata: Record<string, any>;
 }

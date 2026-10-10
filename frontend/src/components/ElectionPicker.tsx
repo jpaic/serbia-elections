@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { api } from "@/lib/api";
 import { GOVERNING_LIST, PARTY_ABBR_COLORS } from "@/lib/governing";
 import { formatDate } from "@/lib/display";
-import SimulationMandates, { PartyData } from "./SimulationMandates";
+import SimulationMandates from "./SimulationMandates";
+import { PartyData } from "@/lib/types";
 
 function StatusBadge({ status }: { status?: string }) {
   const map: Record<string, { label: string; className: string }> = {
@@ -45,6 +46,8 @@ export default function ElectionPicker({
     progress: 0,
     speed: 1,
   });
+  const [simData, setSimData] = useState<import("@/lib/types").PartyData[]>([]);
+  const [simLoading, setSimLoading] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const upcoming = upcomingElections?.filter((e) => e.status === "upcoming") ?? [];
@@ -52,16 +55,46 @@ export default function ElectionPicker({
     ? elections?.find((e) => e.id === simMode.electionId)
     : null;
 
+  const fetchSimulationData = async (eid: number) => {
+    setSimLoading(true);
+    try {
+      const res = await api.simulation.run({
+        election_id: eid,
+        n_simulations: 2000,
+        threshold: 3,
+        total_seats: 250,
+        polls: [],
+        odds: [],
+      });
+      if (res.parties) {
+        // Transform PartyProjection to PartyData format for SimulationMandates
+        const partyData = res.parties.map((p: any) => ({
+          short_name: p.party.short_name,
+          color_hex: p.party.color_hex,
+          pct: p.party.pct || p.vote_share_mean,
+          seats: p.party.seats || p.finalSeats || p.seats_mean || 0,
+          is_governing: p.party.is_governing,
+          animatedSeats: p.animatedSeats,
+        }));
+        setSimData(partyData);
+      }
+    } catch (err) {
+      console.error("Failed to fetch simulation data:", err);
+    } finally {
+      setSimLoading(false);
+    }
+  };
+
   const togglePause = () => {
     if (simMode.running) {
-      if (intervalRef.current) if (intervalRef.current) clearInterval(intervalRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
       setSimMode((s) => ({ ...s, running: false }));
     } else {
       intervalRef.current = setInterval(() => {
         setSimMode((s) => {
           const next = s.progress + 0.002 * s.speed;
           if (next >= 1) {
-            if (intervalRef.current) if (intervalRef.current) clearInterval(intervalRef.current);
+            if (intervalRef.current) clearInterval(intervalRef.current);
             return { ...s, running: false, progress: 1 };
           }
           return { ...s, progress: next };
@@ -72,14 +105,15 @@ export default function ElectionPicker({
   };
 
   const resetSim = () => {
-    if (intervalRef.current) if (intervalRef.current) clearInterval(intervalRef.current);
+    if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = null;
     setSimMode((s) => ({ ...s, running: false, progress: 0 }));
   };
 
   const startSim = (eid: number) => {
     if (simMode.running) return;
-    setSimMode({ electionId: eid, running: true, progress: 0, speed: 1 });
+    setSimMode({ electionId: eid, running: false, progress: 0, speed: 1 });
+    fetchSimulationData(eid);
   };
 
   return (
@@ -250,7 +284,7 @@ export default function ElectionPicker({
                 <select
                   value={simMode.speed}
                   onChange={(e) => setSimMode((s) => ({ ...s, speed: Number(e.target.value) }))}
-                  className="w-full bg-white/[0.04] border border-white/10 rounded px-2 py-1.5 text-xs text-white outline-none"
+                  className="w-full bg-white/[0.08] border border-white/20 rounded px-2 py-1.5 text-xs text-white outline-none"
                 >
                   <option value="0.5">0.5x</option>
                   <option value="1">1x</option>
@@ -271,11 +305,23 @@ export default function ElectionPicker({
             </div>
 
             <div className="w-full max-w-2xl">
-<div className="w-full max-w-2xl">
-              <div className="w-full max-w-2xl aspect-square bg-[#0b0d12] rounded-2xl border border-white/10 flex items-center justify-center">
-                <p className="text-white/30 text-center px-4">Simulacija mandata — u izradi</p>
-              </div>
-            </div>
+              {simLoading ? (
+                <div className="w-full max-w-2xl aspect-square bg-[#0b0d12] rounded-2xl border border-white/10 flex items-center justify-center">
+                  <p className="text-white/30 text-center px-4">Učitavanje simulacije…</p>
+                </div>
+              ) : simData.length > 0 ? (
+                <SimulationMandates
+                  parties={simData}
+                  totalSeats={250}
+                  threshold={3}
+                  animationProgress={simMode.progress}
+                  isRunning={simMode.running}
+                />
+              ) : (
+                <div className="w-full max-w-2xl aspect-square bg-[#0b0d12] rounded-2xl border border-white/10 flex items-center justify-center">
+                  <p className="text-white/30 text-center px-4">Nema podataka za simulaciju</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

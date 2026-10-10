@@ -1,7 +1,7 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
-async function getJson<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, { cache: "no-store" });
+async function getJson<T>(path: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, { cache: "no-store", ...init });
   if (!res.ok) {
     throw new Error(`Zahtev ka ${path} nije uspeo (${res.status})`);
   }
@@ -36,4 +36,19 @@ export const api = {
     getJson<import("./types").SwingResponse>(
       `/elections/${electionId}/swing`
     ),
+  simulation: {
+    run: (body: {
+      election_id: number;
+      n_simulations: number;
+      threshold: number;
+      total_seats: number;
+      polls: any[];
+      odds: any[];
+    }) =>
+      getJson<import("./types").SimulationResponse>(`/simulation/run`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      }),
+  },
 };
