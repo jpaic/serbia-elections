@@ -42,6 +42,7 @@ export const api = {
       n_simulations: number;
       threshold: number;
       total_seats: number;
+      turnout: number;
       polls: any[];
       odds: any[];
     }) =>

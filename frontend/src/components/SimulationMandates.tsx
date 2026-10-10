@@ -114,17 +114,21 @@ export default function SimulationMandates({
   const animatedData = useMemo(() => {
     const progress = animationProgress;
     const easedProgress = easeOutCubic(progress);
+    const showMandates = progress >= 1.0 || !isRunning; // Show mandates only at the end
 
     return sortedParties.map((p) => {
       const finalSeats = seatAllocation[p.short_name] || 0;
-      const animatedSeats = Math.round(finalSeats * easedProgress);
+      const animatedSeats = progress < 1.0 ? Math.round(finalSeats * progress) : finalSeats;
       return {
         ...p,
         finalSeats,
-        animatedSeats,
+        animatedSeats: progress < 1.0 ? Math.round(finalSeats * progress) : finalSeats,
+        showMandates: progress >= 1.0 || !isRunning,
       };
     });
-  }, [sortedParties, seatAllocation, animationProgress]);
+  }, [sortedParties, seatAllocation, animationProgress, isRunning]);
+
+  const showMandates = animationProgress >= 1.0 || !isRunning;
 
   const centerX = 300;
   const centerY = 200;
@@ -278,7 +282,7 @@ export default function SimulationMandates({
             fontWeight="700"
             fontFamily="monospace"
           >
-            {animatedData.reduce((s, p) => s + p.animatedSeats, 0)} / {totalSeats}
+            {showMandates ? `${animatedData.reduce((s, p) => s + p.animatedSeats, 0)} / {totalSeats}` : `{Math.round(animatedData.reduce((s, p) => s + p.pct, 0))}%`}
           </text>
         </svg>
       </div>
@@ -321,7 +325,7 @@ export default function SimulationMandates({
                     />
                   </div>
                   <span className="text-[10px] text-white/50 tabular-nums w-12 text-right">
-                    {p.animatedSeats}
+                    {p.showMandates ? p.animatedSeats : '—'}
                   </span>
                   <span className="text-[10px] text-white/30 tabular-nums w-10 text-right">
                     {p.pct.toFixed(1)}%
@@ -331,16 +335,15 @@ export default function SimulationMandates({
             </div>
           );
         })}
-        <div className="pt-2 border-t border-white/10 flex items-center justify-between text-xs">
-          <span className="text-white/50">
-            Ukupno dodeljeno: <span className="text-white font-mono">
-              {animatedData.reduce((s, p) => s + p.animatedSeats, 0)}
-            </span> / {totalSeats}
-          </span>
-          <span className="text-white/40">
-            Prag: {threshold}%
-          </span>
-        </div>
+        {showMandates && (
+          <div className="pt-2 border-t border-white/10 flex items-center justify-between text-xs">
+            <span className="text-white/50">
+              Ukupno dodeljeno: <span className="text-white font-mono">
+                {animatedData.reduce((s, p) => s + p.animatedSeats, 0)}
+              </span> / {totalSeats}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

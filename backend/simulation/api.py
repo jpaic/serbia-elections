@@ -33,6 +33,7 @@ class SimulationRequest(BaseModel):
     n_simulations: int = 2000
     threshold: float = 3.0
     total_seats: int = 250
+    turnout: int = 60
     polls: List[PollInput] = []
     odds: List[OddsInput] = []
 
@@ -89,15 +90,60 @@ def get_party_data(election_id: int, conn) -> List[dict]:
 
 
 def get_latest_polls(election_id: int, conn) -> List[dict]:
-    """Fetch latest polling data (placeholder - would come from external source)."""
-    # In production, this would fetch from a polls table or external API
-    return []
+    """Fetch latest polling data from database."""
+    with conn.cursor() as cur:
+        # Check if polls table exists
+        cur.execute("""
+            SELECT EXISTS (
+                SELECT FROM information_schema.tables 
+                WHERE table_name = 'polls'
+            )
+        """)
+        if not cur.fetchone()[0]:
+            return []
+        
+        cur.execute("""
+            SELECT pollster, date, sample_size, percentages, source_url, weight
+            FROM polls 
+            WHERE election_id = %s 
+            ORDER BY date DESC 
+            LIMIT 20
+        """, (election_id,))
+        rows = cur.fetchall()
+        return [
+            {
+                "pollster": r[0], "date": r[1], "sample_size": r[2],
+                "percentages": r[3], "source_url": r[4], "weight": r[5]
+            }
+            for r in rows
+        ]
 
 
 def get_latest_odds(election_id: int, conn) -> List[dict]:
-    """Fetch latest betting odds (placeholder - would come from external source)."""
-    # In production, this would fetch from an odds table or external API
-    return []
+    """Fetch latest betting odds from database."""
+    with conn.cursor() as cur:
+        # Check if odds table exists
+        cur.execute("""
+            SELECT EXISTS (
+                SELECT FROM information_schema.tables 
+                WHERE table_name = 'betting_odds'
+            )
+        """)
+        if not cur.fetchone()[0]:
+            return []
+        
+        cur.execute("""
+            SELECT bookmaker, date, odds, source_url, weight
+            FROM betting_odds 
+            WHERE election_id = %s 
+            ORDER BY date DESC 
+            LIMIT 20
+        """, (election_id,))
+        rows = cur.fetchall()
+        return [
+            {"bookmaker": r[0], "date": r[1], "odds": r[2], "source_url": r[3], "weight": r[4]}
+            for r in rows
+        ]
 
 
 @router.post("/run", response_model=SimulationResponse)
@@ -140,7 +186,8 @@ async def run_simulation(
     engine = ElectionSimulationEngine(
         n_simulations=request.n_simulations,
         threshold=request.threshold,
-        total_seats=request.total_seats
+        total_seats=request.total_seats,
+        turnout=request.turnout
     )
     
     result = engine.run_simulation(ElectionContext(
