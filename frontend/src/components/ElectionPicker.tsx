@@ -296,27 +296,12 @@ const resetSim = () => {
                   <option value="10">10x</option>
                 </select>
               </div>
-              <div className="mb-3">
+<div className="mb-3">
                 <label className="text-[10px] text-white/40 mb-1 block">Izlaznost: {simMode.turnout}%</label>
                 <select
                   value={simMode.turnout}
                   onChange={(e) => setSimMode((s) => ({ ...s, turnout: Number(e.target.value) }))}
-                  className="w-full bg-white/[0.08] border border-white/20 rounded px-2 py-1.5 text-xs text-white outline-none"
-                >
-                  <option value="30">30%</option>
-                  <option value="40">40%</option>
-                  <option value="50">50%</option>
-                  <option value="60">60%</option>
-                  <option value="70">70%</option>
-                  <option value="80">80%</option>
-                </select>
-              </div>
-              <div className="mb-3">
-                <label className="text-[10px] text-white/40 mb-1 block">Izlaznost: {simMode.turnout}%</label>
-                <select
-                  value={simMode.turnout}
-                  onChange={(e) => setSimMode((s) => ({ ...s, turnout: Number(e.target.value) }))}
-                  className="w-full bg-white/[0.08] border border-white/20 rounded px-2 py-1.5 text-xs text-white outline-none"
+                  className="w-full bg-white/[0.08] border border-white/30 rounded px-2 py-1.5 text-xs text-white outline-none"
                 >
                   <option value="30">30%</option>
                   <option value="40">40%</option>
