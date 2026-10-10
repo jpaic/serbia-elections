@@ -28,11 +28,14 @@ export interface PartyData {
   short_name: string;
   color_hex: string;
   pct: number;
+  votes_mean?: number;
   seats: number;
   is_governing: boolean;
   ballot_number: number | null;
   is_minority: boolean;
   animatedSeats?: number;
+  animatedVotes?: number;
+  animatedPct?: number;
 }
 
 export interface SummaryParty {
