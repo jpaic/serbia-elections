@@ -30,6 +30,8 @@ export interface PartyData {
   pct: number;
   seats: number;
   is_governing: boolean;
+  ballot_number: number | null;
+  is_minority: boolean;
   animatedSeats?: number;
 }
 
@@ -150,6 +152,7 @@ export interface RegionResult {
 
 export interface PartyProjection {
   party: PartyData;
+  ballot_number: number | null;
   vote_share_mean: number;
   vote_share_std: number;
   vote_share_ci_lower: number;

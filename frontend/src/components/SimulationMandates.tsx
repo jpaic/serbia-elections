@@ -3,15 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { interpolateRgb } from "d3-interpolate";
 import { scaleLinear } from "d3-scale";
-
-export type PartyData = {
-  short_name: string;
-  color_hex: string;
-  pct: number;
-  seats: number;
-  is_governing: boolean;
-  animatedSeats?: number;
-};
+import type { PartyData } from "@/lib/types";
 
 type SimulationMandatesProps = {
   parties: PartyData[];
@@ -87,7 +79,7 @@ export default function SimulationMandates({
 
   const sortedParties = useMemo(() => {
     const eligible = parties.filter((p) => p.pct >= threshold || p.is_governing);
-    return [...eligible].sort((a, b) => b.pct - a.pct);
+    return [...eligible].sort((a, b) => (a.ballot_number ?? 999) - (b.ballot_number ?? 999));
   }, [parties, threshold]);
 
   const seatAllocation = useMemo(() => {
@@ -155,16 +147,16 @@ export default function SimulationMandates({
         <h3 className="text-sm font-semibold text-white">Simulacija raspodele mandata</h3>
         <div className="flex items-center gap-3 text-xs text-white/60">
           <span className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            <span>Vladajuće</span>
+            <span className="w-2 h-2 rounded-full bg-amber-500" />
+            <span>manjinska</span>
           </span>
           <span className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full bg-amber-500/50" />
-            <span>Opozicija</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-500/50" />
+            <span>vlada</span>
           </span>
           <span className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full bg-emerald-500/30" />
-            <span>Prag {threshold}%</span>
+            <span>prag {threshold}%</span>
           </span>
         </div>
       </div>
@@ -289,7 +281,6 @@ export default function SimulationMandates({
 
       <div className="mt-4 space-y-2 max-h-64 overflow-y-auto pr-2">
         {animatedData.map((p, i) => {
-          const isGoverning = p.is_governing;
           return (
             <div
               key={p.short_name}
@@ -303,12 +294,20 @@ export default function SimulationMandates({
                 className="w-3 h-3 rounded-full flex-shrink-0"
                 style={{ background: p.color_hex }}
               />
+              <span className="text-xs font-mono text-white/60 w-6 text-right tabular-nums">
+                {p.ballot_number ?? '—'}
+              </span>
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium text-white truncate">
+                <p className="text-xs font-medium text-white truncate flex items-center gap-1.5">
                   {p.short_name}
+                  {p.is_minority && (
+                    <span className="px-1 py-0.5 text-[9px] rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                      manjinska
+                    </span>
+                  )}
                   {p.is_governing && (
-                    <span className="ml-1.5 px-1 py-0.5 text-[9px] rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                      Vlada
+                    <span className="px-1 py-0.5 text-[9px] rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      vlada
                     </span>
                   )}
                 </p>

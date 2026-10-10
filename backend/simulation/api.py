@@ -42,6 +42,7 @@ class PartyProjectionResponse(BaseModel):
     short_name: str
     full_name: str
     color_hex: str
+    ballot_number: Optional[int] = None
     vote_share_mean: float
     vote_share_ci_lower: float
     vote_share_ci_upper: float
@@ -79,11 +80,11 @@ def get_party_data(election_id: int, conn) -> List[dict]:
             {
                 "party_id": r[0],
                 "short_name": r[2],
-                "full_name": r[1],  # name -> full_name
+                "full_name": r[1],
                 "color_hex": r[3],
                 "is_minority": bool(r[4]),
-                "is_governing": False,  # Will be set from GOVERNING_BALLOTS in engine
-                "ballot_number": r[5],
+                "is_governing": False,
+                "ballot_number": r[6],
             }
             for r in rows
         ]
@@ -92,21 +93,12 @@ def get_party_data(election_id: int, conn) -> List[dict]:
 def get_latest_polls(election_id: int, conn) -> List[dict]:
     """Fetch latest polling data from database."""
     with conn.cursor() as cur:
-        # Check if polls table exists
+        # Table polls now exists (created in schema migration)
         cur.execute("""
-            SELECT EXISTS (
-                SELECT FROM information_schema.tables 
-                WHERE table_name = 'polls'
-            )
-        """)
-        if not cur.fetchone()[0]:
-            return []
-        
-        cur.execute("""
-            SELECT pollster, date, sample_size, percentages, source_url, weight
+            SELECT pollster, published, sample_size, percentages, source_url, weight
             FROM polls 
             WHERE election_id = %s 
-            ORDER BY date DESC 
+            ORDER BY published DESC 
             LIMIT 20
         """, (election_id,))
         rows = cur.fetchall()
@@ -120,30 +112,11 @@ def get_latest_polls(election_id: int, conn) -> List[dict]:
 
 
 def get_latest_odds(election_id: int, conn) -> List[dict]:
-    """Fetch latest betting odds from database."""
+    """Fetch latest betting odds from database (market_lines table)."""
     with conn.cursor() as cur:
-        # Check if odds table exists
-        cur.execute("""
-            SELECT EXISTS (
-                SELECT FROM information_schema.tables 
-                WHERE table_name = 'betting_odds'
-            )
-        """)
-        if not cur.fetchone()[0]:
-            return []
-        
-        cur.execute("""
-            SELECT bookmaker, date, odds, source_url, weight
-            FROM betting_odds 
-            WHERE election_id = %s 
-            ORDER BY date DESC 
-            LIMIT 20
-        """, (election_id,))
-        rows = cur.fetchall()
-        return [
-            {"bookmaker": r[0], "date": r[1], "odds": r[2], "source_url": r[3], "weight": r[4]}
-            for r in rows
-        ]
+        # market_lines has different structure - return empty for now
+        # Odds are passed directly in request or handled separately
+        return []
 
 
 @router.post("/run", response_model=SimulationResponse)
@@ -174,7 +147,8 @@ async def run_simulation(
         parties=[PartyData(
             party_id=p["party_id"], short_name=p["short_name"],
             full_name=p["full_name"], color_hex=p["color_hex"],
-            is_minority=p["is_minority"], is_governing=p["is_governing"]
+            is_minority=p["is_minority"], is_governing=p["is_governing"],
+            ballot_number=p["ballot_number"]
         ) for p in parties],
         polls=[PollData(**p) if isinstance(p, dict) else p for p in polls],
         odds=[OddsData(**o) for o in odds],
@@ -206,6 +180,7 @@ async def run_simulation(
             short_name=proj.party.short_name,
             full_name=proj.party.full_name,
             color_hex=proj.party.color_hex,
+            ballot_number=proj.party.ballot_number,
             vote_share_mean=proj.vote_share_mean,
             vote_share_ci_lower=proj.vote_share_ci_lower,
             vote_share_ci_upper=proj.vote_share_ci_upper,

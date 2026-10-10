@@ -127,3 +127,40 @@ CREATE TABLE ingestion_log (
     success BOOLEAN,
     error_message TEXT
 );
+
+-- Istraživanja (polls) - ključ je ballot_number, ne short_name
+CREATE TABLE polls (
+    id SERIAL PRIMARY KEY,
+    election_id INTEGER NOT NULL REFERENCES elections(id) ON DELETE CASCADE,
+    pollster VARCHAR(100) NOT NULL,
+    fieldwork_start DATE,
+    fieldwork_end DATE,
+    published DATE NOT NULL,
+    sample_size INTEGER,
+    basis VARCHAR(20) NOT NULL DEFAULT 'decided',   -- 'decided' | 'all' | 'model'
+    turnout_pct NUMERIC(5,2),                       -- ako je anketa objavila
+    percentages JSONB NOT NULL,                     -- {"<ballot_number>": pct}, samo liste koje anketa navodi
+    others_pct NUMERIC(5,2),
+    weight NUMERIC(4,2) NOT NULL DEFAULT 1.0,
+    source_url TEXT NOT NULL,
+    notes TEXT
+);
+
+CREATE INDEX idx_polls_election ON polls(election_id);
+CREATE INDEX idx_polls_published ON polls(published);
+
+-- Tržišne linije / kvote (market_lines) - ključ je ballot_number
+CREATE TABLE market_lines (
+    id SERIAL PRIMARY KEY,
+    election_id INTEGER NOT NULL REFERENCES elections(id) ON DELETE CASCADE,
+    bookmaker VARCHAR(100) NOT NULL,
+    observed DATE NOT NULL,
+    market VARCHAR(30) NOT NULL,   -- 'vote_share_line' | 'seats_line' | 'invalid_ballots_line' | 'pm_odds' | 'majority_prob'
+    subject TEXT NOT NULL,         -- ballot_number kao tekst, ili 'ALL'
+    value NUMERIC(8,3) NOT NULL,   -- linija (npr. 45.6) ili decimalna kvota (npr. 1.20)
+    weight NUMERIC(4,2) NOT NULL DEFAULT 1.0,
+    source_url TEXT NOT NULL
+);
+
+CREATE INDEX idx_market_lines_election ON market_lines(election_id);
+CREATE INDEX idx_market_lines_market ON market_lines(market);

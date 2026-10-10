@@ -60,17 +60,15 @@ class ElectionSimulationEngine:
     def run_simulation(self, context: ElectionContext) -> "SimulationResult":
         """Run complete Monte Carlo simulation."""
         
-        # Set is_governing based on GOVERNING_BALLOTS
-        GOVERNING_BALLOTS = {
-            "parlamentarni-2020": [1, 2],
-            "parlamentarni-2022": [1, 2],
-            "parlamentarni-2023": [1, 2],
-            "parlamentarni-2026": [1, 2],  # Assume SNS+SPS for 2026
-        }
-        # We need to get the election slug from the election_id
-        # For now, use a simple heuristic: parties with ballot_number 1 and 2 are typically governing
+        # Set is_governing based on party name containing governing coalition keywords
+        # SNS: Vučić / ВУЧИЋ, SPS: Dačić / ДАЧИЋ
+        GOVERNING_KEYWORDS = ["ВУЧИЋ", "VUČIĆ", "ДАЧИЋ", "DAČIĆ"]
         for party in context.parties:
-            party.is_governing = party.ballot_number in [1, 2]
+            name_upper = (party.short_name or "").upper() + " " + (party.full_name or "").upper()
+            party.is_governing = any(kw.upper() in name_upper for kw in GOVERNING_KEYWORDS)
+        
+        # Store governing assumption in metadata for API response
+        context.metadata = {"governing_assumption": "parties with Vučić/Dačić in name (SNS/SPS)"}
         
         # 1. Compute weighted polling averages
         poll_estimates = self._compute_poll_estimates(context)
@@ -114,6 +112,7 @@ class ElectionSimulationEngine:
                 "odds_weight": self._compute_odds_weight(context),
                 "effective_sample_size": self._compute_effective_sample_size(context),
                 "data_source": "polls" if context.polls else ("odds" if context.odds else "prior"),
+                "governing_assumption": "parties with short_name in {SNS, SPS}",
             }
         )
     
@@ -122,20 +121,24 @@ class ElectionSimulationEngine:
         if not context.polls:
             return {}
         
-        now = datetime.now()
+        now = datetime.now().date()
         party_scores = {p.short_name: [] for p in context.parties}
         party_weights = {p.short_name: [] for p in context.parties}
         
         for poll in context.polls:
-            days_old = (datetime.now() - poll.date).days
+            poll_date = poll.date
+            if isinstance(poll_date, datetime):
+                poll_date = poll_date.date()
+            days_old = (now - poll_date).days
             recency_weight = math.exp(-days_old / self.poll_recency_half_life)
             recency_weight = max(recency_weight, self.min_poll_weight)
             
             # Quality weight from pollster track record (simplified)
-            quality_weight = poll.weight
+            quality_weight = float(poll.weight)
             
             # Sample size weight (sqrt(n) scaling)
-            sample_weight = math.sqrt(poll.sample_size / 1000)
+            sample_size = poll.sample_size or 800
+            sample_weight = math.sqrt(sample_size / 1000)
             
             total_weight = recency_weight * quality_weight * sample_weight
             
@@ -223,13 +226,16 @@ class ElectionSimulationEngine:
             return 0.0
         
         total_weight = 0.0
-        now = datetime.now()
+        now = datetime.now().date()
         for poll in context.polls:
-            days_old = (now - poll.date).days
+            poll_date = poll.date
+            if isinstance(poll_date, datetime):
+                poll_date = poll_date.date()
+            days_old = (now - poll_date).days
             recency = math.exp(-days_old / self.poll_recency_half_life)
             recency = max(recency, self.min_poll_weight)
-            quality = poll.weight
-            sample = math.sqrt(poll.sample_size / 1000)
+            quality = float(poll.weight)
+            sample = math.sqrt((poll.sample_size or 800) / 1000)
             total_weight += recency * quality * sample
         
         # Normalize to [0, 1] range
@@ -421,7 +427,8 @@ class ElectionSimulationEngine:
         # Add from polls
         if context.polls:
             for poll in context.polls:
-                n_eff += int(poll.sample_size * poll.weight)
+                sample = poll.sample_size or 800
+                n_eff += int(sample * float(poll.weight))
         
         # Add from odds (each bookmaker ~100 effective samples)
         if context.odds:

@@ -77,6 +77,8 @@ const fetchSimulationData = async (eid: number, turnout: number = 60) => {
           pct: p.vote_share_mean,
           seats: p.seats_mean || 0,
           is_governing: p.is_governing,
+          ballot_number: p.ballot_number,
+          is_minority: p.is_minority,
           animatedSeats: 0,
         }));
         setSimData(partyData);
