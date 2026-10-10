@@ -33,7 +33,7 @@ SessionLocal = sessionmaker(bind=engine)
 
 app = FastAPI(title="Izbori API")
 
-app.include_router(simulation_router, prefix="/api")
+app.include_router(simulation_router)
 
 # Vercel services: frontend na /, backend na /api/backend -> backend dobija
 # punu putanju (/api/backend/elections) pa je skidamo pre rutiranja.
@@ -69,8 +69,6 @@ def fetchone(query, params=None):
     rows = fetchall(query, params)
     return rows[0] if rows else None
 
-
-app.include_router(simulation_router, prefix="/api")
 
 @app.get("/elections")
 def list_elections():

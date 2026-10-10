@@ -8,7 +8,7 @@ from .engine import ElectionSimulationEngine
 from .models import ElectionContext, PartyData, PollData, OddsData, SimulationResult
 from db import get_db_connection
 
-router = APIRouter(prefix="/api/simulation", tags=["simulation"])
+router = APIRouter(prefix="/simulation", tags=["simulation"])
 
 
 class PollInput(BaseModel):
@@ -69,16 +69,20 @@ def get_party_data(election_id: int, conn) -> List[dict]:
     """Fetch party data from database."""
     with conn.cursor() as cur:
         cur.execute(
-            """SELECT id, short_name, full_name, color_hex, 
-                      is_minority, is_governing
+            """SELECT id, name, short_name, color_hex, is_minority, official_seats, ballot_number
                FROM parties WHERE election_id = %s ORDER BY ballot_number""",
             (election_id,)
         )
         rows = cur.fetchall()
         return [
             {
-                "party_id": r[0], "short_name": r[1], "full_name": r[2],
-                "color_hex": r[3], "is_minority": r[4], "is_governing": r[5]
+                "party_id": r[0],
+                "short_name": r[2],
+                "full_name": r[1],  # name -> full_name
+                "color_hex": r[3],
+                "is_minority": bool(r[4]),
+                "is_governing": False,  # Will be set from GOVERNING_BALLOTS in engine
+                "ballot_number": r[5],
             }
             for r in rows
         ]
