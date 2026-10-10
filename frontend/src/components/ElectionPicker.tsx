@@ -45,12 +45,14 @@ export default function ElectionPicker({
     progress: number; 
     stepIndex: number;
     speed: number; 
+    nSimulations: number;
   }>({
     electionId: null,
     running: false,
     progress: 0,
     stepIndex: 0,
     speed: 1,
+    nSimulations: 500, // faster default
   });
   const [simData, setSimData] = useState<PartyData[]>([]);
   const [countingPath, setCountingPath] = useState<CountingPath | null>(null);
@@ -73,10 +75,10 @@ export default function ElectionPicker({
     try {
       const res = await api.simulation.run({
         election_id: eid,
-        n_simulations: 2000,
+        n_simulations: simMode.nSimulations,
         threshold: 3,
         total_seats: 250,
-        turnout: 62, // prior mean from polls
+        turnout: 62, // prior mean from polls (Faktor plus 62%, BIRODI 64%)
         polls: [],
         odds: [],
       });
@@ -170,10 +172,20 @@ export default function ElectionPicker({
     }
   };
 
+  const resetAll = () => {
+    pauseAnimation();
+    if (abortRef.current) abortRef.current.abort();
+    setSimMode({ electionId: null, running: false, progress: 0, stepIndex: 0, speed: 1, nSimulations: simMode.nSimulations });
+    setSimData([]);
+    setCountingPath(null);
+    setNationalData(null);
+    setSimError(null);
+  };
+
   const startSim = (eid: number) => {
     if (simMode.running) return;
     resetAnimation();
-    setSimMode({ electionId: eid, running: false, progress: 0, stepIndex: 0, speed: 1 });
+    setSimMode({ electionId: eid, running: false, progress: 0, stepIndex: 0, speed: 1, nSimulations: simMode.nSimulations });
     fetchSimulationData(eid);
   };
 
@@ -291,12 +303,14 @@ export default function ElectionPicker({
             onClick={() => {
               if (animationRef.current) cancelAnimationFrame(animationRef.current);
               if (abortRef.current) abortRef.current.abort();
-              setSimMode({ electionId: null, running: false, progress: 0, stepIndex: 0, speed: 1 });
+              setSimMode({ electionId: null, running: false, progress: 0, stepIndex: 0, speed: 1, nSimulations: simMode.nSimulations });
               setSimData([]);
               setCountingPath(null);
               setNationalData(null);
+              setSimError(null);
             }}
             className="p-2 rounded-lg bg-white/[0.04] border border-white/10 text-white/60 hover:bg-white/10 hover:text-white transition-colors"
+            title="Zatvori simulaciju"
           >
             <svg className="w-5 h-5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12l5-5-5-5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -307,9 +321,21 @@ export default function ElectionPicker({
           </h2>
           <div className="flex items-center gap-2">
             <select
+              value={simMode.nSimulations}
+              onChange={(e) => setSimMode((s) => ({ ...s, nSimulations: Number(e.target.value) }))}
+              className="bg-white/[0.04] border border-white/10 rounded px-2 py-1 text-xs text-white outline-none"
+              title="Broj simulacija (više = preciznije, sporije)"
+            >
+              <option value="200">200 (brzo)</option>
+              <option value="500">500 (balans)</option>
+              <option value="1000">1000 (precizno)</option>
+              <option value="2000">2000 (najbolje)</option>
+            </select>
+            <select
               value={simMode.speed}
               onChange={(e) => setSimMode((s) => ({ ...s, speed: Number(e.target.value) }))}
               className="bg-white/[0.04] border border-white/10 rounded px-2 py-1 text-xs text-white outline-none"
+              title="Brzina animacije brojanja"
             >
               <option value="0.5">0.5x</option>
               <option value="1">1x</option>
@@ -386,11 +412,22 @@ export default function ElectionPicker({
               </p>
               {nationalData && (
                 <div className="mt-3 p-3 bg-white/[0.03] border border-white/10 rounded-lg text-xs text-white/70">
-                  <div className="grid grid-cols-2 gap-2">
-                    <span>Izlaznost: {nationalData.turnout_mean.toFixed(1)}% (95% CI: {nationalData.turnout_ci_lower.toFixed(1)}–{nationalData.turnout_ci_upper.toFixed(1)}%)</span>
-                    <span>Nevažeći: {nationalData.invalid_pct_mean.toFixed(2)}%</span>
-                    <span>P(SNS≥126): {(nationalData.p_sns_ge_126 * 100).toFixed(1)}%</span>
-                    <span>P(većina): {(nationalData.p_sns_sps_ge_126 * 100).toFixed(1)}%</span>
+                  <div className="grid grid-cols-2 gap-2 mb-2">
+                    <span title="Prosečna izlaznost iz Monte Carlo simulacija (95% pouzdanost)">
+                      Izlaznost: {nationalData.turnout_mean.toFixed(1)}% (95% CI: {nationalData.turnout_ci_lower.toFixed(1)}–{nationalData.turnout_ci_upper.toFixed(1)}%)
+                    </span>
+                    <span title="Procenat nevažećih glasova (iz anketi i tržišta)">
+                      Nevažeći: {nationalData.invalid_pct_mean.toFixed(2)}%
+                    </span>
+                    <span title="Verovatnoća da SNS dobije ≥126 mandata (apsolutna većina)">
+                      P(SNS≥126): {(nationalData.p_sns_ge_126 * 100).toFixed(1)}%
+                    </span>
+                    <span title="Verovatnoća da vladajuća koalicija (SNS+SPS) dobije većinu">
+                      P(većina): {(nationalData.p_sns_sps_ge_126 * 100).toFixed(1)}%
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-white/50 border-t border-white/10 pt-2">
+                    Napomena: Izlaznost i nevažeći su izvedeni iz istraživanja i tržišta, ne korisnički unos.
                   </div>
                 </div>
               )}

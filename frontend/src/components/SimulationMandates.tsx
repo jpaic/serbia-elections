@@ -279,7 +279,7 @@ export default function SimulationMandates({
         </svg>
       </div>
 
-      <div className="mt-4 space-y-2 max-h-64 overflow-y-auto pr-2">
+      <div className="mt-4 space-y-2 overflow-y-auto pr-2 max-h-[60vh]">
         {animatedData.map((p, i) => {
           return (
             <div
