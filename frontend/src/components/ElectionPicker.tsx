@@ -40,11 +40,12 @@ export default function ElectionPicker({
   upcomingElections = [],
 }: ElectionPickerProps) {
   const router = useRouter();
-  const [simMode, setSimMode] = useState<{ electionId: number | null; running: boolean; progress: number; speed: number }>({
+  const [simMode, setSimMode] = useState<{ electionId: number | null; running: boolean; progress: number; speed: number; turnout: number }>({
     electionId: null,
     running: false,
     progress: 0,
     speed: 1,
+    turnout: 60, // Default 60% turnout
   });
   const [simData, setSimData] = useState<import("@/lib/types").PartyData[]>([]);
   const [simLoading, setSimLoading] = useState(false);
@@ -55,7 +56,7 @@ export default function ElectionPicker({
     ? elections?.find((e) => e.id === simMode.electionId)
     : null;
 
-  const fetchSimulationData = async (eid: number) => {
+const fetchSimulationData = async (eid: number, turnout: number = 60) => {
     setSimLoading(true);
     try {
       const res = await api.simulation.run({
@@ -63,6 +64,7 @@ export default function ElectionPicker({
         n_simulations: 2000,
         threshold: 3,
         total_seats: 250,
+        turnout: turnout,
         polls: [],
         odds: [],
       });
@@ -89,32 +91,32 @@ export default function ElectionPicker({
   const togglePause = () => {
     if (simMode.running) {
       if (intervalRef.current) clearInterval(intervalRef.current);
-      setSimMode((s) => ({ ...s, running: false }));
+      setSimMode((s) => ({ ...s, running: false, turnout: s.turnout }));
     } else {
       intervalRef.current = setInterval(() => {
         setSimMode((s) => {
           const next = s.progress + 0.002 * s.speed;
           if (next >= 1) {
             if (intervalRef.current) clearInterval(intervalRef.current);
-            return { ...s, running: false, progress: 1 };
+            return { ...s, running: false, progress: 1, turnout: s.turnout };
           }
-          return { ...s, progress: next };
+          return { ...s, progress: next, turnout: s.turnout };
         });
       }, 40);
-      setSimMode((s) => ({ ...s, running: true }));
+      setSimMode((s) => ({ ...s, running: true, turnout: s.turnout }));
     }
   };
 
-  const resetSim = () => {
+const resetSim = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = null;
-    setSimMode((s) => ({ ...s, running: false, progress: 0 }));
+    setSimMode((s) => ({ ...s, running: false, progress: 0, turnout: s.turnout }));
   };
 
   const startSim = (eid: number) => {
     if (simMode.running) return;
-    setSimMode({ electionId: eid, running: false, progress: 0, speed: 1 });
-    fetchSimulationData(eid);
+    setSimMode({ electionId: eid, running: false, progress: 0, speed: 1, turnout: simMode.turnout });
+    fetchSimulationData(eid, simMode.turnout);
   };
 
   return (
@@ -221,8 +223,8 @@ export default function ElectionPicker({
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-[#0e1117]">
           <button
             onClick={() => {
-              if (intervalRef.current) if (intervalRef.current) clearInterval(intervalRef.current);
-              setSimMode({ electionId: null, running: false, progress: 0, speed: 1 });
+              if (intervalRef.current) clearInterval(intervalRef.current);
+              setSimMode({ electionId: null, running: false, progress: 0, speed: 1, turnout: simMode.turnout });
             }}
             className="p-2 rounded-lg bg-white/[0.04] border border-white/10 text-white/60 hover:bg-white/10 hover:text-white transition-colors"
           >
@@ -280,7 +282,7 @@ export default function ElectionPicker({
                   Reset
                 </button>
               </div>
-              <div className="mb-3">
+<div className="mb-3">
                 <label className="text-[10px] text-white/40 mb-1 block">Brzina: {simMode.speed}x</label>
                 <select
                   value={simMode.speed}
@@ -292,6 +294,36 @@ export default function ElectionPicker({
                   <option value="2">2x</option>
                   <option value="5">5x</option>
                   <option value="10">10x</option>
+                </select>
+              </div>
+              <div className="mb-3">
+                <label className="text-[10px] text-white/40 mb-1 block">Izlaznost: {simMode.turnout}%</label>
+                <select
+                  value={simMode.turnout}
+                  onChange={(e) => setSimMode((s) => ({ ...s, turnout: Number(e.target.value) }))}
+                  className="w-full bg-white/[0.08] border border-white/20 rounded px-2 py-1.5 text-xs text-white outline-none"
+                >
+                  <option value="30">30%</option>
+                  <option value="40">40%</option>
+                  <option value="50">50%</option>
+                  <option value="60">60%</option>
+                  <option value="70">70%</option>
+                  <option value="80">80%</option>
+                </select>
+              </div>
+              <div className="mb-3">
+                <label className="text-[10px] text-white/40 mb-1 block">Izlaznost: {simMode.turnout}%</label>
+                <select
+                  value={simMode.turnout}
+                  onChange={(e) => setSimMode((s) => ({ ...s, turnout: Number(e.target.value) }))}
+                  className="w-full bg-white/[0.08] border border-white/20 rounded px-2 py-1.5 text-xs text-white outline-none"
+                >
+                  <option value="30">30%</option>
+                  <option value="40">40%</option>
+                  <option value="50">50%</option>
+                  <option value="60">60%</option>
+                  <option value="70">70%</option>
+                  <option value="80">80%</option>
                 </select>
               </div>
               <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
