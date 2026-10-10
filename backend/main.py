@@ -17,7 +17,8 @@ from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 import os
 
-load_dotenv()  # čita .env fajl u istom folderu ako postoji (lokalni razvoj)
+from db import get_db_connection
+from simulation.api import router as simulation_router
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql://localhost/izbori")
 # SQLAlchemy podrazumevano traži psycopg2 za "postgresql://" stringove; mi koristimo
@@ -31,6 +32,8 @@ engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(bind=engine)
 
 app = FastAPI(title="Izbori API")
+
+app.include_router(simulation_router, prefix="/api")
 
 # Vercel services: frontend na /, backend na /api/backend -> backend dobija
 # punu putanju (/api/backend/elections) pa je skidamo pre rutiranja.
@@ -66,6 +69,8 @@ def fetchone(query, params=None):
     rows = fetchall(query, params)
     return rows[0] if rows else None
 
+
+app.include_router(simulation_router, prefix="/api")
 
 @app.get("/elections")
 def list_elections():
