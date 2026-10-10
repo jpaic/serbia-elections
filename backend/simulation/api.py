@@ -8,7 +8,7 @@ from .engine import ElectionSimulationEngine
 from .models import ElectionContext, PartyData, PollData, OddsData, SimulationResult
 from db import get_db_connection
 
-router = APIRouter(prefix="/simulation", tags=["simulation"])
+router = APIRouter(prefix="/api/simulation", tags=["simulation"])
 
 
 class PollInput(BaseModel):
