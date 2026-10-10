@@ -176,7 +176,7 @@ async def run_simulation(
             full_name=p["full_name"], color_hex=p["color_hex"],
             is_minority=p["is_minority"], is_governing=p["is_governing"]
         ) for p in parties],
-        polls=[PollData(**p) for p in polls],  # dicts work directly with dataclass
+        polls=[PollData(**p) if isinstance(p, dict) else p for p in polls],
         odds=[OddsData(**o) for o in odds],
         threshold=request.threshold,
         total_seats=request.total_seats

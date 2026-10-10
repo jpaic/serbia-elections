@@ -65,15 +65,15 @@ class ElectionSimulationEngine:
             "parlamentarni-2020": [1, 2],
             "parlamentarni-2022": [1, 2],
             "parlamentarni-2023": [1, 2],
+            "parlamentarni-2026": [1, 2],  # Assume SNS+SPS for 2026
         }
-        slug = context.election_id  # This is actually the slug in our context
-        # We need to get the slug from the election_id
-        # For now, we'll determine is_governing based on ballot_number
-        # Parties with ballot_number 1 and 2 are typically governing
+        # We need to get the election slug from the election_id
+        # For now, use a simple heuristic: parties with ballot_number 1 and 2 are typically governing
         for party in context.parties:
             party.is_governing = party.ballot_number in [1, 2]
         
         # 1. Compute weighted polling averages
+        poll_estimates = self._compute_poll_estimates(context)
         
         # 2. Compute betting market implied probabilities
         odds_estimates = self._compute_odds_estimates(context)
@@ -380,7 +380,7 @@ class ElectionSimulationEngine:
             seat_dist = {int(k): float(v) / self.n_simulations for k, v in zip(unique, counts)}
             
             # Threshold cleared probability (based on vote share)
-            threshold_cleared = float(np.mean(vote_shares >= (threshold / 100.0)))
+            threshold_cleared = float(np.mean(vote_shares >= threshold))
             
             # Seat distribution
             seats_mean = float(np.mean(seats))

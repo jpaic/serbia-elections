@@ -13,6 +13,7 @@ class PartyData:
     color_hex: str
     is_minority: bool = False
     is_governing: bool = False
+    ballot_number: Optional[int] = None
 
 
 @dataclass
