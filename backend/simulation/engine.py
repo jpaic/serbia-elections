@@ -43,6 +43,7 @@ class ElectionSimulationEngine:
         min_poll_weight: float = 0.1,
         threshold: float = 3.0,
         total_seats: int = 250,
+        turnout: int = 60,
         random_seed: Optional[int] = None
     ):
         self.n_simulations = n_simulations
@@ -50,6 +51,7 @@ class ElectionSimulationEngine:
         self.min_poll_weight = min_poll_weight
         self.threshold = threshold
         self.total_seats = total_seats
+        self.turnout = turnout
         
         if random_seed is not None:
             np.random.seed(random_seed)
@@ -246,7 +248,10 @@ class ElectionSimulationEngine:
         # Adjust for data quality
         # More polls/odds = higher effective sample
         
-        alpha = {}
+        # Adjust Dirichlet concentration based on turnout
+        # Higher turnout = more certainty = higher concentration
+        turnout_factor = self.turnout / 60.0  # 60% is baseline
+        
         for party in parties:
             p = party.short_name
             mean = estimates.get(p, 0.0)
@@ -255,7 +260,9 @@ class ElectionSimulationEngine:
             certainty = 1.0
             if mean > 0:
                 certainty = min(1.0, mean * 10)  # Higher for larger parties
-            alpha[p] = max(mean * 500 * certainty, 0.1)
+            # Scale concentration by turnout factor
+            concentration = self.turnout / 60.0 * 500 * certainty
+            alpha[p] = max(mean * concentration, 0.1)
         
         return alpha
     
