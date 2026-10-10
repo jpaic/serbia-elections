@@ -69,7 +69,7 @@ def get_party_data(election_id: int, conn) -> List[dict]:
     """Fetch party data from database."""
     with conn.cursor() as cur:
         cur.execute(
-            """SELECT party_id, short_name, full_name, color_hex, 
+            """SELECT id, short_name, full_name, color_hex, 
                       is_minority, is_governing
                FROM parties WHERE election_id = %s ORDER BY ballot_number""",
             (election_id,)
