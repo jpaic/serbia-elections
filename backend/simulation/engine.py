@@ -73,13 +73,13 @@ class ElectionSimulationEngine:
         )
         
         # 4. Run Monte Carlo simulations
-        seat_results = self._run_monte_carlo(
+        seat_results, vote_share_results = self._run_monte_carlo(
             alpha_params, context.parties, context.threshold
         )
         
         # 5. Compute projections and confidence intervals
         projections = self._compute_projections(
-            seat_results, context.parties, context.threshold
+            seat_results, vote_share_results, context.parties, context.threshold
         )
         
         # 6. Compute coalition probabilities
@@ -99,6 +99,7 @@ class ElectionSimulationEngine:
                 "poll_weight": self._compute_poll_weight(context),
                 "odds_weight": self._compute_odds_weight(context),
                 "effective_sample_size": self._compute_effective_sample_size(context),
+                "data_source": "polls" if context.polls else ("odds" if context.odds else "prior"),
             }
         )
     
@@ -263,11 +264,13 @@ class ElectionSimulationEngine:
         alpha_params: Dict[str, float], 
         parties: List[PartyData],
         threshold: float
-    ) -> np.ndarray:
+    ) -> Tuple[np.ndarray, np.ndarray]:
         """
         Run Monte Carlo simulations using Dirichlet-multinomial.
         
-        Returns array of shape (n_simulations, n_parties) with seat counts.
+        Returns tuple of (seat_results, vote_share_results) where:
+        - seat_results: array of shape (n_simulations, n_parties) with seat counts
+        - vote_share_results: array of shape (n_simulations, n_parties) with vote share percentages
         """
         n_parties = len(parties)
         party_order = [p.short_name for p in parties]
@@ -275,24 +278,29 @@ class ElectionSimulationEngine:
         # Prepare alpha vector in consistent order
         alpha_vec = np.array([alpha_params.get(p, 0.1) for p in party_order])
         
+        # Identify minority parties (exempt from threshold)
+        is_minority = np.array([p.is_minority for p in parties])
+        
         # Run simulations
-        results = np.zeros((self.n_simulations, len(parties)), dtype=int)
+        seat_results = np.zeros((self.n_simulations, len(parties)), dtype=int)
+        vote_share_results = np.zeros((self.n_simulations, len(parties)))
         
         for i in range(self.n_simulations):
             # Sample vote shares from Dirichlet
             vote_shares = np.random.dirichlet(alpha_vec)
+            vote_share_results[i] = vote_shares * 100  # Store as percentages
             
-            # Apply threshold
-            eligible = vote_shares >= (threshold / 100.0)
+            # Apply threshold (minority parties exempt)
+            eligible = (vote_shares >= (threshold / 100.0)) | is_minority
             if not eligible.any():
-                results[i] = 0
+                seat_results[i] = 0
                 continue
             
             # Allocate seats using D'Hondt
             seats = self._dhondt_allocation(vote_shares, eligible, self.total_seats)
-            results[i] = seats
+            seat_results[i] = seats
         
-        return results
+        return seat_results, vote_share_results
     
     def _dhondt_allocation(
         self, 
@@ -305,7 +313,7 @@ class ElectionSimulationEngine:
         seats = np.zeros(n, dtype=int)
         
         # Only eligible parties participate
-        quotients = np.where(vote_shares > 0, vote_shares, 0)
+        quotients = np.where(eligible, vote_shares, 0)
         
         for _ in range(total_seats):
             # Find party with highest quotient
@@ -318,44 +326,53 @@ class ElectionSimulationEngine:
     def _compute_projections(
         self, 
         seat_results: np.ndarray, 
+        vote_share_results: np.ndarray,
         parties: List[PartyData],
         threshold: float
     ) -> List["PartyProjection"]:
-        """Compute projections with confidence intervals."""
+        """Compute projections with confidence intervals using actual vote shares."""
         n_sims, n_parties = seat_results.shape
-        party_order = [p.short_name for p in self._get_party_order(parties)]
         
         projections = []
         
         for i, party in enumerate(parties):
             seats = seat_results[:, i]
+            vote_shares = vote_share_results[:, i]  # Actual vote shares from simulations
             
-            # Vote share stats (from simulations)
-            # We'd need vote shares too, but we can approximate from seats
-            seats_mean = float(np.mean(seat_results[:, i]))
-            seats_std = float(np.std(seat_results[:, i]))
+            seats_mean = float(np.mean(seats))
+            seats_std = float(np.std(seats))
             
-            # 95% CI
-            seats_ci_lower = int(np.percentile(seat_results[:, i], 2.5))
-            seats_ci_upper = int(np.percentile(seat_results[:, i], 97.5))
+            # 95% CI for seats
+            seats_ci_lower = int(np.percentile(seats, 2.5))
+            seats_ci_upper = int(np.percentile(seats, 97.5))
+            
+            # Vote share stats
+            vote_shares = vote_share_results[:, i]
+            vote_share_mean = float(np.mean(vote_shares))
+            vote_share_std = float(np.std(vote_shares))
+            
+            # 95% CI for vote share
+            vote_share_ci_lower = max(0, vote_share_mean - 1.96 * vote_share_std)
+            vote_share_ci_upper = min(100, vote_share_mean + 1.96 * vote_share_std)
             
             # Seat distribution
             unique, counts = np.unique(seat_results[:, i], return_counts=True)
             seat_dist = {int(k): float(v) / self.n_simulations for k, v in zip(unique, counts)}
             
-            # Threshold cleared probability
-            # A party clears threshold if it gets at least 1 seat in simulation
-            # (approximation - real threshold is on vote share)
-            threshold_cleared = np.mean(seat_results[:, i] > 0)
+            # Threshold cleared probability (based on vote share)
+            threshold_cleared = float(np.mean(vote_shares >= (threshold / 100.0)))
             
-            # Approximate vote share from seats (rough)
-            vote_share_mean = seats_mean / 250.0 * 100  # rough approximation
-            vote_share_std = seats_std / 250.0 * 100
+            # Seat distribution
+            seats_mean = float(np.mean(seats))
+            seats_std = float(np.std(seats))
+            seats_ci_lower = int(np.percentile(seats, 2.5))
+            seats_ci_upper = int(np.percentile(seats, 97.5))
+            seat_dist = {int(k): float(v) / self.n_simulations for k, v in zip(*np.unique(seats, return_counts=True))}
             
             projections.append(PartyProjection(
                 party=self._get_party_by_short_name(party.short_name, parties),
                 vote_share_mean=vote_share_mean,
-                vote_share_std=vote_share_std,
+                vote_share_std=float(np.std(vote_shares)),
                 vote_share_ci_lower=max(0, vote_share_mean - 1.96 * vote_share_std),
                 vote_share_ci_upper=min(100, vote_share_mean + 1.96 * vote_share_std),
                 seats_mean=seats_mean,
@@ -368,14 +385,30 @@ class ElectionSimulationEngine:
         
         return projections
     
-    def _get_party_order(self, parties: List["PartyData"]) -> List[str]:
-        return [p.short_name for p in parties]
+    def _get_party_order(self, parties: List["PartyData"]) -> List["PartyData"]:
+        return parties
     
     def _get_party_by_short_name(self, short_name: str, parties: List["PartyData"]) -> "PartyData":
         for p in parties:
             if p.short_name == short_name:
                 return p
-        return PartyData(0, short_name, "", "#000000", False, False)
+        return PartyData(0, short_name, "", "#000000", False, False, 0)
+    
+    def _compute_effective_sample_size(self, context: ElectionContext) -> int:
+        """Compute effective sample size from polls and odds."""
+        n_eff = 1000  # Base
+        
+        # Add from polls
+        if context.polls:
+            for poll in context.polls:
+                n_eff += int(poll.sample_size * poll.weight)
+        
+        # Add from odds (each bookmaker ~100 effective samples)
+        if context.odds:
+            n_eff += len(context.odds) * 100
+        
+        # Cap at reasonable maximum
+        return min(n_eff, 10000)
     
     def _compute_coalition_probs(
         self, 
@@ -384,19 +417,24 @@ class ElectionSimulationEngine:
     ) -> Dict[str, float]:
         """Compute probability of each coalition achieving majority."""
         n_sims = seat_results.shape[0]
-        n_parties = seat_results.shape[1]
-        party_order = [f"P{i}" for i in range(n_parties)]  # placeholder
+        
+        # Find governing parties (is_governing=True)
+        governing_indices = [i for i, p in enumerate(parties) if p.is_governing]
+        opposition_indices = [i for i, p in enumerate(parties) if not p.is_governing]
         
         # Define potential coalitions
         coalitions = {
-            "governing": [0, 1],  # placeholder indices
-            "opposition": list(range(2, len(parties))),
+            "governing": governing_indices,
+            "opposition": opposition_indices,
         }
         
         probs = {}
         for name, indices in coalitions.items():
-            coalition_seats = seat_results[:, indices].sum(axis=1)
-            probs[name] = float(np.mean(coalition_seats >= 126))
+            if indices:
+                coalition_seats = seat_results[:, indices].sum(axis=1)
+                probs[name] = float(np.mean(coalition_seats >= 126))
+            else:
+                probs[name] = 0.0
         
         return probs
     
@@ -406,7 +444,9 @@ class ElectionSimulationEngine:
         parties: List["PartyData"]
     ) -> float:
         """Probability that some coalition gets 126+ seats."""
-        # Simplified: probability that leading party + allies >= 126
-        leading_party_seats = seat_results[:, 0]  # assuming sorted by vote share
-        potential_allies = seat_results[:, 1:].sum(axis=1)
-        return float(np.mean(leading_party_seats + potential_allies >= 126))
+        # Probability that governing coalition gets majority
+        governing_indices = [i for i, p in enumerate(parties) if p.is_governing]
+        if governing_indices:
+            governing_seats = seat_results[:, governing_indices].sum(axis=1)
+            return float(np.mean(governing_seats >= 126))
+        return 0.0
