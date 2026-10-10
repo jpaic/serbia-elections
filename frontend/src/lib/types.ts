@@ -157,12 +157,36 @@ export interface PartyProjection {
   vote_share_std: number;
   vote_share_ci_lower: number;
   vote_share_ci_upper: number;
+  votes_mean: number;
+  votes_ci_lower: number;
+  votes_ci_upper: number;
   seats_mean: number;
   seats_std: number;
   seats_ci_lower: number;
   seats_ci_upper: number;
   seats_distribution: Record<number, number>;
   threshold_cleared_prob: number;
+}
+
+export interface CountingPath {
+  steps: number;
+  counted_voters: number[];
+  votes: Record<string, number[]>;
+  total_registered: number;
+  final_turnout: number;
+  final_invalid: number;
+}
+
+export interface NationalAggregates {
+  registered_voters: number;
+  turnout_mean: number;
+  turnout_ci_lower: number;
+  turnout_ci_upper: number;
+  invalid_pct_mean: number;
+  p_sns_ge_126: number;
+  p_sns_sps_ge_126: number;
+  p_studentska_largest: number;
+  p_hung_parliament: number;
 }
 
 export interface SimulationResponse {
@@ -174,5 +198,19 @@ export interface SimulationResponse {
   majority_prob: number;
   threshold: number;
   total_seats: number;
-  metadata: Record<string, any>;
+  metadata: {
+    poll_weight: number;
+    market_weight: number;
+    effective_sample_size: number;
+    data_source: string;
+    governing_assumption: string;
+    registered_voters: number;
+    turnout_prior_mean: number;
+    turnout_prior_sd: number;
+    invalid_ballots_mean: number;
+    swing_sd: number;
+    minority_coeff: number;
+    counting_path: CountingPath;
+    national: NationalAggregates;
+  };
 }

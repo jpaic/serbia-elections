@@ -1,11 +1,21 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 async function getJson<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, { cache: "no-store", ...init });
-  if (!res.ok) {
-    throw new Error(`Zahtev ka ${path} nije uspeo (${res.status})`);
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 min timeout
+  try {
+    const res = await fetch(`${API_BASE}${path}`, { 
+      cache: "no-store", 
+      ...init,
+      signal: init?.signal || controller.signal,
+    });
+    if (!res.ok) {
+      throw new Error(`Zahtev ka ${path} nije uspeo (${res.status})`);
+    }
+    return res.json();
+  } finally {
+    clearTimeout(timeoutId);
   }
-  return res.json();
 }
 
 export const api = {

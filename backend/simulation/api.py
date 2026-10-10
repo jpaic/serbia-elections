@@ -46,6 +46,9 @@ class PartyProjectionResponse(BaseModel):
     vote_share_mean: float
     vote_share_ci_lower: float
     vote_share_ci_upper: float
+    votes_mean: float
+    votes_ci_lower: int
+    votes_ci_upper: int
     seats_mean: float
     seats_ci_lower: int
     seats_ci_upper: int
@@ -137,6 +140,12 @@ async def run_simulation(
     if not parties:
         raise HTTPException(400, "No parties found for this election")
     
+    # Get registered_voters from election
+    with conn.cursor() as cur:
+        cur.execute("SELECT registered_voters FROM elections WHERE id = %s", (request.election_id,))
+        reg_row = cur.fetchone()
+        registered_voters = reg_row[0] if reg_row else None
+    
     # Get polls and odds (use provided or fetch from DB)
     polls = request.polls if request.polls else get_latest_polls(request.election_id, conn)
     odds = request.odds if request.odds else get_latest_odds(request.election_id, conn)
@@ -153,7 +162,8 @@ async def run_simulation(
         polls=[PollData(**p) if isinstance(p, dict) else p for p in polls],
         odds=[OddsData(**o) for o in odds],
         threshold=request.threshold,
-        total_seats=request.total_seats
+        total_seats=request.total_seats,
+        registered_voters=registered_voters
     )
     
     # Run simulation
@@ -161,17 +171,10 @@ async def run_simulation(
         n_simulations=request.n_simulations,
         threshold=request.threshold,
         total_seats=request.total_seats,
-        turnout=request.turnout
+        turnout_prior_mean=request.turnout  # repurposed as prior mean
     )
     
-    result = engine.run_simulation(ElectionContext(
-        election_id=context.election_id,
-        parties=context.parties,
-        polls=context.polls,
-        odds=context.odds,
-        threshold=context.threshold,
-        total_seats=context.total_seats
-    ))
+    result = engine.run_simulation(context)
     
     # Convert to response format
     party_responses = []
@@ -184,6 +187,9 @@ async def run_simulation(
             vote_share_mean=proj.vote_share_mean,
             vote_share_ci_lower=proj.vote_share_ci_lower,
             vote_share_ci_upper=proj.vote_share_ci_upper,
+            votes_mean=proj.votes_mean,
+            votes_ci_lower=proj.votes_ci_lower,
+            votes_ci_upper=proj.votes_ci_upper,
             seats_mean=proj.seats_mean,
             seats_ci_lower=proj.seats_ci_lower,
             seats_ci_upper=proj.seats_ci_upper,

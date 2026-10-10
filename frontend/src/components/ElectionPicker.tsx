@@ -2,12 +2,11 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import useSWR from "swr";
 import { api } from "@/lib/api";
 import { GOVERNING_LIST, PARTY_ABBR_COLORS } from "@/lib/governing";
 import { formatDate } from "@/lib/display";
 import SimulationMandates from "./SimulationMandates";
-import { PartyData } from "@/lib/types";
+import { PartyData, SimulationResponse, CountingPath } from "@/lib/types";
 
 function StatusBadge({ status }: { status?: string }) {
   const map: Record<string, { label: string; className: string }> = {
@@ -40,37 +39,49 @@ export default function ElectionPicker({
   upcomingElections = [],
 }: ElectionPickerProps) {
   const router = useRouter();
-  const [simMode, setSimMode] = useState<{ electionId: number | null; running: boolean; progress: number; speed: number; turnout: number }>({
+  const [simMode, setSimMode] = useState<{ 
+    electionId: number | null; 
+    running: boolean; 
+    progress: number; 
+    stepIndex: number;
+    speed: number; 
+  }>({
     electionId: null,
     running: false,
     progress: 0,
+    stepIndex: 0,
     speed: 1,
-    turnout: 60, // Default 60% turnout
   });
-  const [simData, setSimData] = useState<import("@/lib/types").PartyData[]>([]);
+  const [simData, setSimData] = useState<PartyData[]>([]);
+  const [countingPath, setCountingPath] = useState<CountingPath | null>(null);
+  const [nationalData, setNationalData] = useState<SimulationResponse['metadata']['national'] | null>(null);
   const [simLoading, setSimLoading] = useState(false);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [simError, setSimError] = useState<string | null>(null);
+  const animationRef = useRef<number | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   const upcoming = upcomingElections?.filter((e) => e.status === "upcoming") ?? [];
   const selectedElection = simMode.electionId
     ? elections?.find((e) => e.id === simMode.electionId)
     : null;
 
-const fetchSimulationData = async (eid: number, turnout: number = 60) => {
+  const fetchSimulationData = async (eid: number) => {
     setSimLoading(true);
+    setSimError(null);
+    abortRef.current = new AbortController();
+    
     try {
       const res = await api.simulation.run({
         election_id: eid,
         n_simulations: 2000,
         threshold: 3,
         total_seats: 250,
-        turnout: turnout,
+        turnout: 62, // prior mean from polls
         polls: [],
         odds: [],
       });
+      
       if (res.parties) {
-        // Transform PartyProjection to PartyData format for SimulationMandates
-        // API returns data at top level (p.short_name, p.color_hex, etc.), not nested under p.party
         const partyData = res.parties.map((p: any) => ({
           short_name: p.short_name,
           color_hex: p.color_hex,
@@ -82,44 +93,97 @@ const fetchSimulationData = async (eid: number, turnout: number = 60) => {
           animatedSeats: 0,
         }));
         setSimData(partyData);
+        setCountingPath(res.metadata.counting_path || null);
+        setNationalData(res.metadata.national || null);
       }
-    } catch (err) {
-      console.error("Failed to fetch simulation data:", err);
+    } catch (err: any) {
+      if (err.name !== 'AbortError') {
+        console.error("Failed to fetch simulation data:", err);
+        setSimError("Greška pri učitavanju simulacije. Pokušajte ponovo.");
+      }
     } finally {
       setSimLoading(false);
     }
   };
 
-  const togglePause = () => {
-    if (simMode.running) {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-      setSimMode((s) => ({ ...s, running: false, turnout: s.turnout }));
-    } else {
-      intervalRef.current = setInterval(() => {
-        setSimMode((s) => {
-          const next = s.progress + 0.002 * s.speed;
-          if (next >= 1) {
-            if (intervalRef.current) clearInterval(intervalRef.current);
-            return { ...s, running: false, progress: 1, turnout: s.turnout };
-          }
-          return { ...s, progress: next, turnout: s.turnout };
-        });
-      }, 40);
-      setSimMode((s) => ({ ...s, running: true, turnout: s.turnout }));
+  const animateCounting = () => {
+    if (!countingPath) return;
+    if (simMode.stepIndex >= countingPath.steps - 1) {
+      setSimMode(s => ({ ...s, running: false, progress: 1, stepIndex: countingPath.steps - 1 }));
+      return;
     }
+
+    const nextStep = simMode.stepIndex + 1;
+    const progress = nextStep / (countingPath.steps - 1);
+    
+    setSimMode(s => ({ ...s, stepIndex: nextStep, progress }));
+    
+    // Update party data with current vote counts
+    if (countingPath.votes && simData.length > 0) {
+      setSimData(prev => prev.map(p => {
+        const votesArr = countingPath.votes[p.short_name];
+        if (votesArr && votesArr[nextStep] !== undefined) {
+          const currentVotes = votesArr[nextStep];
+          const totalCounted = countingPath.counted_voters[nextStep];
+          const currentPct = totalCounted > 0 ? (currentVotes / totalCounted) * 100 : 0;
+          return {
+            ...p,
+            pct: currentPct,
+            animatedSeats: progress >= 1 ? p.seats : 0,
+          };
+        }
+        return p;
+      }));
+    }
+
+    animationRef.current = requestAnimationFrame(() => {
+      // Delay based on speed
+      const delay = 100 / simMode.speed;
+      setTimeout(() => animateCounting(), delay);
+    });
   };
 
-const resetSim = () => {
-    if (intervalRef.current) clearInterval(intervalRef.current);
-    intervalRef.current = null;
-    setSimMode((s) => ({ ...s, running: false, progress: 0, turnout: s.turnout }));
+  const startAnimation = () => {
+    if (simMode.running) return;
+    setSimMode(s => ({ ...s, running: true }));
+    animateCounting();
+  };
+
+  const pauseAnimation = () => {
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
+    }
+    setSimMode(s => ({ ...s, running: false }));
+  };
+
+  const resetAnimation = () => {
+    pauseAnimation();
+    setSimMode(s => ({ ...s, running: false, progress: 0, stepIndex: 0 }));
+    // Reset party data to initial state (0 votes)
+    if (countingPath) {
+      setSimData(prev => prev.map(p => ({
+        ...p,
+        pct: 0,
+        animatedSeats: 0,
+      })));
+    }
   };
 
   const startSim = (eid: number) => {
     if (simMode.running) return;
-    setSimMode({ electionId: eid, running: false, progress: 0, speed: 1, turnout: simMode.turnout });
-    fetchSimulationData(eid, simMode.turnout);
+    resetAnimation();
+    setSimMode({ electionId: eid, running: false, progress: 0, stepIndex: 0, speed: 1 });
+    fetchSimulationData(eid);
   };
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      if (abortRef.current) abortRef.current.abort();
+    };
+  }, []);
 
   return (
     <>
@@ -219,14 +283,18 @@ const resetSim = () => {
             </div>
           )}
         </div>
-    </main>
+      </main>
     {simMode.electionId && (
       <div className="fixed inset-0 z-50 bg-[#0b0d12]/95 backdrop-blur-sm flex flex-col">
         <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-[#0e1117]">
           <button
             onClick={() => {
-              if (intervalRef.current) clearInterval(intervalRef.current);
-              setSimMode({ electionId: null, running: false, progress: 0, speed: 1, turnout: simMode.turnout });
+              if (animationRef.current) cancelAnimationFrame(animationRef.current);
+              if (abortRef.current) abortRef.current.abort();
+              setSimMode({ electionId: null, running: false, progress: 0, stepIndex: 0, speed: 1 });
+              setSimData([]);
+              setCountingPath(null);
+              setNationalData(null);
             }}
             className="p-2 rounded-lg bg-white/[0.04] border border-white/10 text-white/60 hover:bg-white/10 hover:text-white transition-colors"
           >
@@ -250,10 +318,7 @@ const resetSim = () => {
               <option value="10">10x</option>
             </select>
             <button
-              onClick={() => {
-                if (intervalRef.current) if (intervalRef.current) clearInterval(intervalRef.current);
-                setSimMode((s) => ({ ...s, running: false, progress: 0 }));
-              }}
+              onClick={resetAnimation}
               className="px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-white/60 text-xs font-medium hover:bg-white/10 hover:text-white transition-colors"
             >
               Reset
@@ -262,29 +327,41 @@ const resetSim = () => {
         </div>
 
         <div className="flex-1 flex flex-col items-center justify-center p-6">
+          {simError && (
+            <div className="mb-6 p-4 rounded-lg bg-red-500/20 border border-red-500/30 text-red-300 text-sm text-center w-full max-w-2xl">
+              {simError}
+              <button 
+                onClick={() => fetchSimulationData(simMode.electionId!)}
+                className="ml-4 underline hover:text-red-100"
+              >
+                Pokušaj ponovo
+              </button>
+            </div>
+          )}
+
           <div className="w-full max-w-4xl flex flex-col items-center gap-6">
             <div className="w-full max-w-2xl">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-semibold text-white">Progress</h3>
+                <h3 className="text-sm font-semibold text-white">Progress brojanja</h3>
                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${simMode.running ? "bg-emerald-500/20 text-emerald-400" : "bg-amber-500/20 text-amber-400"}`}>
-                  {simMode.running ? "U TOKU" : "PAUZA"}
+                  {simMode.running ? "U TOKU" : simMode.progress >= 1 ? "GOTOVO" : "PAUZA"}
                 </span>
               </div>
               <div className="flex items-center gap-2 mb-3">
                 <button
-                  onClick={togglePause}
+                  onClick={simMode.running ? pauseAnimation : startAnimation}
                   className="flex-1 px-3 py-2 rounded-lg bg-white/[0.06] border border-white/10 text-white text-xs font-medium hover:bg-white/10 transition-colors"
                 >
                   {simMode.running ? "Pauziraj" : "Pokreni"}
                 </button>
                 <button
-                  onClick={resetSim}
+                  onClick={resetAnimation}
                   className="px-3 py-2 rounded-lg bg-white/[0.06] border border-white/10 text-white/60 text-xs font-medium hover:bg-white/10 hover:text-white transition-colors"
                 >
                   Reset
                 </button>
               </div>
-<div className="mb-3">
+              <div className="mb-3">
                 <label className="text-[10px] text-white/40 mb-1 block">Brzina: {simMode.speed}x</label>
                 <select
                   value={simMode.speed}
@@ -298,21 +375,6 @@ const resetSim = () => {
                   <option value="10">10x</option>
                 </select>
               </div>
-<div className="mb-3">
-                <label className="text-[10px] text-white/40 mb-1 block">Izlaznost: {simMode.turnout}%</label>
-                <select
-                  value={simMode.turnout}
-                  onChange={(e) => setSimMode((s) => ({ ...s, turnout: Number(e.target.value) }))}
-                  className="w-full bg-white/[0.08] border border-white/30 rounded px-2 py-1.5 text-xs text-white outline-none"
-                >
-                  <option value="30">30%</option>
-                  <option value="40">40%</option>
-                  <option value="50">50%</option>
-                  <option value="60">60%</option>
-                  <option value="70">70%</option>
-                  <option value="80">80%</option>
-                </select>
-              </div>
               <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-red-500 via-amber-500 to-emerald-500 transition-all duration-300"
@@ -322,6 +384,16 @@ const resetSim = () => {
               <p className="text-right text-[10px] text-white/40 mt-1">
                 {Math.round(simMode.progress * 100)}% gotovo
               </p>
+              {nationalData && (
+                <div className="mt-3 p-3 bg-white/[0.03] border border-white/10 rounded-lg text-xs text-white/70">
+                  <div className="grid grid-cols-2 gap-2">
+                    <span>Izlaznost: {nationalData.turnout_mean.toFixed(1)}% (95% CI: {nationalData.turnout_ci_lower.toFixed(1)}–{nationalData.turnout_ci_upper.toFixed(1)}%)</span>
+                    <span>Nevažeći: {nationalData.invalid_pct_mean.toFixed(2)}%</span>
+                    <span>P(SNS≥126): {(nationalData.p_sns_ge_126 * 100).toFixed(1)}%</span>
+                    <span>P(većina): {(nationalData.p_sns_sps_ge_126 * 100).toFixed(1)}%</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="w-full max-w-2xl">

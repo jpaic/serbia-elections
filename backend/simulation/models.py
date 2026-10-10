@@ -45,6 +45,9 @@ class PartyProjection:
     vote_share_std: float
     vote_share_ci_lower: float  # 95% CI lower
     vote_share_ci_upper: float  # 95% CI upper
+    votes_mean: float
+    votes_ci_lower: int
+    votes_ci_upper: int
     seats_mean: float
     seats_std: float
     seats_ci_lower: int  # 95% CI lower
@@ -76,3 +79,4 @@ class ElectionContext:
     odds: List["OddsData"]
     threshold: float
     total_seats: int = 250
+    registered_voters: Optional[int] = None
