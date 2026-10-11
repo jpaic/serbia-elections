@@ -330,6 +330,9 @@ export default function ElectionPicker({
                     {simMode.running ? "Pauziraj" : "Pokreni"}
                   </button>
                   <button onClick={resetAnimation} className="px-3 py-2 rounded-lg bg-white/[0.06] border border-white/10 text-white/60 text-xs font-medium hover:bg-white/10 hover:text-white transition-colors">Reset</button>
+                  <button onClick={() => fetchSimulationData(simMode.electionId!)} className="px-3 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-medium hover:bg-emerald-500/30 transition-colors" title="Pokreni novu simulaciju sa istim parametrima">
+                    Nova simulacija
+                  </button>
                 </div>
                 <div className="mb-3"><label className="text-[10px] text-white/40 mb-1 block">Brzina: {simMode.speed}x</label>
                   <select value={simMode.speed} onChange={(e) => { const v = Number(e.target.value); speedRef.current = v; setSimMode(s => ({ ...s, speed: v })); }} className="w-full bg-white/[0.08] border border-white/20 rounded px-2 py-1.5 text-xs text-white outline-none">

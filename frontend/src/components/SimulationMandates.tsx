@@ -129,24 +129,25 @@ export default function SimulationMandates({
 
           <circle cx={centerX} cy={centerY} r={INNER_RADIUS - 5} fill="#0b0d12" stroke="white/10" strokeWidth={1} />
 
-          {/* Semicircle arcs - only at 100% */}
-          <g filter="url(#glow)">
-            {arcData.map((p, i) => {
-              if (!p.path || (p.seats_mean ?? 0) === 0) return null;
-              return (
-                <g key={p.short_name}>
-                  <path d={p.path} fill={p.color_hex} fillOpacity={0.95} stroke="white" strokeWidth={1} strokeOpacity={0.3} />
-                  <text
-                    x={centerX} y={centerY} textAnchor="middle" dominantBaseline="middle"
-                    fill="white" fontSize="11" fontWeight="700" fontFamily="monospace"
-                    style={{ pointerEvents: "none", textShadow: "0 0 4px #000", animation: `count-up 0.4s ease-out ${i * 40}ms forwards`, opacity: 0 }}
-                    transform={`rotate(${180 / Math.PI * p.midAngle} ${centerX} ${centerY}) translate(0, -${RADIUS / 2 + INNER_RADIUS / 2}) rotate(${180 / Math.PI * -p.midAngle})`}>
-                    {Math.round(p.seats_mean ?? 0)}
-                  </text>
-                </g>
-              );
-            })}
-          </g>
+          {/* Mandate text labels - positioned directly without CSS transform */}
+          {showMandates && arcData.map((p, i) => {
+            if (!p.path || (p.seats_mean ?? 0) === 0) return null;
+            // Position text directly at arc midpoint without CSS transform
+            const labelRadius = (RADIUS + INNER_RADIUS) / 2;
+            const x = centerX + labelRadius * Math.cos(p.midAngle);
+            const y = centerY + labelRadius * Math.sin(p.midAngle);
+            return (
+              <text
+                key={p.short_name}
+                x={x} y={y}
+                textAnchor="middle" dominantBaseline="middle"
+                fill="white" fontSize="13" fontWeight="700" fontFamily="monospace"
+                style={{ pointerEvents: "none", textShadow: "0 0 4px #000" }}
+              >
+                {Math.round(p.seats_mean ?? 0)}
+              </text>
+            );
+          })}
 
           <circle cx={centerX} cy={centerY} r={INNER_RADIUS - 5} fill="none" stroke="white/10" strokeWidth={1} strokeDasharray="4 4" />
 

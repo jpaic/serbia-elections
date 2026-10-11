@@ -402,7 +402,8 @@ class ElectionSimulationEngine:
         return projections
 
     def _build_counting_path(self, results: Dict, context: ElectionContext) -> Dict:
-        """Build counting path for animation from representative simulation."""
+        """Build counting path for animation from representative simulation.
+        Uses valid votes as denominator, stays close to actual results."""
         # Find simulation closest to median seats for SNS (party 1)
         try:
             sns_party = next(p for p in context.parties if p.ballot_number == 1)
@@ -415,28 +416,34 @@ class ElectionSimulationEngine:
         rep_votes = results['votes'][rep_idx]
         rep_voted = int(results['registered_voters'] * results['turnout'][rep_idx] / 100)
         rep_valid = results['valid_votes'][rep_idx]
+        rep_invalid = rep_voted - rep_valid
 
-        # Split into ~100 "reporting units" with small Dirichlet perturbation
+        # Split into ~100 "reporting units" with SMALL Dirichlet perturbation (high concentration)
         m = 100
         steps = 100
 
-        # Base shares from representative simulation
+        # Base shares from representative simulation (valid vote proportions)
         base_shares = rep_votes / max(rep_votes.sum(), 1)
 
-        # Generate perturbation for each unit (small perturbations around base)
+        # Generate perturbation for each unit - HIGH concentration (200) to stay close to actual
         unit_votes = np.zeros((m, len(rep_votes)), dtype=int)
         for j in range(m):
-            perturb = np.random.dirichlet(base_shares * 50 + 1)
+            # High concentration (200) keeps perturbation small, stays close to actual results
+            perturb = np.random.dirichlet(base_shares * 200 + 1)
             unit_shares = np.clip(perturb, 1e-6, 1.0)
             unit_shares = unit_shares / unit_shares.sum()
             unit_votes[j] = np.random.multinomial(max(rep_valid // m, 1), unit_shares)
 
-        # Cumulative sum
+        # Cumulative sum of valid votes
         cum_votes = np.cumsum(unit_votes, axis=0)
 
-        # Sample 100 steps
+        # Sample 100 steps - counted_voters based on valid votes (not total registered)
         step_indices = np.linspace(0, m-1, steps, dtype=int)
-        counted_voters = ((np.arange(steps) + 1) * (rep_voted / steps)).astype(int)
+        # Distribute valid votes across steps (add invalid at the end proportionally)
+        counted_valid = ((np.arange(steps) + 1) * (rep_valid / steps)).astype(int)
+        # Total counted = valid + proportional invalid
+        invalid_per_step = rep_invalid / steps
+        counted_voters = (counted_valid + (np.arange(steps) + 1) * invalid_per_step).astype(int)
 
         path_votes = {}
         for p_idx, short_name in enumerate(results['party_order']):
