@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Rebuild 2026 party list from scratch with correct 17 lists.
+Rebuild 2026 party list from scratch with correct 19 lists.
 """
 import os
 import psycopg2
@@ -18,7 +18,7 @@ cur = c.cursor()
 cur.execute("DELETE FROM parties WHERE election_id=3")
 print("Deleted all parties for election 2026")
 
-# Correct 2026 RIK ballot lists (17 lists after withdrawal of #9)
+# Correct 2026 RIK ballot lists (19 lists after withdrawal of #9, added Albanska koalicija and Majka Srbija-Gruda)
 CORRECT_LISTS = [
     (1, False, "АЛЕКСАНДАР ВУЧИЋ – УЈЕДИЊЕНА СРБИЈА", "#0E4DA4"),
     (2, False, "ИВИЦА ДАЧИЋ – ФАКТОР СТАБИЛНОСТИ (SPS)", "#ED1C24"),
@@ -37,20 +37,18 @@ CORRECT_LISTS = [
     (15, True, "СТРАНКА РУСКО-СРПСКОГ ЈЕДИНСТВА – РУСИ И СРБИ БРАЋА", "#4682B4"),
     (16, False, "ЋАЛЕ ОВО ЈЕ ЗА ТЕБЕ – ПЕТАР ЂУРИЋ – ПРЕМИЈЕР СРБИЈЕ", "#8E44AD"),
     (17, False, "ВЛАДИМИР ГАЈИЋ – АЛТЕРНАТИВА ЗА СРБИЈУ – НАРОДНА...", "#4A7FB5"),
+    (18, True, "АЛБАНСКА КОАЛИЦИЈА", "#2E8B57"),
+    (19, True, "МАЈКА СРБИЈА – ГРУДА", "#8E44AD"),
 ]
 
-# Note: Minority parties at BN: 4, 5, 6, 7, 10, 15
+# Note: Minority parties at BN: 4, 5, 6, 7, 10, 15, 18, 19
 
-# Note: Minority parties at BN: 4, 5, 6, 7, 10, 15
-
-# Note: Minority parties at BN: 4, 5, 6, 7, 10, 15
-
-print("Inserting 17 correct party lists...")
+print("Inserting 19 correct party lists...")
 for bn, is_minority, name, color in CORRECT_LISTS:
     cur.execute("""
         INSERT INTO parties (election_id, name, short_name, ballot_number, color_hex, is_minority)
         VALUES (%s, %s, %s, %s, %s, %s)
-    """, (3, name, name[:50], bn, color, bn in {4, 5, 6, 7, 10, 15}))
+    """, (3, name, name[:50], bn, color, bn in {4, 5, 6, 7, 10, 15, 18, 19}))
     try:
         print(f"  Inserted BN={bn}: {name[:60]}")
     except UnicodeEncodeError:

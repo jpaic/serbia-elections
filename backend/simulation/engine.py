@@ -492,8 +492,10 @@ class ElectionSimulationEngine:
         mean_shares = np.mean(results['vote_shares'], axis=0)  # shape (n_parties,)
         mean_votes = np.mean(results['votes'], axis=0)
         is_minority = np.array([p.is_minority for p in context.parties])
-        minority_coeff = np.where(is_minority, self.minority_coeff, 1.0)
-        eligible_det = (mean_shares >= self.threshold) | is_minority
+        # Minority coefficient ONLY for minorities BELOW threshold
+        minority_below_threshold = is_minority & (mean_shares < self.threshold / 100.0)
+        minority_coeff = np.where(minority_below_threshold, self.minority_coeff, 1.0)
+        eligible_det = (mean_shares >= self.threshold / 100.0) | is_minority
         det_seats = self._dhondt_allocation(mean_votes, eligible_det, minority_coeff, self.total_seats)
 
         return {

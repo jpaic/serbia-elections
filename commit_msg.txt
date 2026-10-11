@@ -1,0 +1,9 @@
+git commit -m "Remove test/debug files from repo
+- Remove debug_*.py, debug_*.txt files
+- Remove test_*.py, test_*.txt files
+- Remove check_*.py files
+- Remove debug_* files
+- Remove collector/apply_schema.py, collector/import_polls.py, collector/data/polls_2026.json, collector/fix_2026_ballot_order.py
+- Remove collector/raw/2000-publikacija.pdf
+- Remove db_check.txt, proglasenja.txt, short_names.txt, ballot_order.txt
+- Keep only source code and necessary configuration files"
