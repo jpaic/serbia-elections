@@ -210,7 +210,7 @@ class ElectionSimulationEngine:
             "ГРУПА ГРАЂАНА": 0.3, # Ćale građana - very small
             "ЛИБЕРАЛНО": 0.3,   # Liberalno zelena - very small
             "БИРАМ": 0.3,       # Biram pravdu - very small
-            "РУСКО СРПСКОГ": 0.8, # Rusko-srpsko - small minority
+            "РУСКО СРПСКОГ": 1.5, # Rusko-srpsko - small minority
             "ЋАЛЕ ОВО": 0.2,    # Ćale ovo - tiny
             "ГАЈИЋ": 0.3,       # Gajić - very small
         }

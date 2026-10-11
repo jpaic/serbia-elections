@@ -1,0 +1,151 @@
+{
+  "polls": [
+    {
+      "pollster": "Faktor plus",
+      "fieldwork_start": "2026-09-16",
+      "fieldwork_end": "2026-09-20",
+      "published": "2026-09-22",
+      "sample_size": 986,
+      "basis": "decided",
+      "turnout_pct": 62.0,
+      "percentages": {
+        "1": 48.6,
+        "3": 37.1,
+        "2": 4.9,
+        "10": 3.6,
+        "8": 2.8
+      },
+      "others_pct": 3.0,
+      "weight": 1.0,
+      "source_url": "https://www.politika.rs/sr/clanak/571239/istorijska-pobeda-vucica-ili-studenti",
+      "notes": "Mi-Snaga naroda 1.2% nema listu; izlaznost 62%, 16% neodlučnih"
+    },
+    {
+      "pollster": "Faktor plus (prethodni mesec)",
+      "fieldwork_start": "2026-08-01",
+      "fieldwork_end": "2026-08-31",
+      "published": "2026-09-01",
+      "sample_size": 1200,
+      "basis": "decided",
+      "turnout_pct": null,
+      "percentages": {
+        "1": 47.2,
+        "3": 31.5,
+        "2": 4.9
+      },
+      "others_pct": null,
+      "weight": 0.8,
+      "source_url": "https://www.mondo.rs/a1789242/istrazivanje-faktor-plus-sns-studenti",
+      "notes": "Izvedeno iz '+1.4 / +5.6' u člancima; proveriti original"
+    },
+    {
+      "pollster": "NSPM",
+      "fieldwork_start": "2026-09-01",
+      "fieldwork_end": "2026-09-30",
+      "published": "2026-09-30",
+      "sample_size": 800,
+      "basis": "decided",
+      "turnout_pct": null,
+      "percentages": {
+        "1": 41.7,
+        "3": 44.4
+      },
+      "others_pct": 13.9,
+      "weight": 0.5,
+      "source_url": "https://www.nezavisne.com/novosti/srbija/NSPM-istrazivanje-SNS-studenti-izbori-2026/789456",
+      "notes": "Metod i uzorak nisu objavljeni → niska težina"
+    },
+    {
+      "pollster": "CRTA / Stanford DAL",
+      "fieldwork_start": "2026-06-01",
+      "fieldwork_end": "2026-06-30",
+      "published": "2026-07-15",
+      "sample_size": 2324,
+      "basis": "decided",
+      "turnout_pct": null,
+      "percentages": {
+        "1": 35.7,
+        "3": 44.9,
+        "2": 3.8
+      },
+      "others_pct": 15.6,
+      "weight": 0.9,
+      "source_url": "https://www.intellinews.com/serbia-opposition-leads-polls-292434/",
+      "notes": "NPS 2.2% (povukao se); ostali 2.8%"
+    },
+    {
+      "pollster": "BIRODI (model)",
+      "fieldwork_start": "2026-09-01",
+      "fieldwork_end": "2026-09-01",
+      "published": "2026-09-01",
+      "sample_size": null,
+      "basis": "model",
+      "turnout_pct": 64.0,
+      "percentages": {
+        "1": 38.6,
+        "3": 48.5,
+        "2": 3.9
+      },
+      "others_pct": 9.0,
+      "weight": 0.4,
+      "source_url": "https://standard.co.me/biroidi-model-izbori-2026",
+      "notes": "Opseg SNS 36.3-40.9; SL 45.9-51.1; ostali 7.8-10.2; ~4.13 mil. glasača"
+    }
+  ],
+  "market_lines": [
+    {
+      "bookmaker": "Meridianbet",
+      "observed": "2026-10-07",
+      "market": "vote_share_line",
+      "subject": "1",
+      "value": 45.6,
+      "weight": 1.0,
+      "source_url": "https://www.meridianbet.rs/sr/izbori-2026"
+    },
+    {
+      "bookmaker": "Meridianbet",
+      "observed": "2026-10-07",
+      "market": "vote_share_line",
+      "subject": "3",
+      "value": 39.05,
+      "weight": 1.0,
+      "source_url": "https://www.meridianbet.rs/sr/izbori-2026"
+    },
+    {
+      "bookmaker": "Meridianbet",
+      "observed": "2026-10-07",
+      "market": "invalid_ballots_line",
+      "subject": "ALL",
+      "value": 2.35,
+      "weight": 1.0,
+      "source_url": "https://www.meridianbet.rs/sr/izbori-2026"
+    },
+    {
+      "bookmaker": "Meridianbet",
+      "observed": "2026-10-07",
+      "market": "seats_line",
+      "subject": "1",
+      "value": 124.5,
+      "weight": 0.8,
+      "source_url": "https://www.meridianbet.rs/sr/izbori-2026"
+    },
+    {
+      "bookmaker": "Meridianbet",
+      "observed": "2026-10-07",
+      "market": "seats_line",
+      "subject": "3",
+      "value": 105.5,
+      "weight": 0.8,
+      "source_url": "https://www.meridianbet.rs/sr/izbori-2026"
+    },
+    {
+      "bookmaker": "Meridianbet",
+      "observed": "2026-10-07",
+      "market": "pm_odds",
+      "subject": "Vučić",
+      "value": 1.20,
+      "weight": 0.7,
+      "source_url": "https://www.meridianbet.rs/sr/izbori-2026"
+    }
+  ]
+}
