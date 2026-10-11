@@ -402,60 +402,66 @@ class ElectionSimulationEngine:
         return projections
 
     def _build_counting_path(self, results: Dict, context: ElectionContext) -> Dict:
-        """Build counting path for animation from representative simulation.
+        """Build counting path for animation from MEAN vote shares (not single sim).
         Uses valid votes as denominator, stays close to actual results."""
-        # Find simulation closest to median seats for SNS (party 1)
-        try:
-            sns_party = next(p for p in context.parties if p.ballot_number == 1)
-            sns_idx = results['party_order'].index(sns_party.short_name)
-            median_seats = np.median(results['seats'][:, sns_idx])
-            rep_idx = np.argmin(np.abs(results['seats'][:, sns_idx] - median_seats))
-        except (StopIteration, ValueError):
-            rep_idx = 0
+        # Use MEAN vote shares from all simulations (deterministic projection)
+        party_order = results['party_order']
+        mean_shares = np.mean(results['vote_shares'], axis=0) / 100.0  # convert % to proportion
+        mean_votes = np.mean(results['votes'], axis=0)
 
-        rep_votes = results['votes'][rep_idx]
-        rep_voted = int(results['registered_voters'] * results['turnout'][rep_idx] / 100)
-        rep_valid = results['valid_votes'][rep_idx]
-        rep_invalid = rep_voted - rep_valid
+        # Registered voters from context (or election)
+        R = context.registered_voters or 6450523
+
+        # Use mean turnout and invalid from simulations
+        T = np.mean(results['turnout']) / 100.0
+        inv_rate = np.mean(results['invalid_pct']) / 100.0
+        voted = int(R * T)
+        valid = int(voted * (1 - inv_rate))
+        invalid = voted - valid
+
+        # Effective sample size from polls (controls concentration)
+        n_eff = max(100, self._compute_effective_sample_size(context))
+
+        # Dirichlet concentration parameters: alpha_i = mean_i * n_eff
+        # Higher n_eff = more concentrated around mean = less variance
+        alpha_base = mean_shares * n_eff
+        # Ensure minimum concentration for numerical stability
+        alpha_base = np.maximum(alpha_base, 0.1)
+
+        # Base shares from deterministic projection
+        base_shares = mean_votes / max(mean_votes.sum(), 1)
 
         # Split into ~100 "reporting units" with SMALL Dirichlet perturbation (high concentration)
         m = 100
         steps = 100
 
-        # Base shares from representative simulation (valid vote proportions)
-        base_shares = rep_votes / max(rep_votes.sum(), 1)
-
         # Generate perturbation for each unit - HIGH concentration (200) to stay close to actual
-        unit_votes = np.zeros((m, len(rep_votes)), dtype=int)
+        unit_votes = np.zeros((m, len(mean_votes)), dtype=int)
         for j in range(m):
-            # High concentration (200) keeps perturbation small, stays close to actual results
             perturb = np.random.dirichlet(base_shares * 200 + 1)
             unit_shares = np.clip(perturb, 1e-6, 1.0)
             unit_shares = unit_shares / unit_shares.sum()
-            unit_votes[j] = np.random.multinomial(max(rep_valid // m, 1), unit_shares)
+            unit_votes[j] = np.random.multinomial(max(mean_votes.sum() // m, 1), unit_shares)
 
-        # Cumulative sum of valid votes
+        # Cumulative sum of votes
         cum_votes = np.cumsum(unit_votes, axis=0)
 
         # Sample 100 steps - counted_voters based on valid votes (not total registered)
         step_indices = np.linspace(0, m-1, steps, dtype=int)
-        # Distribute valid votes across steps (add invalid at the end proportionally)
-        counted_valid = ((np.arange(steps) + 1) * (rep_valid / steps)).astype(int)
-        # Total counted = valid + proportional invalid
-        invalid_per_step = rep_invalid / steps
-        counted_voters = (counted_valid + (np.arange(steps) + 1) * invalid_per_step).astype(int)
+        # Distribute valid votes across steps proportionally
+        counted_voters = ((np.arange(steps) + 1) * (valid / steps)).astype(int)
 
         path_votes = {}
-        for p_idx, short_name in enumerate(results['party_order']):
+        for p_idx, short_name in enumerate(party_order):
             path_votes[short_name] = cum_votes[step_indices, p_idx].tolist()
 
         return {
             "steps": steps,
             "counted_voters": counted_voters.astype(int).tolist(),
             "votes": path_votes,
-            "total_registered": results['registered_voters'],
-            "final_turnout": results['turnout'][rep_idx],
-            "final_invalid": results['invalid_pct'][rep_idx],
+            "total_registered": R,
+            "final_turnout": T * 100,
+            "final_invalid": inv_rate * 100,
         }
 
     def _compute_national_aggregates(self, results: Dict, context: ElectionContext) -> Dict:
