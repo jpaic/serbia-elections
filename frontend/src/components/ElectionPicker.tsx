@@ -58,6 +58,8 @@ export default function ElectionPicker({
   // Use refs for mutable data to avoid glitchy re-renders
   const simDataRef = useRef<PartyData[]>([]);
   const countingPathRef = useRef<CountingPath | null>(null);
+  const stepIndexRef = useRef(0); // ref for current step to avoid stale closure
+  const speedRef = useRef(1); // ref for speed to avoid stale closure in timeout
   const [simData, setSimData] = useState<PartyData[]>([]);
   const [countingPath, setCountingPath] = useState<CountingPath | null>(null);
   const [nationalData, setNationalData] = useState<SimulationResponse['metadata']['national'] | null>(null);
@@ -119,14 +121,16 @@ export default function ElectionPicker({
   const animateCounting = useCallback(() => {
     const cp = countingPathRef.current;
     if (!cp) return;
-    if (simMode.stepIndex >= cp.steps - 1) {
+    const currentStep = stepIndexRef.current;
+    if (currentStep >= cp.steps - 1) {
       setSimMode(s => ({ ...s, running: false, progress: 1, stepIndex: cp.steps - 1 }));
       return;
     }
 
-    const nextStep = simMode.stepIndex + 1;
+    const nextStep = currentStep + 1;
     const progress = nextStep / (cp.steps - 1);
     
+    stepIndexRef.current = nextStep;
     setSimMode(s => ({ ...s, stepIndex: nextStep, progress }));
     
     if (cp.votes && simDataRef.current.length > 0) {
@@ -144,10 +148,10 @@ export default function ElectionPicker({
       setSimData([...newData]); // trigger render
     }
 
-    // Schedule next frame
-    const delay = 100 / simMode.speed;
+    // Schedule next frame using speedRef to avoid stale closure
+    const delay = 100 / speedRef.current;
     animationRef.current = setTimeout(animateCounting, delay);
-  }, [simMode.stepIndex, simMode.speed]);
+  }, []); // no dependencies - uses refs for all mutable values
 
   const startAnimation = useCallback(() => {
     if (simMode.running) return;
@@ -165,15 +169,22 @@ export default function ElectionPicker({
 
   const resetAnimation = useCallback(() => {
     pauseAnimation();
+    stepIndexRef.current = 0;
     setSimMode(s => ({ ...s, running: false, progress: 0, stepIndex: 0 }));
     if (countingPathRef.current) {
-      setSimData(prev => prev.map(p => ({ ...p, pct: 0, animatedVotes: 0, animatedSeats: 0 })));
-      simDataRef.current = simDataRef.current.map(p => ({ ...p, pct: 0, animatedVotes: 0, animatedSeats: 0 }));
+      // Restore original pct from backend instead of setting to 0
+      const originalData = simDataRef.current.map(p => {
+        const backendPct = p.votes_mean ? (p.votes_mean / (6450523 * 0.62)) * 100 : p.pct;
+        return { ...p, pct: p.votes_mean ? (p.votes_mean / (6450523 * 0.62)) * 100 : p.pct, animatedVotes: 0, animatedSeats: 0 };
+      });
+      setSimData(originalData);
+      simDataRef.current = originalData;
     }
   }, [pauseAnimation]);
 
   const resetAll = useCallback(() => {
     pauseAnimation();
+    stepIndexRef.current = 0;
     if (abortRef.current) abortRef.current.abort();
     setSimMode({ electionId: null, running: false, progress: 0, stepIndex: 0, speed: 1, nSimulations: simMode.nSimulations, turnoutOverride: null });
     setSimData([]);
@@ -321,7 +332,7 @@ export default function ElectionPicker({
                   <button onClick={resetAnimation} className="px-3 py-2 rounded-lg bg-white/[0.06] border border-white/10 text-white/60 text-xs font-medium hover:bg-white/10 hover:text-white transition-colors">Reset</button>
                 </div>
                 <div className="mb-3"><label className="text-[10px] text-white/40 mb-1 block">Brzina: {simMode.speed}x</label>
-                  <select value={simMode.speed} onChange={(e) => setSimMode(s => ({ ...s, speed: Number(e.target.value) }))} className="w-full bg-white/[0.08] border border-white/20 rounded px-2 py-1.5 text-xs text-white outline-none">
+                  <select value={simMode.speed} onChange={(e) => { const v = Number(e.target.value); speedRef.current = v; setSimMode(s => ({ ...s, speed: v })); }} className="w-full bg-white/[0.08] border border-white/20 rounded px-2 py-1.5 text-xs text-white outline-none">
                     <option value="0.5">0.5x</option><option value="1">1x</option><option value="2">2x</option><option value="5">5x</option><option value="10">10x</option>
                   </select>
                 </div>
