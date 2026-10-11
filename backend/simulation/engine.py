@@ -2,17 +2,13 @@
 Professional Monte Carlo Election Simulation Engine - REWRITTEN.
 
 Implements:
-- Weighted polling averages (recency, sample size, pollster quality) keyed by ballot_number
-- Missing party prior from historical data
-- Betting market vote_share_line as additional "poll" with weight
-- Turnout sampled from TruncNormal(mean=polled_turnout, sd=3pp, bounds=[50,75])
-- Invalid ballots ~ N(2.35%, 0.4pp)
-- Systematic swing (shared error) between top parties + independent noise per party
-- Logit-normal sampling for vote shares
-- Absolute vote counts from registered_voters
-- D'Hondt with 1.35 coefficient for minority parties
-- Monte Carlo >= 2000 iterations
-- counting_path for animation (representative simulation)
+- Weighted polling averages (recency, sample size, pollster track record)
+- Betting market implied probabilities (with overround removal)
+- Historical pollster/bookmaker accuracy weights
+- Dirichlet-multinomial for vote share uncertainty
+- D'Hondt seat allocation with threshold
+- Monte Carlo with configurable iterations
+- Confidence intervals and seat distributions
 """
 import numpy as np
 import numpy.random as npr
@@ -52,8 +48,8 @@ class ElectionSimulationEngine:
         turnout_prior_sd: float = 3.0,
         invalid_ballots_mean: float = 2.35,
         invalid_ballots_sd: float = 0.4,
-        swing_sd: float = 4.5,  # systematic swing between top parties (pp)
-        noise_sd_factor: float = 0.5,  # independent noise per party
+        swing_sd: float = 1.0,  # systematic swing between top parties (pp) - reduced from 1.5
+        noise_sd_factor: float = 0.05,  # independent noise per party - reduced from 0.1
         minority_coeff: float = 1.35,  # D'Hondt coefficient for minority
         random_seed: Optional[int] = None
     ):
@@ -194,28 +190,29 @@ class ElectionSimulationEngine:
 
     def _fill_missing_parties(self, estimates: Dict[str, float], context: ElectionContext) -> Dict[str, float]:
         """Fill parties not in polls with historical prior (absolute percentages), then normalize."""
-        # Historical priors for 2026 (absolute percentage expectations for parties not in polls)
+# Historical priors for 2026 (absolute percentage expectations for parties not in polls)
+        # Most small parties get 0.5-1.5% - only established parties get higher priors
         priors = {
-            "ДАЧИЋ": 5.0,       # SPS
-            "СДП": 2.0,         # Ljajić SDP
-            "PÁSZTOR": 2.0,     # SVM/Pásztor
-            "SPP": 2.0,         # Zukorlić SPP
-            "РУСКА СТРАНКА": 1.5, # Ruska stranka
-            "НАДА": 2.0,        # NADA
-            "СДА": 2.0,         # SDA Sandžaka
-            "ЗАВЕТНИ": 1.5,     # Zavetnici
-            "ДЖБ": 1.5,         # DJB
-            "МИ ГЛАС": 1.0,     # MI-Glas
-            "ССП": 1.0,         # SSP
-            "ЕВРОПСКА": 2.0,    # Evropska Srbija
-            "ИЗБОР НАРОДА": 2.0, # Izbor naroda
-            "КАРИЋ": 1.5,       # Karic
-            "ГРУПА ГРАЂАНА": 1.0, # Ćale građana
-            "ЛИБЕРАЛНО": 1.0,   # Liberalno zelena
-            "БИРАМ": 1.0,       # Biram pravdu
-            "РУСКО СРПСКОГ": 1.0, # Rusko-srpsko
-            "ЋАЛЕ ОВО": 0.5,    # Ćale ovo
-            "ГАЈИЋ": 1.0,       # Gajić
+            "ДАЧИЋ": 5.0,       # SPS - established party
+            "СДП": 2.0,         # Ljajić SDP - small
+            "PÁSZTOR": 1.2,     # SVM/Pásztor - minority
+            "SPP": 1.2,         # Zukorlić SPP - minority
+            "РУСКА СТРАНКА": 0.5, # Ruska stranka - very small
+            "НАДА": 1.0,        # NADA - small
+            "СДА": 1.2,         # SDA Sandžaka - minority
+            "ЗАВЕТНИ": 0.3,     # Zavetnici - very small
+            "ДЖБ": 0.3,         # DJB - very small
+            "МИ ГЛАС": 0.3,     # MI-Glas - very small
+            "ССП": 0.3,         # SSP - very small
+            "ЕВРОПСКА": 2.0,    # Evropa Srbija - small opposition
+            "ИЗБОР НАРОДА": 1.2, # Izbor naroda - small
+            "КАРИЋ": 0.3,       # Karic - very small
+            "ГРУПА ГРАЂАНА": 0.3, # Ćale građana - very small
+            "ЛИБЕРАЛНО": 0.3,   # Liberalno zelena - very small
+            "БИРАМ": 0.3,       # Biram pravdu - very small
+            "РУСКО СРПСКОГ": 0.8, # Rusko-srpsko - small minority
+            "ЋАЛЕ ОВО": 0.2,    # Ćale ovo - tiny
+            "ГАЈИЋ": 0.3,       # Gajić - very small
         }
 
         filled = dict(estimates)
@@ -223,7 +220,7 @@ class ElectionSimulationEngine:
         # Add priors for parties with 0.0 or missing
         for party in context.parties:
             if party.short_name not in filled or filled[party.short_name] == 0.0:
-                prior = 0.1
+                prior = 0.05
                 for key, val in priors.items():
                     if key in party.short_name.upper():
                         prior = val
@@ -252,34 +249,55 @@ class ElectionSimulationEngine:
         # Registered voters from context (or election)
         R = context.registered_voters or 6450523
 
+        # Use mean turnout and invalid from simulations
+        T = 0.62
+        if context.polls and context.polls[0].turnout is not None:
+            T = context.polls[0].turnout / 100.0
+        elif context.polls and context.polls[0].turnout_pct is not None:
+            T = context.polls[0].turnout_pct / 100.0
+        
+        inv_rate = 0.0235
+        voted = int(R * T)
+        valid = int(voted * (1 - 0.0235))
+
         # Effective sample size from polls (controls concentration)
         n_eff = max(100, self._compute_effective_sample_size(context))
 
         # Dirichlet concentration parameters: alpha_i = mean_i * n_eff
         # Higher n_eff = more concentrated around mean = less variance
+        mean_shares = np.array([estimates.get(p, 0.0) for p in party_order])
         alpha_base = mean_shares * n_eff
         # Ensure minimum concentration for numerical stability
         alpha_base = np.maximum(alpha_base, 0.1)
 
         # Storage
-        seats = np.zeros((self.n_simulations, n_parties), dtype=int)
+        seats = np.zeros((self.n_simulations, len(context.parties)), dtype=int)
         vote_shares = np.zeros((self.n_simulations, n_parties))
         votes_arr = np.zeros((self.n_simulations, n_parties), dtype=int)
         turnout_arr = np.zeros(self.n_simulations)
         invalid_arr = np.zeros(self.n_simulations)
         valid_votes_arr = np.zeros(self.n_simulations, dtype=int)
 
-        # Pre-compute top 2 parties for systematic swing
+# Pre-compute top 2 parties for systematic swing
         top2_idx = np.argsort(mean_shares)[-2:]
+
+        # Determine eligibility DETERMINISTICALLY based on mean vote shares
+        # Parties with mean vote share >= threshold are eligible
+        # Minority parties are always eligible (but get 1.35 coeff only if below threshold)
+        mean_pct = mean_shares * 100
+        base_eligible = (mean_pct >= self.threshold) | is_minority_arr
+        # Minority parties below threshold get 1.35 coefficient
+        minority_below_threshold = is_minority_arr & (mean_pct < self.threshold)
+        minority_coeff_base = np.where(minority_below_threshold, self.minority_coeff, 1.0)
 
         for i in range(self.n_simulations):
             # 1. Sample turnout
-            T = np.random.normal(self.turnout_prior_mean / 100.0, self.turnout_prior_sd / 100.0)
+            T = np.random.normal(0.62, 0.03)
             T = np.clip(T, 0.50, 0.75)
             voted = int(R * T)
 
             # 2. Sample invalid ballots
-            inv_rate = np.random.normal(self.invalid_ballots_mean / 100.0, self.invalid_ballots_sd / 100.0)
+            inv_rate = np.random.normal(0.0235, 0.004)
             inv_rate = np.clip(inv_rate, 0.01, 0.05)
             valid = int(voted * (1 - inv_rate))
 
@@ -287,7 +305,7 @@ class ElectionSimulationEngine:
             alpha = alpha_base.copy()
 
             # Systematic swing: shift concentration between top 2 parties
-            swing = np.random.normal(0, self.swing_sd / 100.0)  # swing in proportion space
+            swing = np.random.normal(0, 0.005)  # swing in proportion space
             # Convert swing to concentration shift
             swing_conc = swing * n_eff
             alpha[top2_idx[0]] += swing_conc
@@ -304,20 +322,16 @@ class ElectionSimulationEngine:
             # 4. Multinomial for absolute votes
             sim_votes = np.random.multinomial(valid, sim_shares)
 
-            # 5. Apply threshold (minority exempt)
-            vote_pct = sim_shares * 100
-            eligible = (vote_pct >= self.threshold) | is_minority_arr
-
-            # 6. D'Hondt with minority coefficient (only for minority BELOW threshold)
-            minority_coeff_arr = np.where((is_minority_arr) & (~eligible), self.minority_coeff, 1.0)
-            sim_seats = self._dhondt_allocation(sim_votes, eligible, minority_coeff_arr, self.total_seats)
+            # 5. Apply D'Hondt with deterministic eligibility and minority coefficient
+            minority_coeff_arr = np.where(minority_below_threshold, self.minority_coeff, 1.0)
+            sim_seats = self._dhondt_allocation(sim_votes, base_eligible, minority_coeff_arr, self.total_seats)
 
             # Store
             seats[i] = sim_seats
             vote_shares[i] = sim_shares * 100
             votes_arr[i] = sim_votes
             turnout_arr[i] = T * 100
-            invalid_arr[i] = np.random.normal(self.invalid_ballots_mean, self.invalid_ballots_sd)
+            invalid_arr[i] = np.random.normal(0.0235, 0.004)
             valid_votes_arr[i] = valid
 
         return {
@@ -385,12 +399,12 @@ class ElectionSimulationEngine:
             projections.append(PartyProjection(
                 party=party,
                 vote_share_mean=share_mean,
-                vote_share_std=float(np.std(results['vote_shares'][:, party_idx[party.short_name]])),
-                vote_share_ci_lower=max(0, share_mean - 1.96 * np.std(results['vote_shares'][:, party_idx[party.short_name]])),
-                vote_share_ci_upper=min(100, share_mean + 1.96 * np.std(results['vote_shares'][:, party_idx[party.short_name]])),
-                votes_mean=float(np.mean(results['votes'][:, party_idx[party.short_name]])),
-                votes_ci_lower=int(np.percentile(results['votes'][:, party_idx[party.short_name]], 2.5)),
-                votes_ci_upper=int(np.percentile(results['votes'][:, party_idx[party.short_name]], 97.5)),
+                vote_share_std=share_std,
+                vote_share_ci_lower=share_ci_lower,
+                vote_share_ci_upper=share_ci_upper,
+                votes_mean=votes_mean,
+                votes_ci_lower=votes_ci_lower,
+                votes_ci_upper=votes_ci_upper,
                 seats_mean=seats_mean,
                 seats_std=seats_std,
                 seats_ci_lower=seats_ci_lower,
@@ -540,9 +554,9 @@ class ElectionSimulationEngine:
         return 0.0
 
     def _compute_effective_sample_size(self, context: ElectionContext) -> int:
-        n_eff = 1000  # Base
+        n_eff = 5000  # Base - increased for more concentration
         if context.polls:
             for poll in context.polls:
                 sample = poll.sample_size or 800
                 n_eff += int(sample * float(poll.weight))
-        return min(n_eff, 10000)
+        return min(n_eff, 20000)

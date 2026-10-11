@@ -1,0 +1,24 @@
+Status: 200
+Data source: polls+markets
+Registered voters: 6450523
+Counting path steps: 100
+
+Parties (18):
+  BN= 1 MIN=False GOV=True  | АЛЕКСАНДАР ВУЧИЋ – УЈЕДИЊЕНА С | pct=40.5% votes=1582726.19 seats=107.0
+  BN= 2 MIN=False GOV=True  | ИВИЦА ДАЧИЋ - ФАКТОР СТАБИЛНОС | pct=4.4% votes=170258.51 seats=11.5
+  BN= 3 MIN=False GOV=False | „СТУДЕНТСКА ЛИСТА - СТУДЕНТИ П | pct=39.4% votes=1538109.94 seats=102.4
+  BN= 4 MIN=True  GOV=False | РАСИМ ЉАЈИЋ – ЉУДСКИ (СДП – ЦД | pct=1.7% votes=67067.21 seats=5.3
+  BN= 5 MIN=True  GOV=False | VAJDASÁGI MAGYAR SZÖVETSÉG – D | pct=2.0% votes=82466.3 seats=5.9
+  BN= 6 MIN=True  GOV=False | USAME ZUKORLIĆ (SPP) POKRET ZA | pct=0.6% votes=24713.4 seats=2.0
+  BN= 7 MIN=True  GOV=False | РУСКА СТРАНКА – СРБИЈА У БРИКС | pct=0.2% votes=6617.72 seats=0.5
+  BN= 8 MIN=False GOV=False | АУТЕНТИЧНА ДЕСНИЦА – ДР МИЛОШ  | pct=3.4% votes=131595.22 seats=0.0
+  BN= 9 MIN=False GOV=False | ИЗБОР НАРОДА - МИРОСЛАВ МИКИ А | pct=0.8% votes=32382.97 seats=0.0
+  BN=10 MIN=False GOV=False | ЕВРОПСКА СРБИЈА – МАРИНИКА ТЕП | pct=4.0% votes=155935.55 seats=10.0
+  BN=11 MIN=True  GOV=False | СДА САНЏАКА - ЧУВАРИ САНЏАКА S | pct=0.6% votes=25988.37 seats=1.9
+  BN=12 MIN=False GOV=False | БОГОЉУБ КАРИЋ – ПОКРЕТ СНАГА С | pct=0.0% votes=448.82 seats=0.0
+  BN=13 MIN=False GOV=False | ГРУПА ГРАЂАНА ЋАЛЕ ОВО ЈЕ ЗА Т | pct=0.0% votes=1.7 seats=0.0
+  BN=14 MIN=False GOV=False | ЛИБЕРАЛНО ЗЕЛЕНА СТРАНКА-ЗА СЛ | pct=0.5% votes=19953.13 seats=0.0
+  BN=15 MIN=False GOV=False | БИРАМ ПРАВДУ - БИРАМ БУДУЋНОСТ | pct=0.0% votes=82.52 seats=0.0
+  BN=16 MIN=True  GOV=False | СТРАНКА РУСКО СРПСКОГ ЈЕДИНСТВ | pct=1.2% votes=44636.03 seats=3.5
+  BN=17 MIN=False GOV=False | ЋАЛЕ ОВО ЈЕ ЗА ТЕБЕ–ПЕТАР ЂУРИ | pct=0.1% votes=4559.31 seats=0.0
+  BN=18 MIN=False GOV=False | ВЛАДИМИР ГАЈИЋ – АЛТЕРНАТИВА З | pct=0.4% votes=16812.43 seats=0.0

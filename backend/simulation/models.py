@@ -25,6 +25,8 @@ class PollData:
     percentages: Dict[str, float]  # party short_name -> percentage
     source_url: str = ""
     weight: float = 1.0  # quality weight
+    turnout: Optional[float] = None  # turnout percentage if provided
+    turnout_pct: Optional[float] = None  # alias for turnout
 
 
 @dataclass
