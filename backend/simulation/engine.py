@@ -135,7 +135,9 @@ class ElectionSimulationEngine:
         )
 
     def _compute_poll_estimates(self, context: ElectionContext) -> Dict[str, float]:
-        """Compute weighted polling averages keyed by ballot_number."""
+        """Compute weighted polling averages keyed by ballot_number.
+        Only averages over polls that actually include the party.
+        """
         if not context.polls:
             return {}
 
@@ -173,6 +175,10 @@ class ElectionSimulationEngine:
                 estimates[party] = sum(s * w for s, w in zip(scores, weights)) / sum(weights)
             else:
                 estimates[party] = 0.0
+
+        # Fill missing with priors, then normalize ONCE at the end
+        estimates = self._fill_missing_parties(estimates, context)
+        estimates = self._normalize_estimates(estimates)
 
         return estimates
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "@/lib/theme";
 
 export const metadata: Metadata = {
   title: "Serbia Election Dashboard",
@@ -10,8 +11,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="sr" className="h-full">
-      <body className="h-full flex flex-col overflow-hidden bg-[#0b0d12] text-[#f2f3f5]">
-        {children}
+      <head>
+        <meta name="color-scheme" content="light dark" />
+      </head>
+      <body className="h-full flex flex-col overflow-hidden">
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

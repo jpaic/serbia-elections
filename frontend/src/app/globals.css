@@ -1,9 +1,49 @@
 @import "tailwindcss";
 
 :root {
+  /* Light mode colors (default) */
+  --background: #f8f9fa;
+  --foreground: #1a1a2e;
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --sidebar-bg: #f1f5f9;
+  --sidebar-border: #e2e8f0;
+  --hover-bg: #f1f5f9;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary: #64748b;
+  --muted: #94a3b8;
+  --border: #e2e8f0;
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --shadow-lg: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] {
   --background: #0b0d12;
   --foreground: #f2f3f5;
+  --card-bg: #0e1117;
+  --card-border: #1e293b;
+  --sidebar-bg: #0e1117;
+  --sidebar-border: #1e293b;
+  --hover-bg: #1e293b;
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --secondary: #94a3b8;
+  --muted: #64748b;
+  --border: #1e293b;
+  --input-bg: #0e1117;
+  --input-border: #334155;
+  --scrollbar-track: #0e1117;
+  --scrollbar-thumb: #475569;
+  --shadow: rgba(0, 0, 0, 0.3);
+  --shadow-lg: rgba(0, 0, 0, 0.4);
 }
+
+@import "tailwindcss";
 
 @theme inline {
   --color-background: var(--background);
@@ -19,6 +59,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Sakriva scrollbar vizuelno dok scroll i dalje radi tastaturom/točkićem
@@ -31,6 +72,47 @@ body {
   display: none;
 }
 
+/* Custom scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
+}
+
 * {
   box-sizing: border-box;
+}
+
+/* Selection styles */
+::selection {
+  background: var(--primary);
+  color: white;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for theme switching */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }

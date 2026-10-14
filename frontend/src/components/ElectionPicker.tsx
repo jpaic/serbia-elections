@@ -7,6 +7,8 @@ import { GOVERNING_LIST, PARTY_ABBR_COLORS } from "@/lib/governing";
 import { formatDate } from "@/lib/display";
 import SimulationMandates from "./SimulationMandates";
 import { PartyData, SimulationResponse, CountingPath } from "@/lib/types";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTheme } from "@/lib/theme";
 
 function StatusBadge({ status }: { status?: string }) {
   const map: Record<string, { label: string; className: string }> = {
@@ -310,6 +312,7 @@ export default function ElectionPicker({
               <select value={simMode.turnoutOverride ?? 62} onChange={(e) => setSimMode(s => ({ ...s, turnoutOverride: Number(e.target.value) }))} className="bg-white/[0.04] border border-white/10 rounded px-2 py-1 text-xs text-white outline-none" title="Izlaznost (prior mean za Monte Carlo)">
                 <option value={50}>50%</option><option value={55}>55%</option><option value={60}>60%</option><option value={62}>62% (ankete)</option><option value={65}>65%</option><option value={70}>70%</option>
               </select>
+              <ThemeToggle />
               <button onClick={resetAnimation} className="px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-white/60 text-xs font-medium hover:bg-white/10 hover:text-white transition-colors">Reset</button>
             </div>
           </div>
